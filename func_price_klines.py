@@ -35,7 +35,7 @@ def get_price_klines(symbol):
         print("Could Not Get Prices")
 
     # Manage API calls
-    time.sleep(0.3)
+    time.sleep(0.25)
 
     # Return output
     return prices
