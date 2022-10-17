@@ -15,16 +15,16 @@ def store_price_history(symbols):
             if price_history is not None:
                 price_history_dict[symbol_name] = price_history.to_json(orient='index')
                 counts += 1
-                print(f"{counts} items stored")
+                lg.info("Successfully Stored Data For %s!" % sym)
             else:
-                print(f"{counts} items not stored")
+                lg.info("Unable To Store Data For %s!" % sym)
             bar()
 
     # Output prices to JSON
     if len(price_history_dict) > 0:
         with open("1_price_list.json", "w") as fp:
             json.dump(price_history_dict, fp, indent=4)
-        print("Prices saved successfully.")
+        print("Prices Saved To JSON Successfully.")
 
     # Return output
     return
