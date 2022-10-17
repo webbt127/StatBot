@@ -36,7 +36,7 @@ def get_price_klines(symbol):
         return
 
     # Manage API calls
-    time.sleep(0.25)
+    time.sleep(0.15)
 
     # Return output
     return prices
