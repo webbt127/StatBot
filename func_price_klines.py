@@ -32,7 +32,7 @@ def get_price_klines(symbol):
     ).df
 
     # Manage API calls
-    time.sleep(0.2)
+    time.sleep(0.3)
 
     # Return output
     return prices
