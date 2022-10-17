@@ -35,7 +35,4 @@ def get_price_klines(symbol):
     time.sleep(0.1)
 
     # Return output
-    print(prices)
     return prices
-
-get_price_klines('TSLA')
