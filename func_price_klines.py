@@ -29,13 +29,13 @@ def get_price_klines(symbol):
         timeframe = TimeFrame.Hour,
         limit = kline_limit,
         start = time_start
-    )
+    ).df
 
     # Manage API calls
     time.sleep(0.1)
 
     # Return output
-    print(prices.Bar)
-    return prices.Bar
+    print(prices)
+    return prices
 
 get_price_klines('TSLA')
