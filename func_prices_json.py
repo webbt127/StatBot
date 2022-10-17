@@ -12,8 +12,7 @@ def store_price_history(symbols):
         for sym in symbols:
             symbol_name = sym.symbol
             price_history = get_price_klines(symbol_name)
-            print(price_history)
-            if 'Bar' in price_history:
+            if 'c' in price_history:
                 price_history_dict[symbol_name] = price_history
                 counts += 1
                 print(f"{counts} items stored")
