@@ -29,7 +29,7 @@ api_secret = api_secret_testnet if mode == "test" else api_secret_mainnet
 api_url = "https://paper-api.alpaca.markets" if mode == "test" else "https://api.alpaca.markets"
 
 # SESSION Activation
-session = REST(api_url)
+session = REST(api_key, api_secret, api_url)
 
 # # Web Socket Connection
 # subs = [
