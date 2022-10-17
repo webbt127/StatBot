@@ -27,7 +27,7 @@ def get_price_klines(symbol):
         symbol = symbol,
         timeframe = Timeframe.Hour,
         limit = kline_limit,
-        from_time = time_start
+        start = time_start
     )
 
     # Manage API calls
