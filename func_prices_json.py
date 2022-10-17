@@ -14,6 +14,7 @@ def store_price_history(symbols):
             price_history = get_price_klines(symbol_name)
             if price_history is not None:
                 price_history_dict[symbol_name] = price_history.to_json()
+                print(price_history_dict[symbol_name])
                 counts += 1
                 print(f"{counts} items stored")
             else:
