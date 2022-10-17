@@ -1,11 +1,11 @@
 """
     API Documentation
-    https://bybit-exchange.github.io/docs/linear/#t-introduction
+    https://github.com/alpacahq/alpaca-trade-api-python
+    
 """
 
 # API Imports
-from pybit import HTTP
-from pybit import WebSocket
+from alpaca_trade_api import REST, Stream
 
 # CONFIG
 mode = "test"
@@ -18,18 +18,18 @@ api_key_mainnet = ""
 api_secret_mainnet = ""
 
 # TEST API
-api_key_testnet = "m1SGFz4iwLbmIi9VZX"
-api_secret_testnet = "JkoEAojdvRMuUQNVa2Bhn2GhIVtOePRPseO6"
+api_key_testnet = "PKX9QLYDX6CFM5FU0WSH"
+api_secret_testnet = "v8CtBo4qMYj2PJcbiyXxig1hzMIh7deRHdyK3Ylb"
 
 # SELECTED API
 api_key = api_key_testnet if mode == "test" else api_key_mainnet
 api_secret = api_secret_testnet if mode == "test" else api_secret_mainnet
 
 # SELECTED URL
-api_url = "https://api-testnet.bybit.com" if mode == "test" else "https://api.bybit.com"
+api_url = "https://paper-api.alpaca.markets" if mode == "test" else "https://api.alpaca.markets"
 
 # SESSION Activation
-session = HTTP(api_url)
+session = REST(api_url)
 
 # # Web Socket Connection
 # subs = [
