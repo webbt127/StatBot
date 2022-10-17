@@ -9,11 +9,11 @@ import pandas as pd
 import json
 from logger import *
 
+initialize_logger()
 
 """STRATEGY CODE"""
 if __name__ == "__main__":
     
-     initialize_logger()
 
     # # STEP 1 - Get list of symbols
      print("Getting symbols...")
