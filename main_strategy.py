@@ -3,8 +3,8 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 from func_get_symbols import get_tradeable_symbols
 from func_prices_json import store_price_history
-from func_cointegration import get_cointegrated_pairs
-from func_plot_trends import plot_trends
+#from func_cointegration import get_cointegrated_pairs
+#from func_plot_trends import plot_trends
 import pandas as pd
 import json
 
