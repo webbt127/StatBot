@@ -33,6 +33,7 @@ def get_price_klines(symbol):
         ).df
     except Exception as e:
         print("Could Not Get Prices")
+        return
 
     # Manage API calls
     time.sleep(0.25)
