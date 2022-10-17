@@ -12,7 +12,7 @@ def store_price_history(symbols):
         for sym in symbols:
             symbol_name = sym.symbol
             price_history = get_price_klines(symbol_name)
-            if 'close' in price_history:
+            if price_history is not None:
                 price_history_dict[symbol_name] = price_history.to_json()
                 counts += 1
                 print(f"{counts} items stored")
