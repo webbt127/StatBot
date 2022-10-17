@@ -7,10 +7,13 @@ from func_prices_json import store_price_history
 #from func_plot_trends import plot_trends
 import pandas as pd
 import json
+from logger import *
 
 
 """STRATEGY CODE"""
 if __name__ == "__main__":
+    
+    initialize_logger()
 
     # # STEP 1 - Get list of symbols
      print("Getting symbols...")
