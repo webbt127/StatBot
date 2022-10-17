@@ -1,5 +1,5 @@
 """
-    interval: 60, "D"
+    interval: Min, Hour, Day, Week and Month time window sizes with a maximum constraint on the values: 59Min, 23Hour, 1Day, 1Week, 12Month
     from: integer from timestamp in seconds
     limit: max size of 200
 """
@@ -7,6 +7,7 @@
 from config_strategy_api import session
 from config_strategy_api import timeframe
 from config_strategy_api import kline_limit
+from alpaca_trade_api.rest import TimeFrame
 import datetime
 import time
 
@@ -24,7 +25,7 @@ def get_price_klines(symbol):
     # Get prices
     prices = session.query_mark_price_kline(
         symbol = symbol,
-        interval = timeframe,
+        timeframe = Timeframe.Hour,
         limit = kline_limit,
         from_time = time_start_seconds
     )
