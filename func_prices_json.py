@@ -9,9 +9,10 @@ def store_price_history(symbols):
     price_history_dict = {}
     for sym in symbols:
         symbol_name = sym.symbol
-        price_history = get_price_klines(symbol_name)['close']
-        if len(price_history) > 0:
-            price_history_dict[symbol_name] = price_history
+        price_history = get_price_klines(symbol_name)
+        print(price_history)
+        if len(price_history['close']) > 0:
+            price_history_dict[symbol_name] = price_history['close']
             counts += 1
             print(f"{counts} items stored")
         else:
