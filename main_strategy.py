@@ -13,7 +13,7 @@ from logger import *
 """STRATEGY CODE"""
 if __name__ == "__main__":
     
-    initialize_logger()
+     initialize_logger()
 
     # # STEP 1 - Get list of symbols
      print("Getting symbols...")
