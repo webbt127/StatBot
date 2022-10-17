@@ -13,7 +13,7 @@ def store_price_history(symbols):
             symbol_name = sym.symbol
             price_history = get_price_klines(symbol_name)
             if 'close' in price_history:
-                price_history_dict[symbol_name] = price_history['close']
+                price_history_dict[symbol_name] = price_history
                 counts += 1
                 print(f"{counts} items stored")
             else:
