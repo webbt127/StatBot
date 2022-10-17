@@ -36,4 +36,7 @@ def get_price_klines(symbol):
     # Return output
     if len(prices["bars"]) != kline_limit:
         return []
+    print prices["bars"]
     return prices["bars"]
+
+get_price_klines('TSLA')
