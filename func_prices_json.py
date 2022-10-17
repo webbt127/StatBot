@@ -1,5 +1,6 @@
 from func_price_klines import get_price_klines
 import json
+from alive_progress import alive_bar
 
 # Store price histry for all available pairs
 def store_price_history(symbols):
@@ -7,15 +8,17 @@ def store_price_history(symbols):
     # Get prices and store in DataFrame
     counts = 0
     price_history_dict = {}
-    for sym in symbols:
-        symbol_name = sym.symbol
-        price_history = get_price_klines(symbol_name)
-        if 'close' in price_history:
-            price_history_dict[symbol_name] = price_history['close']
-            counts += 1
-            print(f"{counts} items stored")
-        else:
-            print(f"{counts} items not stored")
+    with alive_bar(len(symbols)) as bar:
+        for sym in symbols:
+            symbol_name = sym.symbol
+            price_history = get_price_klines(symbol_name)
+            if 'close' in price_history:
+                price_history_dict[symbol_name] = price_history['close']
+                counts += 1
+                print(f"{counts} items stored")
+            else:
+                print(f"{counts} items not stored")
+            bar()
 
     # Output prices to JSON
     if len(price_history_dict) > 0:
