@@ -25,7 +25,7 @@ def get_price_klines(symbol):
     # Get prices
     prices = session.get_bars(
         symbol = symbol,
-        timeframe = Timeframe.Hour,
+        timeframe = TimeFrame.Hour,
         limit = kline_limit,
         start = time_start
     )
