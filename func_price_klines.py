@@ -24,12 +24,15 @@ print(time_start)
 def get_price_klines(symbol):
 
     # Get prices
-    prices = session.get_bars(
-        symbol = symbol,
-        timeframe = TimeFrame.Hour,
-        limit = kline_limit,
-        start = time_start
-    ).df
+    try:
+        prices = session.get_bars(
+            symbol = symbol,
+            timeframe = TimeFrame.Hour,
+            limit = kline_limit,
+            start = time_start
+        ).df
+    except Exception as e:
+        print("Could Not Get Prices")
 
     # Manage API calls
     time.sleep(0.3)
