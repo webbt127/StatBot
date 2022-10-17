@@ -5,7 +5,7 @@ def get_tradeable_symbols():
 
     # Get available symbols
     symbols = session.list_assets(status='active')
-    sym_list = [a for a in symbols if (a.easy_to_borrow == True and a.tradable == True and a.class == 'us_equity')]
+    sym_list = [a for a in symbols if a.easy_to_borrow == True and a.tradable == True and getattr(asset, 'class') == 'us_equity']
 
     # Return ouput
     return sym_list
