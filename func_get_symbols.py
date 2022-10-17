@@ -11,4 +11,4 @@ def get_tradeable_symbols():
     print(sym_list)
     return sym_list
 
-get_tradable_symbols()
+get_tradeable_symbols()
