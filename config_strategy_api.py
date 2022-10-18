@@ -10,7 +10,7 @@ from alpaca_trade_api import REST, Stream
 # CONFIG
 mode = "test"
 timeframe = 60
-kline_limit = 1000
+kline_limit = 10000
 z_score_window = 21
 
 # LIVE API
