@@ -43,7 +43,7 @@ def extract_close_prices(prices):
 	close_prices = []
 	for price_values in prices:
 		try:
-			float_price = float(price_values["close"])
+			float_price = price_values["close"].astype(float)
 		except Exception as e:
 			return []
 		close_prices.append(float_price)
