@@ -7,16 +7,6 @@ from config_execution_api import quantity_rounding_ticker_2
 import math
 
 
-# Puts all close prices in a list
-def extract_close_prices(prices):
-    close_prices = []
-    for price_values in prices:
-        if math.isnan(price_values["close"]):
-            return []
-        close_prices.append(price_values["close"])
-    return close_prices
-
-
 # Get trade details and latest prices
 def get_trade_details(orderbook, direction="Long", capital=0):
 
