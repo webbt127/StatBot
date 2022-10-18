@@ -1,6 +1,7 @@
 from func_price_klines import get_price_klines
 import json
 from alive_progress import alive_bar
+import logging as lg
 
 # Store price histry for all available pairs
 def store_price_history(symbols):
