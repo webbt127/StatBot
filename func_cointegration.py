@@ -42,8 +42,7 @@ def calculate_cointegration(series_1, series_2):
 def extract_close_prices(prices):
 	close_prices = []
 	for price_values in prices['close']:
-		float_price = price_values.astype(float)
-		close_prices.append(float_price)
+		close_prices.append(price_values)
 	return close_prices
 
 
