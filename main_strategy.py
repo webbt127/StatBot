@@ -28,12 +28,3 @@ if __name__ == "__main__":
     print("Calculating co-integration...")
     if len(price_dict) > 0:
         coint_pairs = get_cointegrated_pairs(price_dict)
-
-    # STEP 4 - Plot trends and save for backtesting
-    #print("Plotting trends...")
-    #symbol_1 = "MATICUSDT"
-    #symbol_2 = "STXUSDT"
-    #with open("1_price_list.json") as json_file:
-    #    price_data = json.load(json_file)
-    #    if len(price_data) > 0:
-    #        plot_trends(symbol_1, symbol_2, price_data)
