@@ -42,9 +42,11 @@ def calculate_cointegration(series_1, series_2):
 def extract_close_prices(prices):
     close_prices = []
     for price_values in prices:
-        if math.isnan(int(price_values["close"])):
+        try:
+            float_price = float(price_values["close"])
+        except Exception as e:
             return []
-        close_prices.append(int(price_values["close"]))
+        close_prices.append(float_price)
     return close_prices
 
 
