@@ -11,15 +11,14 @@ def get_price_history(symbols):
     price_history_dict = {}
     with alive_bar(len(symbols)) as bar:
         for sym in symbols:
-            if counts < 200:
-                symbol_name = sym.symbol
-                price_history = get_price_klines(symbol_name)
-                if price_history is not None:
-                    price_history_dict[symbol_name] = price_history
-                    counts += 1
-                    lg.info("Successfully Stored Data For %s!" % sym.symbol)
-                else:
-                    lg.info("Unable To Store Data For %s!" % sym.symbol)
+            symbol_name = sym.symbol
+            price_history = get_price_klines(symbol_name)
+            if price_history is not None:
+                price_history_dict[symbol_name] = price_history
+                counts += 1
+                lg.info("Successfully Stored Data For %s!" % sym.symbol)
+            else:
+                lg.info("Unable To Store Data For %s!" % sym.symbol)
             bar()
 
     # Return output
