@@ -65,7 +65,8 @@ def get_cointegrated_pairs(prices):
 					break
 
                 # Get close prices
-				print(prices[sym_1])
+				if 'close' not in prices[sym_1] or 'close' not in prices[sym_2]:
+					break
 				series_1 = extract_close_prices(prices[sym_1])
 				series_2 = extract_close_prices(prices[sym_2])
 				if len(series_1) != len(series_2):
