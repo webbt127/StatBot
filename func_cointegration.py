@@ -35,7 +35,7 @@ def calculate_cointegration(series_1, series_2):
 	zero_crossings = len(np.where(np.diff(np.sign(spread)))[0])
 	if p_value < 0.5 and coint_t < critical_value:
 		coint_flag = 1
-	return (coint_flag, round(p_value, 2), round(coint_t, 2), round(critical_value, 2), round(hedge_ratio, 2), zero_crossings)
+	return (coint_flag, round(p_value, 3), round(coint_t, 3), round(critical_value, 3), round(hedge_ratio, 2), zero_crossings)
 
 
 # Put close prices into a list
