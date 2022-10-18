@@ -61,30 +61,23 @@ def get_cointegrated_pairs(prices):
                 # Get unique combination id and ensure one off check
 				sorted_characters = sorted(sym_1 + sym_2)
 				unique = "".join(sorted_characters)
-				if unique in included_list:
-					break
-
-                # Get close prices
-				if 'close' not in prices[sym_1] or 'close' not in prices[sym_2]:
-					break
-				series_1 = extract_close_prices(prices[sym_1])
-				series_2 = extract_close_prices(prices[sym_2])
-				if len(series_1) != len(series_2):
-					break
-
-                # Check for cointegration and add cointegrated pair
-				coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(series_1, series_2)
-				if True: #coint_flag == 1:
-					included_list.append(unique)
-					coint_pair_list.append({
-						"sym_1": sym_1,
-						"sym_2": sym_2,
-						"p_value": p_value,
-						"t_value": t_value,
-						"c_value": c_value,
-						"hedge_ratio": hedge_ratio,
-						"zero_crossings": zero_crossings
-						})
+				if unique not in included_list:
+					if 'close' in prices[sym_1] and 'close' in prices[sym_2]:
+						series_1 = extract_close_prices(prices[sym_1])
+						series_2 = extract_close_prices(prices[sym_2])
+						if len(series_1) = len(series_2):
+							coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(series_1, series_2)
+							if coint_flag == 1:
+								included_list.append(unique)
+								coint_pair_list.append({
+									"sym_1": sym_1,
+									"sym_2": sym_2,
+									"p_value": p_value,
+									"t_value": t_value,
+									"c_value": c_value,
+									"hedge_ratio": hedge_ratio,
+									"zero_crossings": zero_crossings
+									})
 
     # Output results
 	df_coint = pd.DataFrame(coint_pair_list)
