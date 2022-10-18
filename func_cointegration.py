@@ -67,8 +67,8 @@ def get_cointegrated_pairs(prices):
                 # Get close prices
 				series_1 = extract_close_prices(prices[sym_1])
 				series_2 = extract_close_prices(prices[sym_2])
-				print(series_1)
-				print(series_2)
+				if len(series_1) != len(series_2):
+					break
 
                 # Check for cointegration and add cointegrated pair
 				coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(series_1, series_2)
