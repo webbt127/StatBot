@@ -16,18 +16,18 @@ if __name__ == "__main__":
     
 
     # # STEP 1 - Get list of symbols
-     print("Getting symbols...")
-     sym_response = get_tradeable_symbols()
+    print("Getting symbols...")
+    sym_response = get_tradeable_symbols()
 
     # # STEP 2 - Construct and save price history
-     print("Constructing and saving price data to JSON...")
-     if len(sym_response) > 0:
-         price_dict = get_price_history(sym_response)
+    print("Constructing and saving price data to JSON...")
+    if len(sym_response) > 0:
+        price_dict = get_price_history(sym_response)
 
     # # STEP 3 - Find Cointegrated pairs
-     print("Calculating co-integration...")
-         if len(price_dict) > 0:
-             coint_pairs = get_cointegrated_pairs(price_dict)
+    print("Calculating co-integration...")
+    if len(price_dict) > 0:
+        coint_pairs = get_cointegrated_pairs(price_dict)
 
     # STEP 4 - Plot trends and save for backtesting
     #print("Plotting trends...")
