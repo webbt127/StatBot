@@ -14,18 +14,12 @@ def store_price_history(symbols):
             symbol_name = sym.symbol
             price_history = get_price_klines(symbol_name)
             if price_history is not None:
-                price_history_dict[symbol_name] = price_history.to_json(orient='index')
+                price_history_dict[symbol_name] = price_history
                 counts += 1
                 lg.info("Successfully Stored Data For %s!" % sym.symbol)
             else:
                 lg.info("Unable To Store Data For %s!" % sym.symbol)
             bar()
 
-    # Output prices to JSON
-    if len(price_history_dict) > 0:
-        with open("1_price_list.json", "w") as fp:
-            json.dump(price_history_dict, fp, indent=4)
-        print("Prices Saved To JSON Successfully.")
-
     # Return output
-    return
+    return price_history_dict
