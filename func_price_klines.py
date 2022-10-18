@@ -18,7 +18,6 @@ if timeframe == 60:
 if timeframe == "D":
     time_start_date = datetime.datetime.now() - datetime.timedelta(days=kline_limit)
 time_start = time_start_date.isoformat("T") + "Z"
-print(time_start)
 
 # Get historical prices (klines)
 def get_price_klines(symbol):
