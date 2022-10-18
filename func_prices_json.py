@@ -16,9 +16,9 @@ def store_price_history(symbols):
             if price_history is not None:
                 price_history_dict[symbol_name] = price_history.to_json(orient='index')
                 counts += 1
-                lg.info("Successfully Stored Data For %s!" % sym)
+                lg.info("Successfully Stored Data For %s!" % sym.symbol)
             else:
-                lg.info("Unable To Store Data For %s!" % sym)
+                lg.info("Unable To Store Data For %s!" % sym.symbol)
             bar()
 
     # Output prices to JSON
