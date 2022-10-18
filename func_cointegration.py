@@ -74,7 +74,7 @@ def get_cointegrated_pairs(prices):
 
                 # Check for cointegration and add cointegrated pair
 				coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(series_1, series_2)
-				if coint_flag == 1:
+				if True: #coint_flag == 1:
 					included_list.append(unique)
 					coint_pair_list.append({
 						"sym_1": sym_1,
