@@ -41,8 +41,13 @@ api_secret = api_secret_testnet if mode == "test" else api_secret_mainnet
 
 # SELECTED URL
 api_url = "https://paper-api.alpaca.markets" if mode == "test" else "https://api.alpaca.markets"
-ws_public_url = "wss://paper-api.alpaca.markets/stream" if mode == "test" else "wss://api.alpaca.markets/stream"
 
 # SESSION Activation
 session_public = REST(api_url)
 session_private = REST(api_url, api_key=api_key, api_secret=api_secret)
+ws_session = Stream(api_key,
+				api_secret,
+				base_url=URL('https://paper-api.alpaca.markets'),
+				data_feed='iex', # <- replace to 'sip' if you have PRO subscription
+				websocket_params =  {'ping_interval': 5}, #here we set ping_interval to 5 seconds 
+				)
