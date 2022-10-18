@@ -11,7 +11,7 @@ def get_price_history(symbols):
     price_history_dict = {}
     with alive_bar(len(symbols)) as bar:
         for sym in symbols:
-            if counts < 1000:
+            if counts < 200:
                 symbol_name = sym.symbol
                 price_history = get_price_klines(symbol_name)
                 if price_history is not None:
