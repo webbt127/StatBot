@@ -4,7 +4,7 @@ from alive_progress import alive_bar
 import logging as lg
 
 # Store price histry for all available pairs
-def store_price_history(symbols):
+def get_price_history(symbols):
 
     # Get prices and store in DataFrame
     counts = 0
