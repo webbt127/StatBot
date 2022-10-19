@@ -3,7 +3,7 @@ from config_execution_api import ticker_2
 from config_execution_api import session_public
 from config_execution_api import timeframe
 from config_execution_api import kline_limit
-from func_calcultions import extract_close_prices
+#from func_calcultions import extract_close_prices
 import datetime
 import time
 
