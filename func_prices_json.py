@@ -17,7 +17,7 @@ def get_price_history(asset_list):
 				counts += 1
 				lg.info("Successfully Stored Data For %s!" % asset.symbol)
 			else:
-				asset_list.remove(asset.symbol)
+				asset_list.remove(asset)
 				lg.info("Unable To Store Data For %s! Removed From Asset List" % asset.symbol)
 			bar()
 
