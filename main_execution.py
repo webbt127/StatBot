@@ -17,7 +17,7 @@ from func_save_status import save_status
 import time
 from func_execution_calls import *
 
-initialise_order_execution('TSLA', "Long", 1000)
+initialise_order_execution('SPYV', "Long", 1000)
 
 """ RUN STATBOT """
 if __name__ == "__main__":
