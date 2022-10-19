@@ -1,6 +1,6 @@
 from config_execution_api import session_private
 from config_execution_api import limit_order_basis
-from config_ws_connect import ws_public
+#from config_ws_connect import ws_public
 from func_calcultions import get_trade_details
 
 # Set leverage
