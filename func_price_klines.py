@@ -18,14 +18,14 @@ if timeframe == "D":
 time_start = time_start_date.isoformat("T") + "Z"
 
 # Get historical prices (klines)
-def get_price_klines(symbol):
+def get_price_klines(asset):
 
     # Get prices
     try:
         prices = session.get_bars(
-            symbol = symbol,
+            symbol = asset.symbol,
             timeframe = TimeFrame.Hour,
-            limit = kline_limit,
+            limit = api.kline_limit,
             start = time_start
         ).df
     except Exception as e:
