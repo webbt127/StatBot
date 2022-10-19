@@ -6,8 +6,10 @@ import pandas as pd
 
 # Set leverage
 def set_leverage(ticker):
-
     return
+
+class Orderbook(orderbook):
+    pass
 
 
 # Place limit or market order
@@ -47,7 +49,7 @@ def place_order(ticker, price, quantity, direction, stop_loss):
 
 # Initialise execution
 def initialise_order_execution(ticker, direction, capital):
-    orderbook = {}
+    orderbook = Orderbook()
     quote = session_private.get_latest_quote(ticker)
     orderbook.symbol = ticker
     orderbook.ap = getattr(quote, 'ap')
