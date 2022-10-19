@@ -48,27 +48,6 @@ def get_timestamps():
     return (time_start_seconds, time_now_seconds, time_next_seconds)
 
 
-# Get historical prices (klines)
-def get_price_klines(ticker):
-
-    # Get prices
-    time_start_seconds, _, _ = get_timestamps()
-    prices = session_public.query_mark_price_kline(
-        symbol=ticker,
-        interval=timeframe,
-        limit=kline_limit,
-        from_time=time_start_seconds
-    )
-
-    # Manage API calls
-    time.sleep(0.1)
-
-    # Return prices output
-    if len(prices["result"]) != kline_limit:
-        return []
-    return prices["result"]
-
-
 # Get latest klines
 def get_latest_klines():
     series_1 = []
