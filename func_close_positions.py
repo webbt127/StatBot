@@ -1,40 +1,38 @@
-from config_execution_api import signal_positive_ticker
-from config_execution_api import signal_negative_ticker
-from config_execution_api import session_private
+from config_execution_api import *
 
 # Get position information
-def get_position_info(ticker):
+def get_position_info(asset):
 
     # Declare output variables
-	side = 0
-	size = ""
+	asset.side = 0
+	asset.size = ""
 
     # Extract position info
 	try:
-		position = session_private.get_position(ticker)
-		size = int(position.qty)
-		if size > 0:
-			side = "Buy"
+		asset.position = api.session.get_position(ticker)
+		asset.size = int(asset.position.qty)
+		if asset.size > 0:
+			asset.side = "Buy"
 		else:
-			side = "Sell"
+			asset.side = "Sell"
 	except Exception as e:
 		#lg.info("No Existing Position For %s!" % asset.symbol)
-		size = 0
-		side = "Sell"
+		asset.size = 0
+		asset.side = "Sell"
 
     # Return output
-	return side, size
+	return asset
 
 
 #  Place market close order
-def place_market_close_order(ticker, side, size):
+def place_market_close_order(asset.symbol, asset.side, asset.size):
 
     # Close position
 	session_private.submit_order(
-		symbol=ticker,
-		side=side,
+		symbol=asset.symbol,
+		side=asset.side,
 		type='market',
-		qty=size,
+		qty=asset.size,
 		time_in_force="gtc"
 	)
 
@@ -46,17 +44,17 @@ def place_market_close_order(ticker, side, size):
 def close_all_positions(kill_switch):
 
     # Cancel all active orders
-	session_private.cancel_all_orders()
+	api.session.cancel_all_orders()
 
     # Get position information
-	side_1, size_1 = get_position_info(signal_positive_ticker)
-	side_2, size_2 = get_position_info(signal_negative_ticker)
+	side_1, size_1 = get_position_info(api.signal_positive_ticker)
+	side_2, size_2 = get_position_info(api.signal_negative_ticker)
 
 	if size_1 > 0:
-		place_market_close_order(signal_positive_ticker, side_2, size_1) # use side 2
+		place_market_close_order(api.signal_positive_ticker, side_2, size_1) # use side 2
 
 	if size_2 > 0:
-		place_market_close_order(signal_negative_ticker, side_1, size_2) # use side 1
+		place_market_close_order(api.signal_negative_ticker, side_1, size_2) # use side 1
 
     # Output results
 	kill_switch = 0
