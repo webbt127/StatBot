@@ -30,17 +30,3 @@ api_url = "https://paper-api.alpaca.markets" if mode == "test" else "https://api
 
 # SESSION Activation
 session = REST(api_key, api_secret, api_url)
-
-# # Web Socket Connection
-# subs = [
-#     "candle.1.BTCUSDT"
-# ]
-# ws = WebSocket(
-#     "wss://stream-testnet.bybit.com/realtime_public",
-#     subscriptions=subs
-# )
-#
-# while True:
-#     data = ws.fetch(subs[0])
-#     if data:
-#         print(data)
