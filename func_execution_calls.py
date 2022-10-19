@@ -47,6 +47,7 @@ def place_order(ticker, price, quantity, direction, stop_loss):
 
 # Initialise execution
 def initialise_order_execution(ticker, direction, capital):
+    orderbook = {}
     quote = session_private.get_latest_quote(ticker)
     orderbook.symbol = ticker
     orderbook.ap = getattr(quote, 'ap')
