@@ -11,7 +11,7 @@ def get_price_history(asset_list):
 	price_history_dict = {}
 	with alive_bar(len(asset_list)) as bar:
 		for asset in asset_list:
-			price_history = get_price_klines(asset.symbol)
+			price_history = get_price_klines(asset)
 			if price_history is not None:
 				asset.price_history = price_history
 				counts += 1
