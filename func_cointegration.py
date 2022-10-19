@@ -52,31 +52,33 @@ def get_cointegrated_pairs(asset_list):
     # Loop through coins and check for co-integration
 	coint_pair_list = []
 	included_list = []
-	for sym_1 in asset_list:
-		for sym_2 in asset_list:
-			if sym_2 != sym_1:
-				sorted_characters = sorted(sym_1 + sym_2)
-				unique = "".join(sorted_characters)
-				if unique not in included_list:
-					if 'close' in sym_1 and 'close' in sym_2:
-						sym_1.close_series = extract_close_prices(sym_1)
-						sym_2.close_series = extract_close_prices(sym_2)
-						if len(sym_1.close_series) == len(sym_2.close_series):
-							coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
-							if coint_flag == 1:
-								included_list.append(unique)
-								coint_pair_list.append({
-									"sym_1": sym_1,
-									"sym_2": sym_2,
-									"p_value": p_value,
-									"t_value": t_value,
-									"c_value": c_value,
-									"hedge_ratio": hedge_ratio,
-									"zero_crossings": zero_crossings
-									})
+	with alive_bar(len(asset_list)*len(asset_list)) as bar:
+		for sym_1 in asset_list:
+			for sym_2 in asset_list:
+				bar()
+				if sym_2 != sym_1:
+					sorted_characters = sorted(sym_1 + sym_2)
+					unique = "".join(sorted_characters)
+					if unique not in included_list:
+						if 'close' in sym_1 and 'close' in sym_2:
+							sym_1.close_series = extract_close_prices(sym_1)
+							sym_2.close_series = extract_close_prices(sym_2)
+							if len(sym_1.close_series) == len(sym_2.close_series):
+								coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
+								if coint_flag == 1:
+									included_list.append(unique)
+									coint_pair_list.append({
+										"sym_1": sym_1,
+										"sym_2": sym_2,
+										"p_value": p_value,
+										"t_value": t_value,
+										"c_value": c_value,
+										"hedge_ratio": hedge_ratio,
+										"zero_crossings": zero_crossings
+										})
 
-    # Output results
-	df_coint = pd.DataFrame(coint_pair_list)
-	df_coint = df_coint.sort_values("zero_crossings", ascending=False)
-	df_coint.to_csv("2_cointegrated_pairs.csv")
-	return df_coint
+    		# Output results
+		df_coint = pd.DataFrame(coint_pair_list)
+		df_coint = df_coint.sort_values("zero_crossings", ascending=False)
+		df_coint.to_csv("2_cointegrated_pairs.csv")
+		return df_coint
