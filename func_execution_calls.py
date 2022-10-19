@@ -6,18 +6,6 @@ from func_calcultions import get_trade_details
 # Set leverage
 def set_leverage(ticker):
 
-    # Setting the leverage
-    try:
-        leverage_set = session_private.cross_isolated_margin_switch(
-            symbol=ticker,
-            is_isolated=True,
-            buy_leverage=1,
-            sell_leverage=1
-        )
-    except Exception as e:
-        pass
-
-    # Return
     return
 
 
@@ -32,27 +20,23 @@ def place_order(ticker, price, quantity, direction, stop_loss):
 
     # Place limit order
     if limit_order_basis:
-        order = session_private.place_active_order(
+        order = session_private.submit_order(
             symbol=ticker,
             side=side,
-            order_type="Limit",
+            type="limit",
             qty=quantity,
-            price=price,
-            time_in_force="PostOnly",
-            reduce_only=False,
-            close_on_trigger=False,
-            stop_loss=stop_loss
+            take_profit=dict(limit_price=price),
+            time_in_force="gtc",
+            stop_loss=dict(stop_price=stop_loss, limit_price=stop_loss)
         )
     else:
-        order = session_private.place_active_order(
+        order = session_private.submit_order(
             symbol=ticker,
             side=side,
-            order_type="Market",
+            order_type='market',
             qty=quantity,
-            time_in_force="GoodTillCancel",
-            reduce_only=False,
-            close_on_trigger=False,
-            stop_loss=stop_loss
+            time_in_force="gtc",
+            stop_loss=dict(stop_price=stop_loss, limit_price=stop_loss)
         )
 
     # Return order
