@@ -1,7 +1,5 @@
-from config_execution_api import session_private
-from config_execution_api import limit_order_basis
-#from config_ws_connect import ws_public
-from func_calcultions import get_trade_details
+from config_execution_api import *
+from func_calcultions import *
 import pandas as pd
 
 # Set leverage
@@ -9,56 +7,54 @@ def set_leverage(ticker):
     return
 
 class Orderbook():
-    pass
+    return
 
 
 # Place limit or market order
-def place_order(ticker, price, quantity, direction, stop_loss):
+def place_order(asset):
 
     # Set variables
-    if direction == "Long":
-        side = "Buy"
+    if asset.direction == "Long":
+        asset.side = "Buy"
     else:
-        side = "Sell"
+        asset.side = "Sell"
 
     # Place limit order
-    if limit_order_basis:
-        order = session_private.submit_order(
-            symbol=ticker,
-            side=side,
+    if api.limit_order_basis:
+        asset.order = api.session.submit_order(
+            symbol=asset.symbol,
+            side=asset.side,
             type="limit",
-            qty=quantity,
-            take_profit=dict(limit_price=price),
+            qty=asset.quantity,
+            take_profit=dict(limit_price=asset.price),
             time_in_force="gtc",
-            stop_loss=dict(stop_price=stop_loss, limit_price=stop_loss)
+            stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss)
         )
     else:
-        order = session_private.submit_order(
-            symbol=ticker,
-            side=side,
+        asset.order = api.session.submit_order(
+            symbol=asset.symbol,
+            side=asset.side,
             order_type='market',
-            qty=quantity,
+            qty=asset.quantity,
             time_in_force="gtc",
-            stop_loss=dict(stop_price=stop_loss, limit_price=stop_loss)
+            stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss)
         )
 
     # Return order
-    return order
+    return asset
     
 
 
 # Initialise execution
-def initialise_order_execution(ticker, direction, capital):
-    orderbook = Orderbook()
-    quote = session_private.get_latest_quote(ticker)
-    orderbook.symbol = ticker
-    orderbook.ap = getattr(quote, 'ap')
-    orderbook.bp = getattr(quote, 'bp')
-    if orderbook:
-        mid_price, stop_loss, quantity = get_trade_details(orderbook, direction, capital)
-        if quantity > 0:
-            order = place_order(ticker, mid_price, quantity, direction, stop_loss)
-            if "result" in order.keys():
-                if "order_id" in order["result"]:
-                    return order["result"]["order_id"]
-    return 0
+def initialize_order_execution(asset, capital):
+    asset.orderbook = Orderbook()
+    asset.latest_quote = api.session.get_latest_quote(asset.symbol)
+    asset.orderbook.ap = getattr(asset.latest_quote, 'ap')
+    asset.orderbook.bp = getattr(asset.latest_quote, 'bp')
+    if asset.orderbook:
+        get_trade_details(asset, capital)
+        if asset.quantity > 0:
+            order = place_order(asset)
+            if "id" in order.keys():
+                asset.order_id = order["id"]
+    return asset
