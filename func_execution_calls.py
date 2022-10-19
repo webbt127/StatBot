@@ -41,11 +41,13 @@ def place_order(ticker, price, quantity, direction, stop_loss):
 
     # Return order
     return order
+    
 
 
 # Initialise execution
 def initialise_order_execution(ticker, direction, capital):
-    orderbook = ws_public.fetch(f"orderBookL2_25.{ticker}")
+    orderbook = session_public.get_latest_orderbook(ticker)
+    print(orderbook)
     if orderbook:
         mid_price, stop_loss, quantity = get_trade_details(orderbook, direction, capital)
         if quantity > 0:
