@@ -17,9 +17,8 @@ api_url = "https://paper-api.alpaca.markets"
 
 # CONFIG
 
-class config:
+class config(self):
     
-	self.mode = "test"
 	self.ticker_1 = "MATICUSDT"
 	self.ticker_2 = "STXUSDT"
 	self.signal_positive_ticker = ticker_2
