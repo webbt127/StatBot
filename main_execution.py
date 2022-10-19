@@ -11,8 +11,8 @@ from func_trade_management import manage_new_trades
 from func_execution_calls import set_leverage
 from func_close_positions import close_all_positions
 from func_get_zscore import get_latest_zscore
-from config_ws_connect import ws_public
-from config_ws_connect import subs_public
+#from config_ws_connect import ws_public
+#from config_ws_connect import subs_public
 from func_save_status import save_status
 import time
 from func_calcultions import *
