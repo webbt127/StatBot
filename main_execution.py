@@ -15,7 +15,7 @@ from func_get_zscore import get_latest_zscore
 #from config_ws_connect import subs_public
 from func_save_status import save_status
 import time
-from func_calcultions import initialise_order_execution
+from func_execution_calls import *
 
 initialise_order_execution('TSLA', "Long", 1000)
 
