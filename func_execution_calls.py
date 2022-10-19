@@ -8,7 +8,7 @@ import pandas as pd
 def set_leverage(ticker):
     return
 
-class Orderbook(orderbook):
+class Orderbook():
     pass
 
 
