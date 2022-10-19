@@ -4,9 +4,7 @@
     limit: max size of 200
 """
 
-from config_strategy_api import session
-from config_strategy_api import timeframe
-from config_strategy_api import kline_limit
+from config_strategy_api import *
 from alpaca_trade_api.rest import TimeFrame
 import datetime
 import time
