@@ -13,7 +13,7 @@ api_key = api_key_testnet
 api_secret = api_secret_testnet 
 
 # SELECTED URL
-api_url = "https://paper-api.alpaca.markets" if mode == "test" else "https://api.alpaca.markets"
+api_url = "https://paper-api.alpaca.markets"
 
 # CONFIG
 
