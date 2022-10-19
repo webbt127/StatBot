@@ -15,6 +15,9 @@ from config_ws_connect import ws_public
 from config_ws_connect import subs_public
 from func_save_status import save_status
 import time
+from func_calcultions import *
+
+initialise_order_execution('TSLA', "Long", 1000)
 
 """ RUN STATBOT """
 if __name__ == "__main__":
