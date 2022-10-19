@@ -31,3 +31,4 @@ if __name__ == "__main__":
     lg.info("Calculating co-integration...")
     if len(asset_list) > 0:
         coint_pairs = get_cointegrated_pairs(asset_list)
+        print(coint_pairs)
