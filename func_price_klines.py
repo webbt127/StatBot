@@ -10,13 +10,14 @@ from alpaca_trade_api.rest import TimeFrame
 import datetime
 import time
 
-# Get start times
-time_start_date = 0
-if api.timeframe == 60:
-    time_start_date = datetime.datetime.now() - datetime.timedelta(hours=kline_limit)
-if api.timeframe == "D":
-    time_start_date = datetime.datetime.now() - datetime.timedelta(days=kline_limit)
-time_start = time_start_date.isoformat("T") + "Z"
+def get_start_time():
+	time_start_date = 0
+	if api.timeframe == 60:
+		time_start_date = datetime.datetime.now() - datetime.timedelta(hours=kline_limit)
+	if api.timeframe == "D":
+		time_start_date = datetime.datetime.now() - datetime.timedelta(days=kline_limit)
+	time_start = time_start_date.isoformat("T") + "Z"
+	return time_start
 
 # Get historical prices (klines)
 def get_price_klines(asset):
@@ -27,7 +28,7 @@ def get_price_klines(asset):
             symbol = asset.symbol,
             timeframe = TimeFrame.Hour,
             limit = api.kline_limit,
-            start = time_start
+            start = get_start_time()
         ).df
     except Exception as e:
         print("Could Not Get Prices")
