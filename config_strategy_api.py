@@ -17,26 +17,26 @@ api_url = "https://paper-api.alpaca.markets"
 
 # CONFIG
 
-class config(self):
+class config:
+	def __init__(self):
     
-	self.ticker_1 = "MATICUSDT"
-	self.ticker_2 = "STXUSDT"
-	self.signal_positive_ticker = ticker_2
-	self.signal_negative_ticker = ticker_1
-	self.rounding_ticker_1 = 2
-	self.rounding_ticker_2 = 2
-	self.quantity_rounding_ticker_1 = 0
-	self.quantity_rounding_ticker_2 = 0
+		self.ticker_1 = "MATICUSDT"
+		self.ticker_2 = "STXUSDT"
+		self.signal_positive_ticker = ticker_2
+		self.signal_negative_ticker = ticker_1
+		self.rounding_ticker_1 = 2
+		self.rounding_ticker_2 = 2
+		self.quantity_rounding_ticker_1 = 0
+		self.quantity_rounding_ticker_2 = 0
 
-	self.limit_order_basis = True # will ensure positions (except for Close) will be placed on limit basis
+		self.limit_order_basis = True # will ensure positions (except for Close) will be placed on limit basis
 
-	self.tradeable_capital_usdt = 500 # total tradeable capital to be split between both pairs
-	self.stop_loss_fail_safe = 0.30 # stop loss at market order in case of drastic event
-	self.signal_trigger_thresh = 1.1 # z-score threshold which determines trade (must be above zero)
+		self.tradeable_capital_usdt = 500 # total tradeable capital to be split between both pairs
+		self.stop_loss_fail_safe = 0.30 # stop loss at market order in case of drastic event
+		self.signal_trigger_thresh = 1.1 # z-score threshold which determines trade (must be above zero)
 	
-	self.mode = "test"
-	self.timeframe = 60
-	self.kline_limit = 10000
-	self.z_score_window = 21
+		self.timeframe = 60
+		self.kline_limit = 10000
+		self.z_score_window = 21
 
-	self.session = REST(api_key, api_secret, api_url)
+		self.session = REST(api_key, api_secret, api_url)
