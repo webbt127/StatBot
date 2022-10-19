@@ -10,16 +10,17 @@ def get_position_info(ticker):
     size = ""
 
     # Extract position info
-    position = session_private.my_position(symbol=ticker)
-    if "ret_msg" in position.keys():
-        if position["ret_msg"] == "OK":
-            if len(position["result"]) == 2:
-                if position["result"][0]["size"] > 0:
-                    size = position["result"][0]["size"]
-                    side = "Buy"
-                else:
-                    size = position["result"][1]["size"]
-                    side = "Sell"
+    try:
+		position = session_private.get_position(ticker)
+		size = int(position.qty)
+        if size > 0:
+            side = "Buy"
+        else:
+            side = "Sell"
+	except Exception as e:
+		#lg.info("No Existing Position For %s!" % asset.symbol)
+		size = 0
+        side = "Sell"
 
     # Return output
     return side, size
@@ -29,14 +30,12 @@ def get_position_info(ticker):
 def place_market_close_order(ticker, side, size):
 
     # Close position
-    session_private.place_active_order(
+    session_private.submit_order(
         symbol=ticker,
         side=side,
-        order_type="Market",
+        type='market',
         qty=size,
-        time_in_force="GoodTillCancel",
-        reduce_only=True,
-        close_on_trigger=False
+        time_in_force="gtc"
     )
 
     # Return
@@ -47,8 +46,7 @@ def place_market_close_order(ticker, side, size):
 def close_all_positions(kill_switch):
 
     # Cancel all active orders
-    session_private.cancel_all_active_orders(symbol=signal_positive_ticker)
-    session_private.cancel_all_active_orders(symbol=signal_negative_ticker)
+    session_private.cancel_all_orders()
 
     # Get position information
     side_1, size_1 = get_position_info(signal_positive_ticker)
