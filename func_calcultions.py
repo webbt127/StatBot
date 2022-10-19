@@ -37,7 +37,10 @@ def get_trade_details(orderbook, direction="Long", capital=0):
             stop_loss = round(mid_price * (1 + stop_loss_fail_safe), price_rounding)
 
             # Calculate quantity
-        quantity = round(capital / mid_price, quantity_rounding)
+        if mid_price > 0:
+            quantity = round(capital / mid_price, quantity_rounding)
+        else:
+            quantity = 0
 
     # Output results
     return (mid_price, stop_loss, quantity)
