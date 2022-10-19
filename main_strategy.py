@@ -4,12 +4,15 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 from func_get_symbols import *
 from func_prices_json import *
 from func_cointegration import *
+from config_strategy_api import *
 #from func_plot_trends import plot_trends
 import pandas as pd
 import json
 from logger import *
 
 initialize_logger()
+
+api = config()
 
 """STRATEGY CODE"""
 if __name__ == "__main__":
