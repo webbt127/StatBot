@@ -47,9 +47,10 @@ def place_order(ticker, price, quantity, direction, stop_loss):
 
 # Initialise execution
 def initialise_order_execution(ticker, direction, capital):
-    orderbook = session_private.get_latest_quote(ticker)
-    data = getattr(orderbook, 'as')
-    print(data)
+    quote = session_private.get_latest_quote(ticker)
+    orderbook.symbol = ticker
+    orderbook.ap = getattr(quote, 'ap')
+    orderbook.bp = getattr(quote, 'bp')
     if orderbook:
         mid_price, stop_loss, quantity = get_trade_details(orderbook, direction, capital)
         if quantity > 0:
