@@ -4,22 +4,22 @@ from alive_progress import alive_bar
 import logging as lg
 
 # Store price histry for all available pairs
-def get_price_history(symbols):
+def get_price_history(asset_list):
 
     # Get prices and store in DataFrame
-    counts = 0
-    price_history_dict = {}
-    with alive_bar(len(symbols)) as bar:
-        for sym in symbols:
-            symbol_name = sym.symbol
-            price_history = get_price_klines(symbol_name)
-            if price_history is not None:
-                price_history_dict[symbol_name] = price_history
-                counts += 1
-                lg.info("Successfully Stored Data For %s!" % sym.symbol)
-            else:
-                lg.info("Unable To Store Data For %s!" % sym.symbol)
-            bar()
+	counts = 0
+	price_history_dict = {}
+	with alive_bar(len(asset_list)) as bar:
+		for asset in asset_list:
+			price_history = get_price_klines(asset.symbol)
+			if price_history is not None:
+				asset.price_history = price_history
+				counts += 1
+				lg.info("Successfully Stored Data For %s!" % asset.symbol)
+			else:
+				asset_list.remove(asset.symbol)
+				lg.info("Unable To Store Data For %s! Removed From Asset List" % asset.symbol)
+			bar()
 
     # Return output
-    return price_history_dict
+return asset_list
