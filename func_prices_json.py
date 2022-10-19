@@ -22,4 +22,4 @@ def get_price_history(asset_list):
 			bar()
 
     # Return output
-return asset_list
+	return asset_list
