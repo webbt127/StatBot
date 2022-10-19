@@ -2,6 +2,7 @@ from config_execution_api import session_private
 from config_execution_api import limit_order_basis
 #from config_ws_connect import ws_public
 from func_calcultions import get_trade_details
+import pandas as pd
 
 # Set leverage
 def set_leverage(ticker):
@@ -47,7 +48,8 @@ def place_order(ticker, price, quantity, direction, stop_loss):
 # Initialise execution
 def initialise_order_execution(ticker, direction, capital):
     orderbook = session_private.get_latest_quote(ticker)
-    print(orderbook['as'])
+    data = pd.DataFrame.from_dict(orderbook)
+    print(data)
     if orderbook:
         mid_price, stop_loss, quantity = get_trade_details(orderbook, direction, capital)
         if quantity > 0:
