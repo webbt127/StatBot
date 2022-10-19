@@ -11,9 +11,9 @@ import time
 
 # Get start times
 time_start_date = 0
-if timeframe == 60:
+if api.timeframe == 60:
     time_start_date = datetime.datetime.now() - datetime.timedelta(hours=kline_limit)
-if timeframe == "D":
+if api.timeframe == "D":
     time_start_date = datetime.datetime.now() - datetime.timedelta(days=kline_limit)
 time_start = time_start_date.isoformat("T") + "Z"
 
@@ -22,7 +22,7 @@ def get_price_klines(asset):
 
     # Get prices
     try:
-        prices = session.get_bars(
+        asset.klines = api.session.get_bars(
             symbol = asset.symbol,
             timeframe = TimeFrame.Hour,
             limit = api.kline_limit,
@@ -36,4 +36,4 @@ def get_price_klines(asset):
     #time.sleep(0.15)
 
     # Return output
-    return prices
+    return asset
