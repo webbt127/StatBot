@@ -9,8 +9,8 @@ api_key_testnet = "PKX9QLYDX6CFM5FU0WSH"
 api_secret_testnet = "v8CtBo4qMYj2PJcbiyXxig1hzMIh7deRHdyK3Ylb"
 
 # SELECTED API
-api_key = api_key_testnet if mode == "test" else api_key_mainnet
-api_secret = api_secret_testnet if mode == "test" else api_secret_mainnet
+api_key = api_key_testnet
+api_secret = api_secret_testnet 
 
 # SELECTED URL
 api_url = "https://paper-api.alpaca.markets" if mode == "test" else "https://api.alpaca.markets"
