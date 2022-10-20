@@ -10,7 +10,7 @@ from alpaca_trade_api.rest import TimeFrame
 import datetime
 import time
 
-def get_start_time():
+def get_start_time(api):
 	time_start_date = 0
 	if api.timeframe == 60:
 		time_start_date = datetime.datetime.now() - datetime.timedelta(hours=kline_limit)
@@ -20,9 +20,9 @@ def get_start_time():
 	return time_start
 
 # Get historical prices (klines)
-def get_price_klines(asset):
+def get_price_klines(asset, api):
 
-	start_time = get_start_time()
+	start_time = get_start_time(api)
 	try:
 		asset.klines = api.session.get_bars(
 			symbol = asset.symbol,
