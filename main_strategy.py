@@ -13,6 +13,7 @@ from logger import *
 initialize_logger()
 
 api = config()
+print(api)
 api.session = REST(api_key, api_secret, api_url)
 
 """STRATEGY CODE"""
