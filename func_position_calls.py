@@ -12,6 +12,15 @@ def open_position_confirmation(ticker):
         return True
     return False
 
+def get_ticker_position(asset):
+	try:
+		position_size = rest_client.get_position(asset.symbol)
+		asset.qty = int(position_size.qty)
+	except Exception as e:
+		#lg.info("No Existing Position For %s!" % asset.symbol)
+		asset.qty = 0
+	return asset
+
 
 # Check for active positions
 def active_position_confirmation(ticker):
