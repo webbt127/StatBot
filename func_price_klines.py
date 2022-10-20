@@ -22,13 +22,13 @@ def get_start_time():
 # Get historical prices (klines)
 def get_price_klines(asset):
 
-    # Get prices
+	start_time = get_start_time()
 	try:
 		asset.klines = api.session.get_bars(
 			symbol = asset.symbol,
 			timeframe = TimeFrame.Hour,
 			limit = api.kline_limit,
-			start = get_start_time()
+			start = start_time
 		).df
 	except Exception as e:
 		print("Could Not Get Prices")
