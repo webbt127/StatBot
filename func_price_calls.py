@@ -8,8 +8,8 @@ import time
 def get_ticker_trade_liquidity(ticker):
 
     # Get trades history
-    trades = session_public.public_trading_records(
-        symbol=ticker,
+    trades = api.session.get_trades(
+        symbol=ticker.symbol,
         limit=50
     )
 
@@ -42,16 +42,3 @@ def get_timestamps():
     time_now_seconds = int(now.timestamp())
     time_next_seconds = int(time_next_date.timestamp())
     return (time_start_seconds, time_now_seconds, time_next_seconds)
-
-
-# Get latest klines
-def get_latest_klines():
-    series_1 = []
-    series_2 = []
-    prices_1 = get_price_klines(ticker_1)
-    prices_2 = get_price_klines(ticker_2)
-    if len(prices_1) > 0:
-        series_1 = extract_close_prices(prices_1)
-    if len(prices_2) > 0:
-        series_2 = extract_close_prices(prices_2)
-    return (series_1, series_2)
