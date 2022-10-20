@@ -12,8 +12,6 @@ from logger import *
 
 initialize_logger()
 
-api = config()
-
 """STRATEGY CODE"""
 if __name__ == "__main__":
     
