@@ -43,7 +43,7 @@ def calculate_cointegration(sym_1, sym_2):
 def extract_close_prices(asset):
 	close_prices = []
 	for price_values in asset.klines:
-		close_prices.append(price_values.close)
+		close_prices.append(price_values['close'])
 	return close_prices
 
 
