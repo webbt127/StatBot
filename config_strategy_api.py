@@ -40,3 +40,5 @@ class config:
 		self.z_score_window = 21
 
 		self.session = REST(api_key, api_secret, api_url)
+
+api = config()
