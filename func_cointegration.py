@@ -58,7 +58,7 @@ def get_cointegrated_pairs(asset_list):
 			for sym_2 in asset_list:
 				bar()
 				if sym_2 != sym_1:
-					sorted_characters = sorted(sym_1 + sym_2)
+					sorted_characters = sorted(sym_1.symbol + sym_2.symbol)
 					unique = "".join(sorted_characters)
 					if unique not in included_list:
 						if 'close' in sym_1 and 'close' in sym_2:
