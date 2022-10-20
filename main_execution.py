@@ -3,54 +3,26 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # General Imports
-from config_execution_api import signal_positive_ticker
-from config_execution_api import signal_negative_ticker
-from func_position_calls import open_position_confirmation
-from func_position_calls import active_position_confirmation
-from func_trade_management import manage_new_trades
-from func_execution_calls import set_leverage
-from func_close_positions import close_all_positions
-from func_get_zscore import get_latest_zscore
-#from config_ws_connect import ws_public
-#from config_ws_connect import subs_public
-from func_save_status import save_status
+from config_execution_api import *
+from func_position_calls import *
+from func_trade_management import *
+from func_execution_calls import *
+from func_close_positions import *
+from func_get_zscore import *
 import time
 from func_execution_calls import *
+
+class position:
+	def __init__(self):
+    		self.symbol = ""
 
 
 """ RUN STATBOT """
 if __name__ == "__main__":
 
-    # Initial printout
-	print("StatBot initiated...")
-
-    # Initialise variables
-	status_dict = {"message": "starting..."}
-	order_long = {}
-	order_short = {}
-	signal_sign_positive = False
-	signal_side = ""
-	kill_switch = 0
-
-    # Save status
-	save_status(status_dict)
-
-    # Set leverage in case forgotten to do so on the platform
-	print("Setting leverage...")
-	set_leverage(signal_positive_ticker)
-	set_leverage(signal_negative_ticker)
-
-    # Commence bot
-	print("Seeking trades...")
-	while True:
-
-        # Keep alive
-		pinged = ws_public.fetch(subs_public[0])
-
-        # Pause - protect API
-		time.sleep(3)
-
         # Check if open trades already exist
+		position_1 = position()
+		position_2 = position()
 		is_p_ticker_open = open_position_confirmation(signal_positive_ticker)
 		is_n_ticker_open = open_position_confirmation(signal_negative_ticker)
 		is_p_ticker_active = active_position_confirmation(signal_positive_ticker)
