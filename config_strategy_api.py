@@ -22,8 +22,8 @@ class config:
     
 		self.ticker_1 = "MATICUSDT"
 		self.ticker_2 = "STXUSDT"
-		self.signal_positive_ticker = ticker_2
-		self.signal_negative_ticker = ticker_1
+		self.signal_positive_ticker = self.ticker_2
+		self.signal_negative_ticker = self.ticker_1
 		self.rounding_ticker_1 = 2
 		self.rounding_ticker_2 = 2
 		self.quantity_rounding_ticker_1 = 0
