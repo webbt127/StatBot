@@ -13,7 +13,7 @@ import time
 def get_start_time(api):
 	time_start_date = 0
 	if api.timeframe == 60:
-		time_start_date = datetime.datetime.now() - datetime.timedelta(hours=kline_limit)
+		time_start_date = datetime.datetime.now() - datetime.timedelta(hours=api.kline_limit)
 	if api.timeframe == "D":
 		time_start_date = datetime.datetime.now() - datetime.timedelta(days=kline_limit)
 	time_start = time_start_date.isoformat("T") + "Z"
