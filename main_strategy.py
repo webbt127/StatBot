@@ -33,5 +33,5 @@ if __name__ == "__main__":
     if len(asset_list) > 0:
         coint_pairs = get_cointegrated_pairs(asset_list)
         print(coint_pairs)
-        print(coint_pairs['sym_1][0])
-        print(coint_pairs['sym_2][0])
+        print(coint_pairs['sym_1'][0])
+        print(coint_pairs['sym_2'][0])
