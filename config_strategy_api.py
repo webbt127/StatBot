@@ -38,6 +38,3 @@ class config:
 		self.timeframe = 60
 		self.kline_limit = 10000
 		self.z_score_window = 21
-
-api = config()
-api.session = REST(api_key, api_secret, api_url)
