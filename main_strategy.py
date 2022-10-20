@@ -9,29 +9,53 @@ from config_strategy_api import *
 import pandas as pd
 import json
 from logger import *
+from config_execution_api import *
+from func_position_calls import *
+from func_trade_management import *
+from func_execution_calls import *
+from func_close_positions import *
+from func_get_zscore import *
+import time
+from func_execution_calls import *
 
 initialize_logger()
 
 api = config()
 api.session = REST(api_key, api_secret, api_url)
 
+kill_switch = 0
+
 """STRATEGY CODE"""
 if __name__ == "__main__":
     
 
     # # STEP 1 - Get list of symbols
-    lg.info("Getting symbols...")
-    asset_list = get_tradeable_symbols(api)
+	lg.info("Getting symbols...")
+	asset_list = get_tradeable_symbols(api)
 
     # # STEP 2 - Construct and save price history
-    lg.info("Constructing and saving price data to JSON...")
-    if len(asset_list) > 0:
-        get_price_history(asset_list, api)
+	lg.info("Constructing and saving price data to JSON...")
+	if len(asset_list) > 0:
+		get_price_history(asset_list, api)
 
     # # STEP 3 - Find Cointegrated pairs
-    lg.info("Calculating co-integration...")
-    if len(asset_list) > 0:
-        coint_pairs = get_cointegrated_pairs(asset_list)
-        print(coint_pairs)
-        print(coint_pairs['sym_1'][0])
-        print(coint_pairs['sym_2'][0])
+	lg.info("Calculating co-integration...")
+	if len(asset_list) > 0:
+		coint_pairs = get_cointegrated_pairs(asset_list)
+        
+    # # STEP 4
+	position_1 = position()
+	position_1.symbol = coint_pairs['sym_1'][0]
+	position_2 = position()
+	position_2.symbol = coint_pairs['sym_2'][0]
+    
+	get_ticker_position(position_1)
+	get_ticker_position(position_2)
+	
+	if position_1.qty != 0 and position_2.qty != 0:
+		is_manage_new_trades = True
+	else:
+		is_manage_new_trades = False
+		
+	if is_manage_new_trades and kill_switch == 0:
+			kill_switch, signal_side = manage_new_trades(kill_switch)
