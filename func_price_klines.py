@@ -32,7 +32,7 @@ def get_price_klines(asset, api):
 		).df
 	except Exception as e:
 		print("Could Not Get Prices")
-	asset.klines = None
+		asset.klines = None
 
     # Manage API calls
     #time.sleep(0.15)
