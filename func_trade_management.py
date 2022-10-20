@@ -35,8 +35,8 @@ def manage_new_trades(kill_switch):
     if hot and kill_switch == 0:
 
         # Get trades history for liquidity
-        avg_liquidity_ticker_p, last_price_p = get_ticker_trade_liquidity(signal_positive_ticker)
-        avg_liquidity_ticker_n, last_price_n = get_ticker_trade_liquidity(signal_negative_ticker)
+        avg_liquidity_ticker_p, last_price_p = get_ticker_trade_liquidity(position_2)
+        avg_liquidity_ticker_n, last_price_n = get_ticker_trade_liquidity(position_1)
 
         # Determine long ticker vs short ticker
         if signal_sign_positive:
