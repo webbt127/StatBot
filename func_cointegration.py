@@ -61,7 +61,7 @@ def get_cointegrated_pairs(asset_list):
 					sorted_characters = sorted(sym_1.symbol + sym_2.symbol)
 					unique = "".join(sorted_characters)
 					if unique not in included_list:
-						if 'close' in sym_1 and 'close' in sym_2:
+						if sym_1.close and sym_2.close:
 							sym_1.close_series = extract_close_prices(sym_1)
 							sym_2.close_series = extract_close_prices(sym_2)
 							if len(sym_1.close_series) == len(sym_2.close_series):
