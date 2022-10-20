@@ -23,19 +23,19 @@ def get_start_time():
 def get_price_klines(asset):
 
     # Get prices
-    try:
-        asset.klines = api.session.get_bars(
-            symbol = asset.symbol,
-            timeframe = TimeFrame.Hour,
-            limit = api.kline_limit,
-            start = get_start_time()
-        ).df
-    except Exception as e:
-        print("Could Not Get Prices")
+	try:
+		asset.klines = api.session.get_bars(
+			symbol = asset.symbol,
+			timeframe = TimeFrame.Hour,
+			limit = api.kline_limit,
+			start = get_start_time()
+		).df
+	except Exception as e:
+		print("Could Not Get Prices")
 	asset.klines = None
 
     # Manage API calls
     #time.sleep(0.15)
 
     # Return output
-    return asset
+	return asset
