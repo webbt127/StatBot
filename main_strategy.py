@@ -12,6 +12,9 @@ from logger import *
 
 initialize_logger()
 
+api = config()
+api.session = REST(api_key, api_secret, api_url)
+
 """STRATEGY CODE"""
 if __name__ == "__main__":
     
