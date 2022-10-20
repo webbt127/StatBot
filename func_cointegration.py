@@ -69,8 +69,8 @@ def get_cointegrated_pairs(asset_list):
 								if coint_flag == 1:
 									included_list.append(unique)
 									coint_pair_list.append({
-										"sym_1": sym_1,
-										"sym_2": sym_2,
+										"sym_1": sym_1.symbol,
+										"sym_2": sym_2.symbol,
 										"p_value": p_value,
 										"t_value": t_value,
 										"c_value": c_value,
