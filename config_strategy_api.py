@@ -39,6 +39,5 @@ class config:
 		self.kline_limit = 10000
 		self.z_score_window = 21
 
-		self.session = REST(api_key, api_secret, api_url)
-
 api = config()
+api.session = REST(api_key, api_secret, api_url)
