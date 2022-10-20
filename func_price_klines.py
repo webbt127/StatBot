@@ -29,7 +29,6 @@ def get_price_klines(asset, api):
 			limit = api.kline_limit,
 			start = start_time
 		).df
-		print(asset.klines)
 	except Exception as e:
 		print("Could Not Get Prices")
 		asset.klines = None
