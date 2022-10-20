@@ -7,26 +7,23 @@ from func_stats import calculate_metrics
 # Get latest z-score
 def get_latest_zscore():
 
-    # Get latest asset orderbook prices and add dummy price for latest
-    orderbook_1 = ws_public.fetch(subs_public[0])
-    mid_price_1, _, _, = get_trade_details(orderbook_1)
-    orderbook_2 = ws_public.fetch(subs_public[1])
-    mid_price_2, _, _, = get_trade_details(orderbook_2)
-
     # Get latest price history
-    series_1, series_2 = get_latest_klines()
+    get_price_klines(position_1, api)
+    get_price_klines(position_2, api)
+    get_trade_details(position_1, capital)
+    get_trade_details(position_2, capital)
 
     # Get z_score and confirm if hot
-    if len(series_1) > 0 and len(series_2) > 0:
+    if len(position_1.klines) > 0 and len(position_2.klines) > 0:
 
         # Replace last kline price with latest orderbook mid price
-        series_1 = series_1[:-1]
-        series_2 = series_2[:-1]
-        series_1.append(mid_price_1)
-        series_2.append(mid_price_2)
+        position_1.klines = position_1.klines[:-1]
+        position_2.klines = position_2.klines[:-1]
+        position_1.klines.append(position_1.mid_price)
+        position_2.klines.append(position_2.mid_price)
 
         # Get latest zscore
-        _, zscore_list = calculate_metrics(series_1, series_2)
+        _, zscore_list = calculate_metrics(position_1.klines, position_2.klines)
         zscore = zscore_list[-1]
         if zscore > 0:
             signal_sign_positive = True
