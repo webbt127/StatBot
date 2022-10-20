@@ -1,8 +1,4 @@
-from config_execution_api import ticker_1
-from config_execution_api import ticker_2
-from config_execution_api import session_public
-from config_execution_api import timeframe
-from config_execution_api import kline_limit
+from config_execution_api import *
 #from func_calcultions import extract_close_prices
 import datetime
 import time
