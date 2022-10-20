@@ -16,6 +16,10 @@ api_secret = api_secret_testnet
 api_url = "https://paper-api.alpaca.markets"
 
 # CONFIG
+class position:
+	def __init__(self):
+    		self.symbol = ""
+		
 
 class config:
 	def __init__(self):
