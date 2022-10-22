@@ -110,14 +110,6 @@ def manage_new_trades(position_1, position_2):
 
 			print(order_status_long, order_status_short, zscore_new)
 
-                    # If orders still active, do nothing
-			if order_status_long == "Order Active" or order_status_short == "Order Active":
-				continue
-
-                    # If orders partial fill, do nothing
-			if order_status_long == "Partial Fill" or order_status_short == "Partial Fill":
-				continue
-
                     # If position filled - place another trade
 			if order_status_long == "Position Filled" and order_status_short == "Position Filled":
 				counts_long = 0
