@@ -15,10 +15,6 @@ api_secret = api_secret_testnet
 # SELECTED URL
 api_url = "https://paper-api.alpaca.markets"
 
-global api
-api = config()
-api.session = REST(api_key, api_secret, api_url)
-
 # CONFIG
 class position:
 	def __init__(self):
@@ -48,3 +44,7 @@ class config:
 		self.z_score_window = 21
 		self.max_positions = 10
 		self.search_limit = 10000
+
+global api
+api = config()
+api.session = REST(api_key, api_secret, api_url)
