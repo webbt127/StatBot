@@ -25,10 +25,10 @@ def get_position_info(asset):
 
 
 #  Place market close order
-def place_market_close_order(asset.symbol, asset.side, asset.size):
+def place_market_close_order(asset):
 
     # Close position
-	session_private.submit_order(
+	session.submit_order(
 		symbol=asset.symbol,
 		side=asset.side,
 		type='market',
