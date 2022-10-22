@@ -34,7 +34,7 @@ def get_price_klines(asset):
 		asset.klines = None
 
     # Manage API calls
-    #time.sleep(0.15)
+    time.sleep(0.15)
 
     # Return output
 	return asset
