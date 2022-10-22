@@ -1,5 +1,3 @@
-from config_execution_api import *
-
 # Get position information
 def get_position_info(asset):
 
