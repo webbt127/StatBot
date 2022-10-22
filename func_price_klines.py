@@ -5,6 +5,7 @@
 """
 
 from config_strategy_api import *
+from config_strategy_api import api
 from alpaca_trade_api.rest import TimeFrame
 import datetime
 import time
@@ -19,7 +20,7 @@ def get_start_time(api):
 	return time_start
 
 # Get historical prices (klines)
-def get_price_klines(asset, api):
+def get_price_klines(asset):
 
 	start_time = get_start_time(api)
 	try:
