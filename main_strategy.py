@@ -9,7 +9,6 @@ from config_strategy_api import *
 import pandas as pd
 import json
 from logger import *
-from config_execution_api import *
 from func_position_calls import *
 from func_trade_management import *
 from func_execution_calls import *
