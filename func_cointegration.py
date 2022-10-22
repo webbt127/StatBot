@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import math
 from alive_progress import alive_bar
+from joblib import Parallel, delayed, parallel_backend
 
 
 # Calculate Z-Score
@@ -48,39 +49,37 @@ def extract_close_prices(asset):
 
 
 # Calculate cointegrated pairs
-def get_cointegrated_pairs(asset_list):
+def get_cointegrated_pairs():
 
     # Loop through coins and check for co-integration
 	coint_pair_list = []
 	included_list = []
-	with alive_bar(len(asset_list)*len(asset_list)) as bar:
-		for sym_1 in asset_list:
-			for sym_2 in asset_list:
-				bar()
-				if sym_2 != sym_1:
-					sorted_characters = sorted(sym_1.symbol + sym_2.symbol)
-					unique = "".join(sorted_characters)
-					if unique not in included_list:
-						if sym_1.klines is not None and sym_2.klines is not None and 'close' in sym_1.klines and 'close' in sym_2.klines:
-							sym_1.close_series = extract_close_prices(sym_1)
-							sym_2.close_series = extract_close_prices(sym_2)
-							if len(sym_1.close_series) == len(sym_2.close_series):
-								coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
-								if coint_flag == 1:
-									included_list.append(unique)
-									coint_pair_list.append({
-										"sym_1": sym_1.symbol,
-										"sym_2": sym_2.symbol,
-										"p_value": p_value,
-										"t_value": t_value,
-										"c_value": c_value,
-										"hedge_ratio": hedge_ratio,
-										"zero_crossings": zero_crossings
-										})
-
-    		# Output results
+	with alive_bar(0, title='Checking Cointegration...') as bar:
+		Parallel(n_jobs=8, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
 		df_coint = pd.DataFrame(coint_pair_list)
 		df_coint = df_coint.sort_values("zero_crossings", ascending=False)
 		df_coint = df_coint.reset_index(drop=True)
 		df_coint.to_csv("2_cointegrated_pairs.csv")
 		return df_coint
+	
+def check_pairs():
+	if sym_2 != sym_1:
+		sorted_characters = sorted(sym_1.symbol + sym_2.symbol)
+		unique = "".join(sorted_characters)
+		if unique not in included_list:
+			if sym_1.klines is not None and sym_2.klines is not None and 'close' in sym_1.klines and 'close' in sym_2.klines:
+				sym_1.close_series = extract_close_prices(sym_1)
+				sym_2.close_series = extract_close_prices(sym_2)
+				if len(sym_1.close_series) == len(sym_2.close_series):
+					coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
+					if coint_flag == 1:
+						included_list.append(unique)
+						coint_pair_list.append({
+							"sym_1": sym_1.symbol,
+							"sym_2": sym_2.symbol,
+							"p_value": p_value,
+							"t_value": t_value,
+							"c_value": c_value,
+							"hedge_ratio": hedge_ratio,
+							"zero_crossings": zero_crossings
+							})
