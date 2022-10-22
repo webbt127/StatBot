@@ -19,7 +19,7 @@ def get_price_history(asset_list):
 
 def price_history_execution(asset):
 	asset.klines = None
-	get_price_klines(asset, api)
+	get_price_klines(asset)
 	if asset.klines is not None:
 		lg.info("Successfully Stored Data For %s!" % asset.symbol)
 		counts = counts + 1
