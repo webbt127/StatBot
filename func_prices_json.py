@@ -19,13 +19,11 @@ def get_price_history(asset_list, api):
 
 def price_history_execution(asset):
 	asset.klines = None
-	counts = 0
-	if counts < api.search_limit:
-		get_price_klines(asset, api)
-		if asset.klines is not None:
-			lg.info("Successfully Stored Data For %s!" % asset.symbol)
-			counts = counts + 1
-		else:
-			asset_list.remove(asset)
-			lg.info("Unable To Store Data For %s! Removed From Asset List" % asset.symbol)
+	get_price_klines(asset, api)
+	if asset.klines is not None:
+		lg.info("Successfully Stored Data For %s!" % asset.symbol)
+		counts = counts + 1
+	else:
+		asset_list.remove(asset)
+		lg.info("Unable To Store Data For %s! Removed From Asset List" % asset.symbol)
 	return asset
