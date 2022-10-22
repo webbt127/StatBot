@@ -20,6 +20,10 @@ class position:
 	def __init__(self):
     		self.symbol = ""
 		
+class assets:
+	def __init__(self):
+    		pass
+		
 
 class config:
 	def __init__(self):
@@ -48,3 +52,6 @@ class config:
 global api
 api = config()
 api.session = REST(api_key, api_secret, api_url)
+
+global asset_list
+asset_list = assets()
