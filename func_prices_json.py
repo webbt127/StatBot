@@ -6,7 +6,7 @@ import logging as lg
 from joblib import Parallel, delayed, parallel_backend
 
 # Store price histry for all available pairs
-def get_price_history(asset_list):
+def get_price_history():
 
     # Get prices and store in DataFrame
 	price_history_dict = {}
