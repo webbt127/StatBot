@@ -43,3 +43,4 @@ class config:
 		self.kline_limit = 10000
 		self.z_score_window = 21
 		self.max_positions = 10
+		self.search_limit = 10000
