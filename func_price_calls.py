@@ -5,13 +5,14 @@ import time
 
 
 # Get trade liquidity for ticker
-def get_ticker_trade_liquidity(ticker):
+def get_ticker_trade_liquidity(position):
 
     # Get trades history
     trades = api.session.get_trades(
-        symbol=ticker.symbol,
+        symbol=position.symbol,
         limit=50
     )
+    print(trades)
 
     # Get the list for calculating the average liquidity
     quantity_list = []
@@ -21,10 +22,12 @@ def get_ticker_trade_liquidity(ticker):
 
     # Return output
     if len(quantity_list) > 0:
-        avg_liq = sum(quantity_list) / len(quantity_list)
-        res_trades_price = float(trades["result"][0]["price"])
-        return (avg_liq, res_trades_price)
-    return (0, 0)
+        position.liquidity = sum(quantity_list) / len(quantity_list)
+        position.last_price = float(trades["result"][0]["price"])
+        return position
+    position.liquidity = 0
+    position.last_price = 0
+    return position
 
 
 # Get start times
