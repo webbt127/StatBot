@@ -43,7 +43,8 @@ if __name__ == "__main__":
         
     # # STEP 4
 	while 1:
-		for i=0, i < api.max_positions:
+		i = 0
+		for i < api.max_positions:
 			position_1 = position()
 			position_1.symbol = coint_pairs['sym_1'][i]
 			position_2 = position()
@@ -59,3 +60,4 @@ if __name__ == "__main__":
 		
 			if is_manage_new_trades:
 				signal_side = manage_new_trades(position_1, position_2)
+			i = i + 1
