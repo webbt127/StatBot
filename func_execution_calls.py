@@ -1,4 +1,4 @@
-from func_calcultions import *
+from func_calculations import *
 import pandas as pd
 
 
