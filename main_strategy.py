@@ -44,7 +44,7 @@ if __name__ == "__main__":
     # # STEP 4
 	while 1:
 		i = 0
-		for i < api.max_positions:
+		while i < api.max_positions:
 			position_1 = position()
 			position_1.symbol = coint_pairs['sym_1'][i]
 			position_2 = position()
