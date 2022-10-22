@@ -142,4 +142,4 @@ def manage_new_trades(position_1, position_2):
 				session_private.cancel_all_active_orders(symbol=signal_negative_ticker)
 
     # Output status
-    return signal_side
+	return signal_side
