@@ -30,12 +30,12 @@ if __name__ == "__main__":
 
     # # STEP 1 - Get list of symbols
 	lg.info("Getting symbols...")
-	asset_list = get_tradeable_symbols(api)
+	asset_list = get_tradeable_symbols()
 
     # # STEP 2 - Construct and save price history
 	lg.info("Constructing and saving price data to JSON...")
 	if len(asset_list) > 0:
-		get_price_history(asset_list, api)
+		get_price_history(asset_list)
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
