@@ -1,13 +1,8 @@
-from config_execution_api import signal_positive_ticker
-from config_execution_api import signal_negative_ticker
-from config_execution_api import signal_trigger_thresh
-from config_execution_api import tradeable_capital_usdt
-from config_execution_api import limit_order_basis
-from config_execution_api import session_private
-from func_price_calls import get_ticker_trade_liquidity
-from func_get_zscore import get_latest_zscore
-from func_execution_calls import initialise_order_execution
-from func_order_review import check_order
+from config_execution_api import *
+from func_price_calls import *
+from func_get_zscore import *
+from func_execution_calls import *
+from func_order_review import *
 import time
 
 # Manage new trade assessment and order placing
@@ -24,7 +19,7 @@ def manage_new_trades(pair):
 
     # Switch to hot if meets signal threshold
     # Note: You can add in coint-flag check too if you want extra vigilence
-	if abs(zscore) > signal_trigger_thresh:
+	if abs(zscore) > api.signal_trigger_thresh:
 
         # Active hot trigger
 		hot = True
