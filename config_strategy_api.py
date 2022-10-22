@@ -15,6 +15,10 @@ api_secret = api_secret_testnet
 # SELECTED URL
 api_url = "https://paper-api.alpaca.markets"
 
+global api
+api = config()
+api.session = REST(api_key, api_secret, api_url)
+
 # CONFIG
 class position:
 	def __init__(self):
