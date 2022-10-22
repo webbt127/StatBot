@@ -19,8 +19,8 @@ from func_execution_calls import *
 
 initialize_logger()
 
-api = config()
 global api
+api = config()
 
 api.session = REST(api_key, api_secret, api_url)
 
