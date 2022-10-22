@@ -1,7 +1,5 @@
-from func_position_calls import query_existing_order
-from func_position_calls import get_open_positions
-from func_position_calls import get_active_positions
-from func_calcultions import get_trade_details
+from func_position_calls import *
+from func_calculations import get_trade_details
 #from config_ws_connect import ws_public
 
 
