@@ -28,7 +28,7 @@ def get_position_info(asset):
 def place_market_close_order(asset):
 
     # Close position
-	session.submit_order(
+	api.session.submit_order(
 		symbol=asset.symbol,
 		side=asset.side,
 		type='market',
