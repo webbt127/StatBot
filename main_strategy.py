@@ -19,7 +19,9 @@ from func_execution_calls import *
 
 initialize_logger()
 
-global api = config()
+api = config()
+global api
+
 api.session = REST(api_key, api_secret, api_url)
 
 """STRATEGY CODE"""
