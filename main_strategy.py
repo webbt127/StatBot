@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
     # # STEP 2 - Construct and save price history
 	lg.info("Constructing and saving price data to JSON...")
-	get_price_history()
+	get_price_history(asset_list)
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
