@@ -1,6 +1,5 @@
 from func_price_klines import *
 from config_strategy_api import *
-from config_strategy_api import api
 import json
 from alive_progress import alive_bar
 import logging as lg
