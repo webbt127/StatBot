@@ -1,4 +1,5 @@
 from func_price_klines import *
+from func_get_symbols import *
 from config_strategy_api import *
 import json
 from alive_progress import alive_bar
