@@ -1,7 +1,7 @@
 from config_strategy_api import *
 
 # Get symbols that are tradeable
-def get_tradeable_symbols(api):
+def get_tradeable_symbols():
 
     # Get available symbols
     active_assets = api.session.list_assets(status='active')
