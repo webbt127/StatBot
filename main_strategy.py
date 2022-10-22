@@ -44,19 +44,20 @@ if __name__ == "__main__":
 		coint_pairs = get_cointegrated_pairs(asset_list)
         
     # # STEP 4
-	for i=0, i < api.max_positions:
-		position_1 = position()
-		position_1.symbol = coint_pairs['sym_1'][i]
-		position_2 = position()
-		position_2.symbol = coint_pairs['sym_2'][i]
+	while 1:
+		for i=0, i < api.max_positions:
+			position_1 = position()
+			position_1.symbol = coint_pairs['sym_1'][i]
+			position_2 = position()
+			position_2.symbol = coint_pairs['sym_2'][i]
     
-		get_ticker_position(position_1)
-		get_ticker_position(position_2)
+			get_ticker_position(position_1)
+			get_ticker_position(position_2)
 	
-		if position_1.qty != 0 and position_2.qty != 0:
-			is_manage_new_trades = True
-		else:
-			is_manage_new_trades = False
+			if position_1.qty != 0 and position_2.qty != 0:
+				is_manage_new_trades = True
+			else:
+				is_manage_new_trades = False
 		
-		if is_manage_new_trades and kill_switch == 0:
-			kill_switch, signal_side = manage_new_trades(kill_switch)
+			if is_manage_new_trades:
+				signal_side = manage_new_trades(position_1, position_2)
