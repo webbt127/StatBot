@@ -6,7 +6,7 @@ from func_order_review import *
 import time
 
 # Manage new trade assessment and order placing
-def manage_new_trades(pair):
+def manage_new_trades(position_1, position_2):
 
     # Set variables
 	order_long_id = ""
@@ -35,19 +35,19 @@ def manage_new_trades(pair):
 
         # Determine long ticker vs short ticker
 		if signal_sign_positive:
-			long_ticker = signal_positive_ticker
-			short_ticker = signal_negative_ticker
-			avg_liquidity_long = avg_liquidity_ticker_p
-			avg_liquidity_short = avg_liquidity_ticker_n
-			last_price_long = last_price_p
-			last_price_short = last_price_n
+			long_ticker = position_2.symbol
+			short_ticker = position_1.symbol
+			avg_liquidity_long = position_2.liquidity
+			avg_liquidity_short = position_1.liquidity
+			last_price_long = position_2.last_price
+			last_price_short = position_1.last_price
 		else:
-			long_ticker = signal_negative_ticker
-			short_ticker = signal_positive_ticker
-			avg_liquidity_long = avg_liquidity_ticker_n
-			avg_liquidity_short = avg_liquidity_ticker_p
-			last_price_long = last_price_n
-			last_price_short = last_price_p
+			long_ticker = position_1.symbol
+			short_ticker = position_2.symbol
+			avg_liquidity_long = position_1.liquidity
+			avg_liquidity_short = position_2.liquidity
+			last_price_long = position_1.last_price
+			last_price_short = position_2.last_price
 
         # Fill targets
 		capital_long = tradeable_capital_usdt * 0.5
