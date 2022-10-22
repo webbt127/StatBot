@@ -42,3 +42,4 @@ class config:
 		self.timeframe = 60
 		self.kline_limit = 10000
 		self.z_score_window = 21
+		self.max_positions = 10
