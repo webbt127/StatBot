@@ -5,7 +5,6 @@
 """
 
 from config_strategy_api import *
-from config_strategy_api import api
 from alpaca_trade_api.rest import TimeFrame
 import datetime
 import time
