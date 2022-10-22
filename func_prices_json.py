@@ -12,7 +12,7 @@ def get_price_history(asset_list, api):
 	with alive_bar(len(asset_list)) as bar:
 		for asset in asset_list:
 			asset.klines = None
-			if counts < 200:
+			if counts < api.search_limit:
 				get_price_klines(asset, api)
 				if asset.klines is not None:
 					lg.info("Successfully Stored Data For %s!" % asset.symbol)
