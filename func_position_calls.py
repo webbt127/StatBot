@@ -1,4 +1,3 @@
-from config_execution_api import session_private
 
 # Check for open positions
 def open_position_confirmation(ticker):
