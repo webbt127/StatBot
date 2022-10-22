@@ -2,59 +2,56 @@ from config_execution_api import *
 from func_calcultions import *
 import pandas as pd
 
-# Set leverage
-def set_leverage(ticker):
-    return
 
 class Orderbook():
-    return
+	return
 
 
 # Place limit or market order
 def place_order(asset):
 
     # Set variables
-    if asset.direction == "Long":
-        asset.side = "Buy"
-    else:
-        asset.side = "Sell"
+	if asset.direction == "Long":
+		asset.side = "Buy"
+	else:
+		asset.side = "Sell"
 
     # Place limit order
-    if api.limit_order_basis:
-        asset.order = api.session.submit_order(
-            symbol=asset.symbol,
-            side=asset.side,
-            type="limit",
-            qty=asset.quantity,
-            take_profit=dict(limit_price=asset.price),
-            time_in_force="gtc",
-            stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss)
-        )
-    else:
-        asset.order = api.session.submit_order(
-            symbol=asset.symbol,
-            side=asset.side,
-            order_type='market',
-            qty=asset.quantity,
-            time_in_force="gtc",
-            stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss)
-        )
+	if api.limit_order_basis:
+		asset.order = api.session.submit_order(
+			symbol=asset.symbol,
+			side=asset.side,
+			type="limit",
+			qty=asset.quantity,
+			take_profit=dict(limit_price=asset.price),
+			time_in_force="gtc",
+			stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss)
+		)
+	else:
+		asset.order = api.session.submit_order(
+			symbol=asset.symbol,
+			side=asset.side,
+			order_type='market',
+			qty=asset.quantity,
+			time_in_force="gtc",
+			stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss)
+		)
 
     # Return order
-    return asset
+	return asset
     
 
 
 # Initialise execution
 def initialize_order_execution(asset, capital):
-    asset.orderbook = Orderbook()
-    asset.latest_quote = api.session.get_latest_quote(asset.symbol)
-    asset.orderbook.ap = getattr(asset.latest_quote, 'ap')
-    asset.orderbook.bp = getattr(asset.latest_quote, 'bp')
-    if asset.orderbook:
-        get_trade_details(asset, capital)
-        if asset.quantity > 0:
-            order = place_order(asset)
-            if "id" in order.keys():
-                asset.order_id = order["id"]
-    return asset
+	asset.orderbook = Orderbook()
+	asset.latest_quote = api.session.get_latest_quote(asset.symbol)
+	asset.orderbook.ap = getattr(asset.latest_quote, 'ap')
+	asset.orderbook.bp = getattr(asset.latest_quote, 'bp')
+	if asset.orderbook:
+		get_trade_details(asset, capital)
+		if asset.quantity > 0:
+			order = place_order(asset)
+			if "id" in order.keys():
+				asset.order_id = order["id"]
+	return asset
