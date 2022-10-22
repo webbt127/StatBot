@@ -1,8 +1,6 @@
-#from config_ws_connect import subs_public
-#from config_ws_connect import ws_public
-from func_calcultions import get_trade_details
-from func_price_calls import get_latest_klines
-from func_stats import calculate_metrics
+from func_calculations import *
+from func_price_calls import *
+from func_stats import *
 
 # Get latest z-score
 def get_latest_zscore():
