@@ -1,4 +1,3 @@
-from config_execution_api import *
 from func_price_calls import *
 from func_get_zscore import *
 from func_execution_calls import *
