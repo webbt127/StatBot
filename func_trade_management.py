@@ -28,7 +28,7 @@ def manage_new_trades(position_1, position_2):
 
         # Active hot trigger
 		hot = True
-        print("-- Trade Status HOT --")
+	print("-- Trade Status HOT --")
         print("-- Placing and Monitoring Existing Trades --")
 
     # Place and manage trades
