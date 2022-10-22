@@ -8,7 +8,6 @@ from joblib import Parallel, delayed, parallel_backend
 def get_price_history(asset_list, api):
 
     # Get prices and store in DataFrame
-	counts = 0
 	price_history_dict = {}
 	with alive_bar(0, title='Getting Price History...') as bar:
 		Parallel(n_jobs=8, prefer="threads")(delayed(price_history_execution)(asset) for asset in asset_list)
@@ -19,6 +18,7 @@ def get_price_history(asset_list, api):
 
 def price_history_execution(asset):
 	asset.klines = None
+	counts = 0
 	if counts < api.search_limit:
 		get_price_klines(asset, api)
 		if asset.klines is not None:
