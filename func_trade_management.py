@@ -30,8 +30,8 @@ def manage_new_trades(position_1, position_2):
 	if hot  == 0:
 
         # Get trades history for liquidity
-		avg_liquidity_ticker_p, last_price_p = get_ticker_trade_liquidity(position_2)
-		avg_liquidity_ticker_n, last_price_n = get_ticker_trade_liquidity(position_1)
+		get_ticker_trade_liquidity(position_2)
+		get_ticker_trade_liquidity(position_1)
 
         # Determine long ticker vs short ticker
 		if signal_sign_positive:
@@ -50,8 +50,8 @@ def manage_new_trades(position_1, position_2):
 			last_price_short = position_2.last_price
 
         # Fill targets
-		capital_long = tradeable_capital_usdt * 0.5
-		capital_short = tradeable_capital_usdt - capital_long
+		capital_long = api.tradeable_capital_usdt * 0.5
+		capital_short = api.tradeable_capital_usdt - capital_long
 		initial_fill_target_long_usdt = avg_liquidity_long * last_price_long
 		initial_fill_target_short_usdt = avg_liquidity_short * last_price_short
 		initial_capital_injection_usdt = min(initial_fill_target_long_usdt, initial_fill_target_short_usdt)
