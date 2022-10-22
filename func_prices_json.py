@@ -11,7 +11,7 @@ def get_price_history(asset_list, api):
 	counts = 0
 	price_history_dict = {}
 	with alive_bar(0, title='Getting Price History...') as bar:
-		Parallel(n_jobs=8, prefer="threads")(delayed(price_history_execution)(asset) for asset in assets)
+		Parallel(n_jobs=8, prefer="threads")(delayed(price_history_execution)(asset) for asset in asset_list)
 		bar()
 
     # Return output
