@@ -56,3 +56,8 @@ api.session = REST(api_key, api_secret, api_url)
 
 global asset_list
 asset_list = assets()
+
+global coint_pair_list
+global included_list
+coint_pair_list = []
+included_list = []
