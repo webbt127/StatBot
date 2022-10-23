@@ -38,7 +38,6 @@ if __name__ == "__main__":
 	if len(asset_list.symbols) > 0 and api.get_new_history:
 		with open('data.json', 'w') as fp:
 			json.dump(asset_list, fp, cls=CustomEncoder)
-		json.close()
 	else:
 		json_in = open('data.json', 'r')
 		asset_list = json.loads(json_in)
