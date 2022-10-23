@@ -30,7 +30,7 @@ if __name__ == "__main__":
     # # STEP 1 - Get list of symbols
 	lg.info("Getting symbols...")
 	get_tradeable_symbols()
-	print(asset_list)
+	print(asset_list.symbols)
 
     # # STEP 2 - Construct and save price history
 	lg.info("Constructing and saving price data to JSON...")
