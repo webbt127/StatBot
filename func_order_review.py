@@ -1,6 +1,5 @@
 from func_position_calls import *
-from func_calculations import get_trade_details
-#from config_ws_connect import ws_public
+from func_stats import *
 
 
 # Check order items
