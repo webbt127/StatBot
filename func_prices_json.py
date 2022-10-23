@@ -12,8 +12,7 @@ def get_price_history():
     # Get prices and store in DataFrame
 	price_history_dict = {}
 	with alive_bar(0, title='Getting Price History...') as bar:
-		Parallel(n_jobs=8, prefer="threads")(delayed(price_history_execution)(asset) for asset in asset_list.symbols)
-		bar()
+		Parallel(n_jobs=8, prefer="threads")(delayed(price_history_execution)(asset) for asset in asset_list.symbols bar())
 
     # Return output
 	return asset_list
