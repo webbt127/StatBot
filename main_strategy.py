@@ -20,7 +20,9 @@ from func_execution_calls import *
 
 initialize_logger()
 
-sys.setrecursionlimit(100000)
+class CustomEncoder(json.JSONEncoder):
+	def default(self, o):
+		return o.__dict__
 
 """STRATEGY CODE"""
 if __name__ == "__main__":
@@ -34,7 +36,7 @@ if __name__ == "__main__":
 	lg.info("Constructing and saving price data to JSON...")
 	if len(asset_list.symbols) > 0 and api.get_new_history:
 		with open('data.json', 'w') as fp:
-			json.dump(get_price_history(), fp)
+			json.dump(get_price_history(), fp, cls=CustomEncoder)
 		json.close()
 	else:
 		json_in = open('data.json', 'r')
