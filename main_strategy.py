@@ -10,6 +10,7 @@ import pandas as pd
 import json
 from json import JSONEncoder
 import pickle
+import shelve
 from logger import *
 from func_position_calls import *
 from func_trade_management import *
