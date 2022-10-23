@@ -52,8 +52,6 @@ def extract_close_prices(asset):
 def get_cointegrated_pairs():
 
     # Loop through coins and check for co-integration
-	coint_pair_list = []
-	included_list = []
 	with alive_bar(0, title='Checking Cointegration...') as bar:
 		Parallel(n_jobs=8, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
 		df_coint = pd.DataFrame(coint_pair_list)
