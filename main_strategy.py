@@ -29,10 +29,8 @@ if __name__ == "__main__":
 
     # # STEP 2 - Construct and save price history
 	lg.info("Constructing and saving price data to JSON...")
-	if len(asset_list.symbols) > 0 and api.get_new_history == True:
+	if len(asset_list.symbols) > 0:
 		get_price_history()
-	else:
-		f_coint.read_csv("price_history.csv")
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
