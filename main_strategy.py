@@ -34,11 +34,11 @@ if __name__ == "__main__":
 	if len(asset_list.symbols) > 0 and api.get_new_history:
 		get_price_history()
 		with shelve.open('data.db', 'w') as db:
-			json.dump(asset_list.symbols, fp, cls=CustomEncoder)
+			db['symbols'] = asset_list.symbols
 	else:
-		json_in = open('data.json', 'r')
-		asset_list.symbols = json.load(json_in)
-		print(asset_list)
+		with shelve.open('data.db') as db:
+			asset_list.symbols = db['symbols']
+			print(asset_list)
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
