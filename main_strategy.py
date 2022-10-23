@@ -14,7 +14,6 @@ from func_position_calls import *
 from func_trade_management import *
 from func_execution_calls import *
 from func_close_positions import *
-from func_get_zscore import *
 import time
 import sys
 from func_execution_calls import *
