@@ -21,10 +21,6 @@ from func_execution_calls import *
 
 initialize_logger()
 
-class CustomEncoder(JSONEncoder):
-	def default(self, o):
-		return
-
 """STRATEGY CODE"""
 if __name__ == "__main__":
     
@@ -37,7 +33,7 @@ if __name__ == "__main__":
 	lg.info("Constructing and saving price data to JSON...")
 	if len(asset_list.symbols) > 0 and api.get_new_history:
 		get_price_history()
-		with open('data.json', 'w') as fp:
+		with shelve.open('data.db', 'w') as db:
 			json.dump(asset_list.symbols, fp, cls=CustomEncoder)
 	else:
 		json_in = open('data.json', 'r')
