@@ -35,12 +35,12 @@ if __name__ == "__main__":
 	lg.info("Constructing and saving price data to JSON...")
 	if len(asset_list.symbols) > 0 and api.get_new_history:
 		get_price_history()
-		pickle_out = open("dict.pickle","wb")
-		pickle.dump(asset_list, pickle_out)
-		pickle_out.close()
+		with open('data.json', 'w') as fp:
+			json.dump(asset_list, fp)
+		json.close()
 	else:
-		pickle_in = open("dict.pickle","rb")
-		asset_list = pickle.load(pickle_in)
+		json_in = open('data.json', 'r')
+		asset_list = json.loads(json_in)
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
