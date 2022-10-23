@@ -37,14 +37,13 @@ if __name__ == "__main__":
 		get_price_history()
 		with shelve.open('data.db', flag='c') as db:
 			for asset in asset_list.symbols:
-				db['symbol'] = asset.symbol
-				db['klines'] = asset.klines
+				db['symbol'].append(asset.symbol)
+				db['klines'].append(asset.klines)
 	else:
 		with shelve.open('data.db') as db:
 			for asset in asset_list.symbols:
-				asset.symbol = db['symbol']
-				asset.klines = db['klines']
-				print(asset_list)
+				asset.symbol.append(db['symbol'])
+				asset.klines.append(db['klines'])
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
