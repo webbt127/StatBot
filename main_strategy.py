@@ -23,7 +23,7 @@ initialize_logger()
 
 class CustomEncoder(JSONEncoder):
 	def default(self, o):
-		pass
+		return
 
 """STRATEGY CODE"""
 if __name__ == "__main__":
@@ -41,7 +41,7 @@ if __name__ == "__main__":
 			json.dump(asset_list, fp, cls=CustomEncoder)
 	else:
 		json_in = open('data.json', 'r')
-		asset_list = json.loads(json_in)
+		asset_list = json.load(json_in)
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
