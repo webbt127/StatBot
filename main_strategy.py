@@ -50,6 +50,7 @@ if __name__ == "__main__":
 	lg.info("Calculating co-integration...")
 	if len(asset_list.symbols) > 0:
 		coint_pairs = get_cointegrated_pairs()
+		print(coint_pairs)
         
     # # STEP 4
 	while 1:
