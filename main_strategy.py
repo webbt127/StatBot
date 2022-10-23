@@ -33,17 +33,8 @@ if __name__ == "__main__":
 
     # # STEP 2 - Construct and save price history
 	lg.info("Constructing and saving price data to JSON...")
-	if len(asset_list.symbols) > 0 and api.get_new_history:
+	if len(asset_list.symbols) > 0:
 		get_price_history()
-		with shelve.open('data.db', flag='c') as db:
-			for asset in asset_list.symbols:
-				db['symbol'].append(asset.symbol)
-				db['klines'].append(asset.klines)
-	else:
-		with shelve.open('data.db') as db:
-			for asset in asset_list.symbols:
-				asset.symbol.append(db['symbol'])
-				asset.klines.append(db['klines'])
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
