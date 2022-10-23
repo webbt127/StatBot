@@ -8,6 +8,7 @@ from config_strategy_api import *
 #from func_plot_trends import plot_trends
 import pandas as pd
 import json
+import pickle
 from logger import *
 from func_position_calls import *
 from func_trade_management import *
@@ -29,8 +30,11 @@ if __name__ == "__main__":
 
     # # STEP 2 - Construct and save price history
 	lg.info("Constructing and saving price data to JSON...")
-	if len(asset_list.symbols) > 0:
+	if len(asset_list.symbols) > 0 and api.get_new_history:
 		get_price_history()
+	else:
+		pickle_in = open("dict.pickle","rb")
+		asset_list.symbols = pickle.load(pickle_in)
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
