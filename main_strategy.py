@@ -34,9 +34,8 @@ if __name__ == "__main__":
     # # STEP 2 - Construct and save price history
 	lg.info("Constructing and saving price data to JSON...")
 	if len(asset_list.symbols) > 0 and api.get_new_history:
-		get_price_history()
 		with open('data.json', 'w') as fp:
-			json.dump(asset_list, fp)
+			json.dump(get_price_history(), fp)
 		json.close()
 	else:
 		json_in = open('data.json', 'r')
