@@ -23,7 +23,7 @@ initialize_logger()
 
 class CustomEncoder(JSONEncoder):
 	def default(self, o):
-		return o.__dict__
+		pass
 
 """STRATEGY CODE"""
 if __name__ == "__main__":
