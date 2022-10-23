@@ -48,6 +48,7 @@ class config:
 		self.z_score_window = 21
 		self.max_positions = 10
 		self.search_limit = 10000
+		self.get_new_history = True
 
 global api
 api = config()
