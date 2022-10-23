@@ -20,6 +20,8 @@ from func_execution_calls import *
 
 initialize_logger()
 
+sys.setrecursionlimit(0x100000)
+
 """STRATEGY CODE"""
 if __name__ == "__main__":
     
