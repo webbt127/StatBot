@@ -37,7 +37,7 @@ if __name__ == "__main__":
 		get_price_history()
 		with shelve.open('data.db', flag='c') as db:
 			db['symbols'] = asset_list.symbols
-			print(asset_list.symbols)
+			print(asset_list.symbols.klines)
 	else:
 		with shelve.open('data.db') as db:
 			asset_list.symbols = db['symbols']
