@@ -36,11 +36,11 @@ if __name__ == "__main__":
 	if len(asset_list.symbols) > 0 and api.get_new_history:
 		get_price_history()
 		pickle_out = open("dict.pickle","wb")
-		pickle.dump(asset_list.symbols, pickle_out)
+		pickle.dump(asset_list, pickle_out)
 		pickle_out.close()
 	else:
 		pickle_in = open("dict.pickle","rb")
-		asset_list.symbols = pickle.load(pickle_in)
+		asset_list = pickle.load(pickle_in)
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
