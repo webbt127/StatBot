@@ -34,7 +34,7 @@ if __name__ == "__main__":
 	lg.info("Constructing and saving price data to JSON...")
 	if len(asset_list.symbols) > 0 and api.get_new_history:
 		get_price_history()
-		with shelve.open('data.db', 'w') as db:
+		with shelve.open('data.db', 'w', flag='c') as db:
 			db['symbols'] = asset_list.symbols
 	else:
 		with shelve.open('data.db') as db:
