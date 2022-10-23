@@ -36,12 +36,12 @@ if __name__ == "__main__":
 	if len(asset_list.symbols) > 0 and api.get_new_history:
 		get_price_history()
 		with shelve.open('data.db', flag='c') as db:
-			for asset in asset_list.symbols
+			for asset in asset_list.symbols:
 				db['symbol'] = asset.symbol
 				db['klines'] = asset.klines
 	else:
 		with shelve.open('data.db') as db:
-			for asset in asset_list.symbols
+			for asset in asset_list.symbols:
 				asset.symbol = db['symbol']
 				asset.klines = db['klines']
 				print(asset_list)
