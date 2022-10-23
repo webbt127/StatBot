@@ -38,10 +38,10 @@ if __name__ == "__main__":
 	if len(asset_list.symbols) > 0 and api.get_new_history:
 		get_price_history()
 		with open('data.json', 'w') as fp:
-			json.dump(asset_list, fp, cls=CustomEncoder)
+			json.dump(asset_list.symbols, fp, cls=CustomEncoder)
 	else:
 		json_in = open('data.json', 'r')
-		asset_list = json.load(json_in)
+		asset_list.symbols = json.load(json_in)
 		print(asset_list)
 
     # # STEP 3 - Find Cointegrated pairs
