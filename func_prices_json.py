@@ -26,4 +26,4 @@ def price_history_execution(asset):
 	else:
 		asset_list.symbols.remove(asset)
 		lg.info("Unable To Store Data For %s! Removed From Asset List" % asset.symbol)
-	return asset
+	return asset, asset_list
