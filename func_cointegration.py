@@ -29,13 +29,13 @@ def calculate_spread(series_1, series_2, hedge_ratio):
 # Calculate co-integration
 def calculate_cointegration(sym_1, sym_2):
 	coint_flag = 0
-	coint_res = coint(sym_1.symbols.close_series, sym_2.symbols.close_series)
+	coint_res = coint(sym_1.close_series, sym_2.close_series)
 	coint_t = coint_res[0]
 	p_value = coint_res[1]
 	critical_value = coint_res[2][1]
-	model = sm.OLS(sym_1.symbols.close_series, sym_2.symbols.close_series).fit()
+	model = sm.OLS(sym_1.close_series, sym_2.close_series).fit()
 	hedge_ratio = model.params[0]
-	spread = calculate_spread(sym_1.symbols.close_series, sym_2.symbols.close_series, hedge_ratio)
+	spread = calculate_spread(sym_1.close_series, sym_2.close_series, hedge_ratio)
 	zero_crossings = len(np.where(np.diff(np.sign(spread)))[0])
 	if p_value < 0.5 and coint_t < critical_value:
 		coint_flag = 1
@@ -64,19 +64,19 @@ def get_cointegrated_pairs():
 	
 def check_pairs(sym_1, sym_2):
 	if sym_2 != sym_1:
-		sorted_characters = sorted(sym_1.symbols.symbol + sym_2.symbols.symbol)
+		sorted_characters = sorted(sym_1.symbol + sym_2.symbol)
 		unique = "".join(sorted_characters)
 		if unique not in included_list:
-			if sym_1.symbols.klines is not None and sym_2.symbols.klines is not None and 'close' in sym_1.symbols.klines and 'close' in sym_2.symbols.klines:
-				sym_1.symbols.close_series = extract_close_prices(sym_1)
-				sym_2.symbols.close_series = extract_close_prices(sym_2)
-				if len(sym_1.symbols.close_series) == len(sym_2.symbols.close_series):
+			if sym_1.klines is not None and sym_2.klines is not None and 'close' in sym_1.klines and 'close' in sym_2.klines:
+				sym_1.close_series = extract_close_prices(sym_1)
+				sym_2.close_series = extract_close_prices(sym_2)
+				if len(sym_1.close_series) == len(sym_2.close_series):
 					coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
 					if coint_flag == 1:
 						included_list.append(unique)
 						coint_pair_list.append({
-							"sym_1": sym_1.symbols.symbol,
-							"sym_2": sym_2.symbols.symbol,
+							"sym_1": sym_1.symbol,
+							"sym_2": sym_2.symbol,
 							"p_value": p_value,
 							"t_value": t_value,
 							"c_value": c_value,
