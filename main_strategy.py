@@ -42,6 +42,7 @@ if __name__ == "__main__":
 	else:
 		json_in = open('data.json', 'r')
 		asset_list = json.load(json_in)
+		print(asset_list)
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
