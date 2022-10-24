@@ -36,10 +36,10 @@ if __name__ == "__main__":
 	lg.info("Constructing and saving price data to JSON...")
 	if len(asset_list.symbols) > 0 and api.get_new_history:
 		get_price_history()
-		filehandler = open(data.pickle, 'x') 
+		filehandler = open('data.pickle', 'x') 
 		pickle.dump(asset_list, filehandler)
 	else:
-		filehandler = open(data.pickle, 'r') 
+		filehandler = open('data.pickle', 'r') 
 		asset_list = pickle.load(filehandler)
 
     # # STEP 3 - Find Cointegrated pairs
