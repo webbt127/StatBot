@@ -59,6 +59,8 @@ def get_cointegrated_pairs():
 		df_coint = pd.DataFrame(coint_pair_list)
 		df_coint = df_coint.sort_values("zero_crossings", ascending=False)
 		df_coint = df_coint.reset_index(drop=True)
+		df_coint['index'] = df_coint.index
+
 		df_coint.to_csv("2_cointegrated_pairs.csv")
 		return df_coint
 	
