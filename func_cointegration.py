@@ -89,7 +89,7 @@ def check_pairs(sym_1, sym_2):
 							})
 
 						
-def get_latest_zscore():
+def get_latest_zscore(position_1, position_2):
 
     # Get latest price history
     get_price_klines(position_1)
