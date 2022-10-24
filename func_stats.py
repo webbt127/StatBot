@@ -50,8 +50,8 @@ def get_trade_details(asset, capital=0):
     if asset.orderbook:
 
         # Set price rounding
-        asset.price_rounding = api.rounding_ticker_1 if orderbook.symbol == api.ticker_1 else api.rounding_ticker_2
-        asset.quantity_rounding = api.quantity_rounding_ticker_1 if orderbook.symbol == api.ticker_1 else api.quantity_rounding_ticker_2
+        asset.price_rounding = api.rounding_ticker_1 if asset.symbol == api.ticker_1 else api.rounding_ticker_2
+        asset.quantity_rounding = api.quantity_rounding_ticker_1 if asset.symbol == api.ticker_1 else api.quantity_rounding_ticker_2
 
             # Calculate hard stop loss
         if asset.direction == "Long":
