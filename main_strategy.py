@@ -37,10 +37,11 @@ if __name__ == "__main__":
 	lg.info("Constructing and saving price data to JSON...")
 	if len(asset_list.symbols) > 0 and api.get_new_history:
 		get_price_history()
-		asset_list.save()
+		filehandler = open('data.pickle', 'wb') 
+		pickle.dump(asset_list, filehandler)
 	else:
-		asset_list = persistent.get(asset_list.id) 
-		assert asset_list.symbols == asset_list.symbols
+		filehandler = open('data.pickle', 'rb') 
+		asset_list = pickle.load(filehandler)
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
