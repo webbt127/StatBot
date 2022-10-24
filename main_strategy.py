@@ -30,6 +30,7 @@ if __name__ == "__main__":
     # # STEP 1 - Get list of symbols
 	lg.info("Getting symbols...")
 	test_set = slice(0, 100, 1)
+	buy_set = slice(0, 10, 1)
 	get_tradeable_symbols()
 	# # Test Set
 	asset_list.symbols = asset_list.symbols[test_set]
@@ -42,24 +43,25 @@ if __name__ == "__main__":
 	lg.info("Calculating co-integration...")
 	if len(asset_list.symbols) > 0:
 		coint_pairs = get_cointegrated_pairs()
+		coint_pairs = coint_pairs['sym_1'][buy_set]
+		coint_pairs = coint_pairs['sym_2'][buy_set]
 		print(coint_pairs)
         
     # # STEP 4
 	while 1:
 		for i in coint_pairs:
-			if int(i.index) < api.max_positions:
-				position_1 = position()
-				position_1.symbol = coint_pairs['sym_1'][i]
-				position_2 = position()
-				position_2.symbol = coint_pairs['sym_2'][i]
+			position_1 = position()
+			position_1.symbol = coint_pairs['sym_1'][i]
+			position_2 = position()
+			position_2.symbol = coint_pairs['sym_2'][i]
     
-				get_ticker_position(position_1)
-				get_ticker_position(position_2)
+			get_ticker_position(position_1)
+			get_ticker_position(position_2)
 	
-				if position_1.qty != 0 and position_2.qty != 0:
-					is_manage_new_trades = True
-				else:
-					is_manage_new_trades = False
+			if position_1.qty != 0 and position_2.qty != 0:
+				is_manage_new_trades = True
+			else:
+				is_manage_new_trades = False
 		
-				if is_manage_new_trades:
-					signal_side = manage_new_trades(position_1, position_2)
+			if is_manage_new_trades:
+				signal_side = manage_new_trades(position_1, position_2)
