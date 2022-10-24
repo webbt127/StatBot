@@ -23,8 +23,6 @@ from func_execution_calls import *
 
 initialize_logger()
 
-persistent.connect(db_path=':memory:', debug=True)
-
 """STRATEGY CODE"""
 if __name__ == "__main__":
     
