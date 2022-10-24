@@ -1,4 +1,5 @@
 from alpaca_trade_api import REST, Stream
+import persistent
 
 # LIVE API
 api_key_mainnet = ""
