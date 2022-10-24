@@ -8,6 +8,7 @@ from alive_progress import alive_bar
 from joblib import Parallel, delayed, parallel_backend
 from func_price_calls import *
 from func_stats import *
+from func_cointegration import *
 
 
 # Calculate Z-Score
@@ -90,8 +91,8 @@ def check_pairs(sym_1, sym_2):
 def get_latest_zscore():
 
     # Get latest price history
-    get_price_klines(position_1, api)
-    get_price_klines(position_2, api)
+    get_price_klines(position_1)
+    get_price_klines(position_2)
     get_trade_details(position_1, capital)
     get_trade_details(position_2, capital)
 
