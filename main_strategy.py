@@ -43,8 +43,8 @@ if __name__ == "__main__":
 	lg.info("Calculating co-integration...")
 	if len(asset_list.symbols) > 0:
 		coint_pairs = get_cointegrated_pairs()
-		coint_pairs = coint_pairs['sym_1'][buy_set]
-		coint_pairs = coint_pairs['sym_2'][buy_set]
+		coint_pairs['sym_1'] = coint_pairs['sym_1'][buy_set]
+		coint_pairs['sym_2'] = coint_pairs['sym_2'][buy_set]
 		print(coint_pairs)
         
     # # STEP 4
