@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
     # # STEP 1 - Get list of symbols
 	lg.info("Getting symbols...")
-	test_set = range(100)
+	test_set = slice(0, 100, 1)
 	get_tradeable_symbols()
 	# # Test Set
 	asset_list.symbols = asset_list.symbols[test_set]
