@@ -12,11 +12,7 @@ def get_price_history():
 
     # Get prices and store in DataFrame
 	price_history_dict = {}
-	#Parallel(n_jobs=8, prefer="threads")(delayed(price_history_execution)(asset) for asset in asset_list.symbols)
-	it = Parallel(8).it(delayed(price_history_execution)(asset) for asset in asset_list.symbols)
-	pbar = tqdm.tqdm(it, total=len(asset_list.symbols))
-	for asset in pbar: 
-    		pbar.write(str(x))	
+	Parallel(n_jobs=8, prefer="threads")(delayed(price_history_execution)(asset) for asset in asset_list.symbols)	
     # Return output
 	return asset_list
 
