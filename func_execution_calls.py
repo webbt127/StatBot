@@ -48,6 +48,7 @@ def initialize_order_execution(asset, capital):
 	asset.latest_quote = api.session.get_latest_quote(asset.symbol)
 	asset.orderbook.ap = getattr(asset.latest_quote, 'ap')
 	asset.orderbook.bp = getattr(asset.latest_quote, 'bp')
+	print(asset.orderbook)
 	if asset.orderbook:
 		get_trade_details(asset, capital)
 		if asset.quantity > 0:
