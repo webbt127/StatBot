@@ -51,7 +51,8 @@ if __name__ == "__main__":
 	while 1:
 		for i in coint_pairs:
 			position_1 = position()
-			position_1.symbol = coint_pairs['sym_1'][i]
+			print(coint_pairs['sym_1'])
+			#position_1.symbol = coint_pairs['sym_1'][i]
 			position_2 = position()
 			position_2.symbol = coint_pairs['sym_2'][i]
     
