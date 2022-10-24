@@ -9,7 +9,7 @@ from config_strategy_api import *
 import pandas as pd
 import json
 from json import JSONEncoder
-import _pickle as pickle
+import pickle
 import shelve
 from logger import *
 from func_position_calls import *
