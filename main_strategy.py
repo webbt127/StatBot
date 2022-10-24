@@ -11,6 +11,7 @@ import json
 from json import JSONEncoder
 import pickle
 import shelve
+import persistent
 from logger import *
 from func_position_calls import *
 from func_trade_management import *
@@ -22,7 +23,7 @@ from func_execution_calls import *
 
 initialize_logger()
 
-sys.setrecursionlimit(5000)
+persistent.connect(db_path=':memory:', debug=True)
 
 """STRATEGY CODE"""
 if __name__ == "__main__":
