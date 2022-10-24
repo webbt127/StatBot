@@ -32,7 +32,7 @@ if __name__ == "__main__":
 	test_set = range(100)
 	get_tradeable_symbols()
 	# # Test Set
-	asset_list.symbols = asset_list.symbols[test_set])
+	asset_list.symbols = asset_list.symbols[test_set]
     # # STEP 2 - Construct and save price history
 	lg.info("Constructing and saving price data to JSON...")
 	if len(asset_list.symbols) > 0:
