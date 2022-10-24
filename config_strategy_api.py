@@ -49,6 +49,7 @@ class config:
 		self.max_positions = 10
 		self.search_limit = 10000
 		self.get_new_history = False
+		self.capital = 100
 
 global api
 api = config()
