@@ -5,14 +5,18 @@ import json
 from alive_progress import alive_bar
 import logging as lg
 from joblib import Parallel, delayed, parallel_backend
+import tqdm
 
 # Store price histry for all available pairs
 def get_price_history():
 
     # Get prices and store in DataFrame
 	price_history_dict = {}
-	with alive_bar(0, title='Getting Price History...') as bar:
-		Parallel(n_jobs=8, prefer="threads")(delayed(price_history_execution)(asset) for asset in asset_list.symbols)
+	#Parallel(n_jobs=8, prefer="threads")(delayed(price_history_execution)(asset) for asset in asset_list.symbols)
+	it = Parallel(8).it(delayed(price_history_execution)(asset) for asset in asset_list.symbols)
+	pbar = tqdm.tqdm(it, total=len(asset_list.symbols))
+	for asset in pbar: 
+    		pbar.write(str(x))	
     # Return output
 	return asset_list
 
