@@ -2,6 +2,7 @@ from statsmodels.tsa.stattools import coint
 import statsmodels.api as sm
 import pandas as pd
 import math
+from config_strategy_api import *
 
 
 # Calculate Z-Score
