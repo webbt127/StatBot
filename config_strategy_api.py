@@ -20,7 +20,7 @@ class position:
 	def __init__(self):
     		self.symbol = ""
 		
-class assets:
+class assets(persistent.Persistent):
 	def __init__(self):
     		pass
 		
