@@ -16,7 +16,7 @@ def get_ticker_position(asset):
 		position_size = rest_client.get_position(asset.symbol)
 		asset.qty = int(position_size.qty)
 	except Exception as e:
-		#lg.info("No Existing Position For %s!" % asset.symbol)
+		lg.info("No Existing Position For %s!" % asset.symbol)
 		asset.qty = 0
 	return asset
 
