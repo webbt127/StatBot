@@ -29,8 +29,10 @@ if __name__ == "__main__":
 
     # # STEP 1 - Get list of symbols
 	lg.info("Getting symbols...")
+	test_set = range(100)
 	get_tradeable_symbols()
-	print(asset_list.symbols[0])
+	# # Test Set
+	asset_list.symbols = asset_list.symbols[test_set])
     # # STEP 2 - Construct and save price history
 	lg.info("Constructing and saving price data to JSON...")
 	if len(asset_list.symbols) > 0:
