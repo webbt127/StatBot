@@ -14,7 +14,7 @@ def manage_new_trades(position_1, position_2):
 	hot = False
 
     # Get and save the latest z-score
-	zscore, signal_sign_positive = get_latest_zscore()
+	zscore, signal_sign_positive = get_latest_zscore(position_1, position_2)
 
     # Switch to hot if meets signal threshold
     # Note: You can add in coint-flag check too if you want extra vigilence
