@@ -58,7 +58,7 @@ if __name__ == "__main__":
 			get_ticker_position(position_1)
 			get_ticker_position(position_2)
 	
-			if position_1.qty != 0 and position_2.qty != 0:
+			if position_1.qty == 0 and position_2.qty == 0:
 				is_manage_new_trades = True
 			else:
 				is_manage_new_trades = False
