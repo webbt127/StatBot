@@ -4,7 +4,7 @@ from config_strategy_api import *
 import json
 from alive_progress import alive_bar
 import logging as lg
-#from joblib import Parallel, delayed, parallel_backend
+from joblib import Parallel, delayed, parallel_backend
 import tqdm
 
 # Store price histry for all available pairs
