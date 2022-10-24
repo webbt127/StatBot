@@ -1,3 +1,4 @@
+import logging as lg
 
 # Check for open positions
 def open_position_confirmation(ticker):
