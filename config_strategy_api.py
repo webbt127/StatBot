@@ -1,7 +1,4 @@
 from alpaca_trade_api import REST, Stream
-import joblib
-from joblib import delayed
-import threading
 
 # LIVE API
 api_key_mainnet = ""
@@ -27,25 +24,6 @@ class assets:
 	def __init__(self):
     		pass
 
-	
-class Parallel(joblib.Parallel):
-    def it(self, iterable):
-        try:
-            t = threading.Thread(target=self.__call__, args=(iterable,))
-            t.start()
-
-            i = 0
-            output = self._output
-            while t.is_alive() or (output and i < len(output)):
-                # catch the list reference and store before it's overwritten
-                if output is None:
-                    output = self._output
-                # yield when a new item appears
-                if output and i < len(output):
-                    yield output[i]
-                    i += 1
-        finally:
-            t.join()
 
 class config:
 	def __init__(self):
