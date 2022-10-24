@@ -21,7 +21,7 @@ class position:
 	def __init__(self):
     		self.symbol = ""
 		
-class assets(persistent.Persistent):
+class assets:
 	def __init__(self):
     		pass
 		
@@ -49,7 +49,7 @@ class config:
 		self.z_score_window = 21
 		self.max_positions = 10
 		self.search_limit = 10000
-		self.get_new_history = True
+		self.get_new_history = False
 
 global api
 api = config()
