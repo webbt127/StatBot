@@ -9,7 +9,7 @@ from config_strategy_api import *
 import pandas as pd
 import json
 from json import JSONEncoder
-import pickle
+import cpickle as pickle
 import shelve
 from logger import *
 from func_position_calls import *
@@ -22,6 +22,8 @@ from func_execution_calls import *
 
 initialize_logger()
 
+sys.setrecursionlimit(5000)
+
 """STRATEGY CODE"""
 if __name__ == "__main__":
     
@@ -32,8 +34,13 @@ if __name__ == "__main__":
 
     # # STEP 2 - Construct and save price history
 	lg.info("Constructing and saving price data to JSON...")
-	if len(asset_list.symbols) > 0:
+	if len(asset_list.symbols) > 0 and api.get_new_history:
 		get_price_history()
+		filehandler = open(data.pickle, 'w') 
+		pickle.dump(asset_list, filehandler)
+	else:
+		filehandler = open(data.pickle, 'r') 
+		asset_list = pickle.load(filehandler)
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
