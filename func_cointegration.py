@@ -116,7 +116,7 @@ def get_latest_zscore(position_1, position_2):
 			signal_sign_positive = False
 
         # Return output
-		return (zscore, signal_sign_positive)
+		return zscore
 
     # Return output if not true
 	return
