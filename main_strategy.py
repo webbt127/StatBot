@@ -54,14 +54,12 @@ if __name__ == "__main__":
 			position_1.symbol = coint_pairs['sym_1'][i]
 			position_2 = position()
 			position_2.symbol = coint_pairs['sym_2'][i]
-    
+    			
+			get_orders()
 			get_ticker_position(position_1)
 			get_ticker_position(position_2)
 	
-			if position_1.qty == 0 and position_2.qty == 0:
-				is_manage_new_trades = True
-			else:
-				is_manage_new_trades = False
-		
-			if is_manage_new_trades:
-				signal_side = manage_new_trades(position_1, position_2)
+			if position_1.qty == 0 or position_2.qty == 0:
+				manage_new_trades(position_1, position_2)
+			else: 
+				manage_existing_trades(position_1, position_2)
