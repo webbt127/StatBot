@@ -21,6 +21,13 @@ def get_ticker_position(asset):
 		asset.qty = 0
 	return asset
 
+def get_orders():
+	try:
+		orders = rest_client.list_orders()
+		print(orders)
+	except Exception as e:
+		lg.info("No Existing Orders!")
+	return
 
 # Check for active positions
 def active_position_confirmation(ticker):
