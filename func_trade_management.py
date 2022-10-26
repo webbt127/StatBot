@@ -9,8 +9,6 @@ def manage_new_trades(position_1, position_2):
     # Get and save the latest z-score
 	get_orderbook(position_1)
 	get_orderbook(position_2)
-	get_trade_details(position_1, api.tradable_capital_usdt)
-	get_trade_details(position_2, api.tradable_capital_usdt)
 	zscore = get_latest_zscore(position_1, position_2)
 	
 	if zscore > 0:
@@ -22,6 +20,8 @@ def manage_new_trades(position_1, position_2):
 
     # Switch to hot if meets signal threshold
     # Note: You can add in coint-flag check too if you want extra vigilence
+	get_trade_details(position_1, api.tradable_capital_usdt)
+	get_trade_details(position_2, api.tradable_capital_usdt)
 	if abs(zscore) > api.signal_trigger_thresh:
 
         # Get trades history for liquidity
