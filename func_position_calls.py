@@ -23,12 +23,18 @@ def get_ticker_position(asset):
 
 def get_orders(position):
 	try:
-		orders = rest_client.list_orders(status='closed', limit=100, nested=True)
+		orders = rest_client.list_orders(status='open', limit=100, nested=True)
 		for order in orders:
-			print(order.symbol)
+			if order.symbol == position.symbol:
+				position.has_orders = True
+				return position
+			else:
+				position.has_orders = False
 	except Exception as e:
 		lg.info("No Existing Orders!")
-	return
+		position.has_orders = False
+		
+	return position
 
 # Check for active positions
 def active_position_confirmation(ticker):
