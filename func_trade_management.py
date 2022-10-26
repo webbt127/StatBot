@@ -52,7 +52,7 @@ def manage_new_trades(position_1, position_2):
 	return
 
 
-def get_orderbook(asset)
+def get_orderbook(asset):
 
 	asset.orderbook = Orderbook()
 	asset.latest_quote = api.session.get_latest_quote(asset.symbol)
