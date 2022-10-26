@@ -7,6 +7,8 @@ import time
 # Manage new trade assessment and order placing
 def manage_new_trades(position_1, position_2):
     # Get and save the latest z-score
+	get_trade_details(position_1, api.initial_capital_usdt)
+	get_trade_details(position_2, api.initial_capital_usdt)
 	zscore = get_latest_zscore(position_1, position_2)
 	
 	if zscore > 0:
@@ -40,8 +42,8 @@ def manage_new_trades(position_1, position_2):
 			last_price_long = position_1.last_price
 			last_price_short = position_2.last_price
 
-		order_long_id = initialise_order_execution(long_ticker, "Long", api.initial_capital_usdt)
-		order_short_id = initialise_order_execution(short_ticker, "Short", api.initial_capital_usdt)
+		order_long_id = initialize_order_execution(long_ticker, "Long", api.initial_capital_usdt)
+		order_short_id = initialize_order_execution(short_ticker, "Short", api.initial_capital_usdt)
 
 
     # Output status
