@@ -55,7 +55,8 @@ if __name__ == "__main__":
 			position_2 = position()
 			position_2.symbol = coint_pairs['sym_2'][i]
     			
-			get_orders()
+			get_orders(position_1)
+			get_orders(position_2)
 			get_ticker_position(position_1)
 			get_ticker_position(position_2)
 	
