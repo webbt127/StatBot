@@ -7,6 +7,8 @@ import time
 # Manage new trade assessment and order placing
 def manage_new_trades(position_1, position_2):
     # Get and save the latest z-score
+	get_orderbook(position_1)
+	get_orderbook(position_2)
 	get_trade_details(position_1, api.tradable_capital_usdt)
 	get_trade_details(position_2, api.tradable_capital_usdt)
 	zscore = get_latest_zscore(position_1, position_2)
@@ -48,3 +50,12 @@ def manage_new_trades(position_1, position_2):
 
     # Output status
 	return
+
+
+def get_orderbook(asset)
+
+	asset.orderbook = Orderbook()
+	asset.latest_quote = api.session.get_latest_quote(asset.symbol)
+	asset.orderbook.ap = getattr(asset.latest_quote, 'ap')
+	asset.orderbook.bp = getattr(asset.latest_quote, 'bp')
+	return asset
