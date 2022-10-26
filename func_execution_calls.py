@@ -44,15 +44,8 @@ def place_order(asset):
 
 # Initialise execution
 def initialize_order_execution(asset, capital):
-	asset.orderbook = Orderbook()
-	asset.latest_quote = api.session.get_latest_quote(asset.symbol)
-	asset.orderbook.ap = getattr(asset.latest_quote, 'ap')
-	asset.orderbook.bp = getattr(asset.latest_quote, 'bp')
-	print(asset.orderbook)
-	if asset.orderbook:
-		get_trade_details(asset, capital)
-		if asset.quantity > 0:
-			order = place_order(asset)
-			if "id" in order.keys():
-				asset.order_id = order["id"]
+	if asset.quantity > 0:
+		order = place_order(asset)
+		if "id" in order.keys():
+			asset.order_id = order["id"]
 	return asset
