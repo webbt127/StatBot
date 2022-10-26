@@ -39,7 +39,7 @@ class config:
 
 		self.limit_order_basis = True # will ensure positions (except for Close) will be placed on limit basis
 
-		self.tradeable_capital_usdt = 500 # total tradeable capital to be split between both pairs
+		self.tradable_capital_usdt = 250 # total tradeable capital to be split between both pairs
 		self.stop_loss_fail_safe = 0.30 # stop loss at market order in case of drastic event
 		self.signal_trigger_thresh = 1.1 # z-score threshold which determines trade (must be above zero)
 	
