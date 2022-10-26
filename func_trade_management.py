@@ -14,7 +14,14 @@ def manage_new_trades(position_1, position_2):
 	hot = False
 
     # Get and save the latest z-score
-	zscore, signal_sign_positive = get_latest_zscore(position_1, position_2)
+	zscore = get_latest_zscore(position_1, position_2)
+	
+	if zscore > 0:
+		position_1.direction = "Short"
+		position_2.direction = "Long"
+	else:
+		position_1.direction = "Long"
+		position_2.direction = "Short"
 
     # Switch to hot if meets signal threshold
     # Note: You can add in coint-flag check too if you want extra vigilence
@@ -33,7 +40,7 @@ def manage_new_trades(position_1, position_2):
 		get_ticker_trade_liquidity(position_1)
 
         # Determine long ticker vs short ticker
-		if signal_sign_positive:
+		if zscore > 0:
 			long_ticker = position_2.symbol
 			short_ticker = position_1.symbol
 			avg_liquidity_long = position_2.liquidity
@@ -128,4 +135,4 @@ def manage_new_trades(position_1, position_2):
 				session_private.cancel_all_active_orders(symbol=signal_negative_ticker)
 
     # Output status
-	return signal_side
+	return
