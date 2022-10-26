@@ -23,7 +23,7 @@ def get_ticker_position(asset):
 
 def get_orders(position):
 	try:
-		orders = rest_client.list_orders(status='open', symbols=position.symbol)
+		orders = rest_client.list_orders(status='closed', limit=100, nested=True)
 		for order in orders:
 			print(order.symbol)
 	except Exception as e:
