@@ -26,8 +26,8 @@ def manage_new_trades(position_1, position_2):
 
         # Determine long ticker vs short ticker
 		if zscore > 0:
-			long_ticker = position_2.symbol
-			short_ticker = position_1.symbol
+			long_ticker = position_2
+			short_ticker = position_1
 			avg_liquidity_long = position_2.liquidity
 			avg_liquidity_short = position_1.liquidity
 			last_price_long = position_2.last_price
