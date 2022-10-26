@@ -42,8 +42,8 @@ def manage_new_trades(position_1, position_2):
 			last_price_long = position_1.last_price
 			last_price_short = position_2.last_price
 
-		order_long_id = initialize_order_execution(long_ticker, "Long", api.initial_capital_usdt)
-		order_short_id = initialize_order_execution(short_ticker, "Short", api.initial_capital_usdt)
+		order_long_id = initialize_order_execution(long_ticker, "Long", api.tradable_capital_usdt)
+		order_short_id = initialize_order_execution(short_ticker, "Short", api.tradable_capital_usdt)
 
 
     # Output status
