@@ -95,8 +95,6 @@ def get_latest_zscore(position_1, position_2):
     # Get latest price history
 	get_price_klines(position_1)
 	get_price_klines(position_2)
-	initialize_order_execution(position_1, api.capital)
-	initialize_order_execution(position_2, api.capital)
 
     # Get z_score and confirm if hot
 	if len(position_1.klines) > 0 and len(position_2.klines) > 0:
@@ -110,10 +108,6 @@ def get_latest_zscore(position_1, position_2):
         # Get latest zscore
 		_, zscore_list = calculate_metrics(position_1.klines, position_2.klines)
 		zscore = zscore_list[-1]
-		if zscore > 0:
-			signal_sign_positive = True
-		else:
-			signal_sign_positive = False
 
         # Return output
 		return zscore
