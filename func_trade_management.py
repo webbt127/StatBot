@@ -7,8 +7,8 @@ import time
 # Manage new trade assessment and order placing
 def manage_new_trades(position_1, position_2):
     # Get and save the latest z-score
-	get_trade_details(position_1, api.initial_capital_usdt)
-	get_trade_details(position_2, api.initial_capital_usdt)
+	get_trade_details(position_1, api.tradable_capital_usdt)
+	get_trade_details(position_2, api.tradable_capital_usdt)
 	zscore = get_latest_zscore(position_1, position_2)
 	
 	if zscore > 0:
