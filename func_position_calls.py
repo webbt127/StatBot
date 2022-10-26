@@ -25,7 +25,7 @@ def get_orders(position):
 	try:
 		orders = rest_client.list_orders(status='open', symbols=position.symbol)
 		for order in orders:
-			print(orders)
+			print(orders['symbol'])
 	except Exception as e:
 		lg.info("No Existing Orders!")
 	return
