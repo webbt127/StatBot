@@ -16,7 +16,6 @@ def get_ticker_trade_liquidity(position):
     # Get the list for calculating the average liquidity
     quantity_list = []
     for trade in trades:
-        print(trade)
         if hasattr(trade, 's'):
             quantity_list.append(trade.s)
 
