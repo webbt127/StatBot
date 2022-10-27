@@ -16,8 +16,8 @@ from func_execution_calls import *
 # Calculate Z-Score
 def calculate_zscore(spread):
 	df = pd.DataFrame(spread)
-	mean = df.rolling(center=False, window=z_score_window).mean()
-	std = df.rolling(center=False, window=z_score_window).std()
+	mean = df.rolling(center=False, window=api.z_score_window).mean()
+	std = df.rolling(center=False, window=api.z_score_window).std()
 	x = df.rolling(center=False, window=1).mean()
 	df["ZSCORE"] = (x - mean) / std
 	return df["ZSCORE"].astype(float).values
