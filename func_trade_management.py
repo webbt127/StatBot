@@ -59,6 +59,8 @@ def manage_new_trades(position_1, position_2):
 
 		initialize_order_execution(long_ticker)
 		initialize_order_execution(short_ticker)
+	else:
+		lg.info("Insufficient Zscore!")
 
 
     # Output status
