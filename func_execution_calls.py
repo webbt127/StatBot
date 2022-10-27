@@ -36,7 +36,7 @@ def place_order(asset):
 			time_in_force="gtc",
 			stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss)
 		)
-	lg.info("Order Submitted!"
+	lg.info("Order Submitted!")
 
     # Return order
 	return asset
