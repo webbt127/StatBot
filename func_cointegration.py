@@ -72,7 +72,7 @@ def check_pairs(sym_1, sym_2):
 		sorted_characters = sorted(sym_1.symbol + sym_2.symbol)
 		unique = "".join(sorted_characters)
 		if unique not in included_list:
-			if 'klines' in sym_1 and 'klines' in sym_2:
+			if sym_1 hasattr('klines') and sym_2 hasattr('klines'):
 				if sym_1.klines is not None and sym_2.klines is not None and 'close' in sym_1.klines and 'close' in sym_2.klines:
 					sym_1.close_series = extract_close_prices(sym_1)
 					sym_2.close_series = extract_close_prices(sym_2)
