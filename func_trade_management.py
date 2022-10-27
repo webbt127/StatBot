@@ -19,6 +19,7 @@ def manage_new_trades(position_1, position_2):
 		position_2.direction = "Short"
 	
 	get_mid_price(position_1)
+	print(position_1)
 	get_mid_price(position_2)
 	zscore = get_latest_zscore(position_1, position_2)
 
