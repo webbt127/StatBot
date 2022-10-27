@@ -1,4 +1,5 @@
 #from func_calcultions import extract_close_prices
+from config_strategy_api import *
 import datetime
 import time
 
