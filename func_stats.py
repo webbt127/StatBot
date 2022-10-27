@@ -39,13 +39,10 @@ def get_trade_details(asset, capital):
             asset.stop_loss = round(asset.mid_price * (1 + api.stop_loss_fail_safe), api.price_rounding)
 
             # Calculate quantity
-        print(capital)
-        print(asset.mid_price)
         if asset.mid_price > 0:
             asset.quantity = round(capital / asset.mid_price)
         else:
             asset.quantity = 0
-        print(quantity)
     else:
         lg.info("Unable to get orderbook!")
 
