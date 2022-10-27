@@ -13,6 +13,8 @@ def manage_new_trades(position_1, position_2):
 	
 	get_price_klines(position_1)
 	get_price_klines(position_2)
+	position_1.close_series = extract_close_prices(position_1)
+	position_2.close_series = extract_close_prices(position_2)
 	
 	_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
 	spread = calculate_spread(position_1.klines, position_2.klines, hedge_ratio)
