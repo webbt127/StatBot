@@ -16,9 +16,9 @@ def get_ticker_trade_liquidity(position):
 
     # Get the list for calculating the average liquidity
     quantity_list = []
-    if "result" in trades.keys():
-        for trade in trades["result"]:
-            quantity_list.append(trade["qty"])
+    for trade in trades:
+        if 's' in trade:
+            quantity_list.append(trade['s'])
 
     # Return output
     if len(quantity_list) > 0:
