@@ -49,6 +49,8 @@ def initialize_order_execution(asset):
 	if hasattr(asset, 'quantity'):
 		if asset.quantity > 0:
 			order = place_order(asset)
+		else:
+			lg.info("Quantity is set to zero!")
 	else:
 		lg.info("Quantity has not been calculated!")
 	return asset
