@@ -72,22 +72,24 @@ def check_pairs(sym_1, sym_2):
 		sorted_characters = sorted(sym_1.symbol + sym_2.symbol)
 		unique = "".join(sorted_characters)
 		if unique not in included_list:
-			if sym_1.klines is not None and sym_2.klines is not None and 'close' in sym_1.klines and 'close' in sym_2.klines:
-				sym_1.close_series = extract_close_prices(sym_1)
-				sym_2.close_series = extract_close_prices(sym_2)
-				if len(sym_1.close_series) == len(sym_2.close_series):
-					coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
-					if coint_flag == 1:
-						included_list.append(unique)
-						coint_pair_list.append({
-							"sym_1": sym_1.symbol,
-							"sym_2": sym_2.symbol,
-							"p_value": p_value,
-							"t_value": t_value,
-							"c_value": c_value,
-							"hedge_ratio": hedge_ratio,
-							"zero_crossings": zero_crossings
-							})
+			if 'klines' in sym_1 and 'klines' in sym_2:
+				if sym_1.klines is not None and sym_2.klines is not None and 'close' in sym_1.klines and 'close' in sym_2.klines:
+					sym_1.close_series = extract_close_prices(sym_1)
+					sym_2.close_series = extract_close_prices(sym_2)
+					if len(sym_1.close_series) == len(sym_2.close_series):
+						coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
+						if coint_flag == 1:
+							included_list.append(unique)
+							coint_pair_list.append({
+								"sym_1": sym_1.symbol,
+								"sym_2": sym_2.symbol,
+								"p_value": p_value,
+								"t_value": t_value,
+								"c_value": c_value,
+								"hedge_ratio": hedge_ratio,
+								"zero_crossings": zero_crossings
+								})
+	return sym_1, sym_2
 
 						
 def get_latest_zscore(position_1, position_2):
