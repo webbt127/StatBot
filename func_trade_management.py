@@ -63,7 +63,7 @@ def manage_new_trades(position_1, position_2):
 		else:
 			lg.info("Insufficient Zscore!")
 	else:
-		lg.info("Klines have unequal length, cannot calculate cointegration!)
+		lg.info("Klines have unequal length, cannot calculate cointegration!")
 
 
     # Output status
