@@ -9,7 +9,6 @@ def manage_new_trades(position_1, position_2):
     # Get and save the latest z-score
 	get_orderbook(position_1)
 	get_orderbook(position_2)
-	zscore = get_latest_zscore(position_1, position_2)
 	
 	if zscore > 0:
 		position_1.direction = "Short"
