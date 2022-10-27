@@ -1,4 +1,5 @@
 from func_stats import *
+import logging as lg
 from config_strategy_api import *
 import pandas as pd
 
