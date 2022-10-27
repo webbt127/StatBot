@@ -14,7 +14,7 @@ def get_mid_price(asset):
 
 
 # Get trade details and latest prices
-def get_trade_details(asset, capital=0):
+def get_trade_details(asset, capital):
 
     # Set calculation and output variables
     asset.price_rounding = 20
