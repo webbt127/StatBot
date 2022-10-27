@@ -44,9 +44,7 @@ def place_order(asset):
 
 
 # Initialise execution
-def initialize_order_execution(asset, capital):
+def initialize_order_execution(asset):
 	if asset.quantity > 0:
 		order = place_order(asset)
-		if "id" in order.keys():
-			asset.order_id = order["id"]
 	return asset
