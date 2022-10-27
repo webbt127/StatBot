@@ -12,18 +12,17 @@ def get_ticker_trade_liquidity(position):
         symbol=position.symbol,
         limit=50
     )
-    print(trades)
 
     # Get the list for calculating the average liquidity
     quantity_list = []
     for trade in trades:
-        if 's' in trade:
+        if hasattr(trade, 's'):
             quantity_list.append(trade['s'])
 
     # Return output
     if len(quantity_list) > 0:
         position.liquidity = sum(quantity_list) / len(quantity_list)
-        position.last_price = float(trades["result"][0]["price"])
+        position.last_price = float(trades[-1]['p'])
         return position
     position.liquidity = 0
     position.last_price = 0
