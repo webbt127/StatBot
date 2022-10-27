@@ -45,6 +45,7 @@ def place_order(asset):
 
 # Initialise execution
 def initialize_order_execution(asset):
-	if asset.quantity > 0:
-		order = place_order(asset)
+	if hasattr(asset, 'quantity'):
+		if asset.quantity > 0:
+			order = place_order(asset)
 	return asset
