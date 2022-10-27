@@ -36,6 +36,7 @@ class config:
 		self.rounding_ticker_2 = 2
 		self.quantity_rounding_ticker_1 = 0
 		self.quantity_rounding_ticker_2 = 0
+		self.price_rounding = 2
 
 		self.limit_order_basis = True # will ensure positions (except for Close) will be placed on limit basis
 
