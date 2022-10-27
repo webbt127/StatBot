@@ -5,8 +5,8 @@ api_key_mainnet = ""
 api_secret_mainnet = ""
 
 # TEST API
-api_key_testnet = "PKX9QLYDX6CFM5FU0WSH"
-api_secret_testnet = "v8CtBo4qMYj2PJcbiyXxig1hzMIh7deRHdyK3Ylb"
+api_key_testnet = "PKIWIVP9Q11JM3N4FIKD"
+api_secret_testnet = "gtCkl4yC3YL6xUDupL5NETCPxD1BHMHMnwV6lhBl"
 
 # SELECTED API
 api_key = api_key_testnet
@@ -42,7 +42,7 @@ class config:
 
 		self.tradable_capital_usdt = 250 # total tradeable capital to be split between both pairs
 		self.stop_loss_fail_safe = 0.30 # stop loss at market order in case of drastic event
-		self.signal_trigger_thresh = 0.1 # z-score threshold which determines trade (must be above zero)
+		self.signal_trigger_thresh = 1.2 # z-score threshold which determines trade (must be above zero)
 	
 		self.timeframe = 60
 		self.kline_limit = 10000
