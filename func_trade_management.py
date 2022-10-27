@@ -10,9 +10,8 @@ def manage_new_trades(position_1, position_2):
     # Get and save the latest z-score
 	get_orderbook(position_1)
 	get_orderbook(position_2)
-	
-	get_mid_price(position_1)
-	get_mid_price(position_2)
+	position_1.mid_price = (position_1.orderbook.ap + position_1.orderbook.bp) / 2
+	position_2.mid_price = (position_2.orderbook.ap + position_2.orderbook.bp) / 2
 	
 	zscore = get_latest_zscore(position_1, position_2)
 	
@@ -22,6 +21,9 @@ def manage_new_trades(position_1, position_2):
 	else:
 		position_1.direction = "Long"
 		position_2.direction = "Short"
+		
+	get_mid_price(position_1)
+	get_mid_price(position_2)
 
     # Switch to hot if meets signal threshold
     # Note: You can add in coint-flag check too if you want extra vigilence
