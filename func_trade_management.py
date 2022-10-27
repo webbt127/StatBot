@@ -14,7 +14,9 @@ def manage_new_trades(position_1, position_2):
 	get_price_klines(position_1)
 	get_price_klines(position_2)
 	
-	zscore = get_latest_zscore(position_1, position_2)
+	_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
+	spread = calculate_spread(position_1.klines, position_2.klines, hedge_ratio)
+	zscore = calculate_zscore(spread)
 	
 	if zscore > 0:
 		position_1.direction = "Short"
