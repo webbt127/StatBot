@@ -40,7 +40,7 @@ def get_trade_details(asset, capital):
 
             # Calculate quantity
         if asset.mid_price > 0:
-            asset.quantity = round(capital / asset.mid_price, asset.quantity_rounding)
+            asset.quantity = round(capital / asset.mid_price)
         else:
             asset.quantity = 0
     else:
