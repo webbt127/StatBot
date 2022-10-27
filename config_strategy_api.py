@@ -42,7 +42,7 @@ class config:
 
 		self.tradable_capital_usdt = 250 # total tradeable capital to be split between both pairs
 		self.stop_loss_fail_safe = 0.30 # stop loss at market order in case of drastic event
-		self.signal_trigger_thresh = 1.1 # z-score threshold which determines trade (must be above zero)
+		self.signal_trigger_thresh = 0.1 # z-score threshold which determines trade (must be above zero)
 	
 		self.timeframe = 60
 		self.kline_limit = 10000
