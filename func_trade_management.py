@@ -50,8 +50,8 @@ def manage_new_trades(position_1, position_2):
 			last_price_long = position_2.last_price
 			last_price_short = position_1.last_price
 		else:
-			long_ticker = position_1.symbol
-			short_ticker = position_2.symbol
+			long_ticker = position_1
+			short_ticker = position_2
 			avg_liquidity_long = position_1.liquidity
 			avg_liquidity_short = position_2.liquidity
 			last_price_long = position_1.last_price
