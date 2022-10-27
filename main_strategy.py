@@ -36,16 +36,16 @@ if __name__ == "__main__":
 	asset_list.symbols = asset_list.symbols[test_set]
     # # STEP 2 - Construct and save price history
 	lg.info("Constructing and saving price data to JSON...")
-	if len(asset_list) > 0:
-		get_price_history()
+	#if len(asset_list) > 0:
+	get_price_history()
 
     # # STEP 3 - Find Cointegrated pairs
 	lg.info("Calculating co-integration...")
-	if len(asset_list) > 0:
-		coint_pairs = get_cointegrated_pairs()
-		coint_pairs['sym_1'] = coint_pairs['sym_1'][buy_set]
-		coint_pairs['sym_2'] = coint_pairs['sym_2'][buy_set]
-		print(coint_pairs)
+	#if len(asset_list) > 0:
+	coint_pairs = get_cointegrated_pairs()
+	coint_pairs['sym_1'] = coint_pairs['sym_1'][buy_set]
+	coint_pairs['sym_2'] = coint_pairs['sym_2'][buy_set]
+	print(coint_pairs)
         
     # # STEP 4
 	while 1:
