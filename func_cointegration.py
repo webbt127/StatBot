@@ -99,12 +99,6 @@ def get_latest_zscore(position_1, position_2):
     # Get z_score and confirm if hot
 	if len(position_1.klines) > 0 and len(position_2.klines) > 0:
 
-        # Replace last kline price with latest orderbook mid price
-		position_1.klines = position_1.klines[:-1]
-		position_2.klines = position_2.klines[:-1]
-		position_1.klines.append(position_1.mid_price)
-		position_2.klines.append(position_2.mid_price)
-
         # Get latest zscore
 		_, zscore_list = calculate_metrics(position_1.klines, position_2.klines)
 		zscore = zscore_list[-1]
