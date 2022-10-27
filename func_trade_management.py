@@ -2,6 +2,7 @@ from func_price_calls import *
 from func_cointegration import *
 from func_execution_calls import *
 from func_order_review import *
+from func_stats import *
 import time
 
 # Manage new trade assessment and order placing
