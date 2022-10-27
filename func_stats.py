@@ -36,6 +36,13 @@ def calculate_metrics(series_1, series_2):
         coint_flag = 1
     return (coint_flag, zscore_list.tolist())
 
+def get_mid_price(asset):
+        if asset.direction == "Long":
+            asset.mid_price = asset.orderbook.bp # placing at Bid has high probability of not being cancelled, but may not fill
+        else:
+            asset.mid_price = asset.orderbook.ap  # placing at Ask has high probability of not being cancelled, but may not fill
+        return asset
+
 
 # Get trade details and latest prices
 def get_trade_details(asset, capital=0):
