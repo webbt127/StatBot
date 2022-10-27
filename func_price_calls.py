@@ -17,7 +17,7 @@ def get_ticker_trade_liquidity(position):
     quantity_list = []
     for trade in trades:
         if hasattr(trade, 's'):
-            quantity_list.append(trade['s'])
+            quantity_list.append(trade.s)
 
     # Return output
     if len(quantity_list) > 0:
