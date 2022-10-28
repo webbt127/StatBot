@@ -16,7 +16,7 @@ def manage_new_trades(position_1, position_2):
 	position_1.close_series = extract_close_prices(position_1)
 	position_2.close_series = extract_close_prices(position_2)
 	
-	if(len(position_1.close_series) == len(position_2.close_series)):
+	if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0):
 		_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
 		spread = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
 		zscore_list = calculate_zscore(spread)
