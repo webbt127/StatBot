@@ -24,7 +24,7 @@ def place_order(asset):
 			side=asset.side,
 			type="limit",
 			qty=asset.quantity,
-			take_profit=dict(limit_price=asset.price),
+			take_profit=dict(limit_price=asset.mid_price),
 			time_in_force="gtc",
 			stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss)
 		)
