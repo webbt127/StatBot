@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
     # # STEP 1 - Get list of symbols
 	lg.info("Getting symbols...")
-	test_set = slice(0, 4000, 1)
+	test_set = slice(0, 200, 1)
 	buy_set = slice(0, 10, 1)
 	get_tradeable_symbols()
 	# # Test Set
