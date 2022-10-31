@@ -13,9 +13,9 @@ def place_order(asset):
 
     # Set variables
 	if asset.direction == "Long":
-		asset.side = "Buy"
+		asset.side = "buy"
 	else:
-		asset.side = "Sell"
+		asset.side = "sell"
 
     # Place limit order
 	if api.limit_order_basis:
