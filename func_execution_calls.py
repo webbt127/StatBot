@@ -19,25 +19,31 @@ def place_order(asset):
 
     # Place limit order
 	if api.limit_order_basis:
-		asset.order = api.session.submit_order(
-			symbol=asset.symbol,
-			side=asset.side,
-			type="limit",
-			qty=asset.quantity,
-			limit_price=asset.mid_price,
-			time_in_force='day',
-			stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss),
-			extended_hours=True
-		)
+		try:
+			asset.order = api.session.submit_order(
+				symbol=asset.symbol,
+				side=asset.side,
+				type="limit",
+				qty=asset.quantity,
+				limit_price=asset.mid_price,
+				time_in_force='day',
+				stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss),
+				extended_hours=True
+			)
+		except Exception as e:
+			lg.info(e)
 	else:
-		asset.order = api.session.submit_order(
-			symbol=asset.symbol,
-			side=asset.side,
-			order_type='market',
-			qty=asset.quantity,
-			time_in_force="gtc",
-			stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss)
-		)
+		try:
+			asset.order = api.session.submit_order(
+				symbol=asset.symbol,
+				side=asset.side,
+				order_type='market',
+				qty=asset.quantity,
+				time_in_force="day",
+				stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss)
+			)
+		except Exception as e:
+			lg.info(e)
 	lg.info("Order Submitted!")
 
     # Return order
