@@ -235,9 +235,11 @@ def get_orders(position):
 		for order in orders:
 			if order.symbol == position.symbol:
 				position.has_orders = True
+				lg.info("Order Found")
 				return position
 			else:
 				position.has_orders = False
+				lg.info("Order Not Found")
 	except Exception as e:
 		lg.info("No Existing Orders! %s" % e)
 		position.has_orders = False
