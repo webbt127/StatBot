@@ -3,6 +3,7 @@ from statsmodels.tsa.stattools import coint
 import statsmodels.api as sm
 import pandas as pd
 import math
+import threading
 from config_strategy_api import *
 from func_cointegration import *
 from alive_progress import alive_bar
@@ -83,6 +84,23 @@ def wait_for_market_open():
 		sleep_time = round(time_to_open.total_seconds())
 		sleep(sleep_time)
 	return clock
+
+def begin_threading(buy_loop, sell_loop):
+	thread1 = threading.Thread(target=buy_loop)
+	thread2 = threading.Thread(target=sell_loop)
+	thread1.start()
+	time.sleep(5)
+	thread2.start()
+	time.sleep(5)
+	try:
+		thread1.join()
+	except Exception as e:
+        	lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
+	time.sleep(5)
+	try:
+		thread2.join()
+	except Exception as e:
+        	lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
 
 def get_orderbook(asset):
 
