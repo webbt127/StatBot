@@ -4,6 +4,7 @@ import statsmodels.api as sm
 import pandas as pd
 import math
 from config_strategy_api import *
+from func_cointegration import *
 from alive_progress import alive_bar
 import logging as lg
 from joblib import Parallel, delayed, parallel_backend
