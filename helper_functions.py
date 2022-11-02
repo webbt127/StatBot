@@ -75,7 +75,7 @@ def manage_new_trades(position_1, position_2):
 			get_ticker_position(position_2)
 			
 			if position_1.qty == 0:
-				continue
+				pass
 		else:
 			lg.info("Insufficient Zscore!")
 	else:
