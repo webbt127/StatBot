@@ -86,12 +86,16 @@ def manage_new_trades(position_1, position_2):
 				initialize_order_execution(short_ticker)
 				time.sleep(10)
 				get_ticker_position(short_ticker)
+			if long_ticker.qty != 0 and short_ticker.qty != 0:
+				return True
+			else:
+				return False
 	else:
 		lg.info("Klines have unequal length, cannot calculate cointegration!")
 
 
     # Output status
-	return
+	return False
 
 def cancel_orders():
 	try:
