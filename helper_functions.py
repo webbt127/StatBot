@@ -200,7 +200,7 @@ def get_ticker_trade_liquidity(position):
 
 def get_ticker_position(asset):
 	try:
-		position_size = rest_client.get_position(asset.symbol)
+		position_size = api.session.get_position(asset.symbol)
 		asset.qty = int(position_size.qty)
 	except Exception as e:
 		lg.info("No Existing Position For %s!" % asset.symbol)
@@ -211,8 +211,6 @@ def get_orders(position):
 	try:
 		orders = api.session.list_orders(status='open', limit=100, nested=True)
 		for order in orders:
-			print(order.symbol)
-			print(position.symbol)
 			if order.symbol == position.symbol:
 				position.has_orders = True
 				return position
