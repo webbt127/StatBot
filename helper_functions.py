@@ -81,11 +81,11 @@ def manage_new_trades(position_1, position_2):
 				time.sleep(10)
 				get_ticker_position(long_ticker)
 			while short_ticker.qty == 0:
-				api.session.cancel_order(long_ticker.order.id)
-				long_ticker.mid_price = round(long_ticker.mid_price * 0.99, 2)
-				initialize_order_execution(long_ticker)
+				api.session.cancel_order(short_ticker.order.id)
+				short_ticker.mid_price = round(short_ticker.mid_price * 0.99, 2)
+				initialize_order_execution(short_ticker)
 				time.sleep(10)
-				get_ticker_position(long_ticker)
+				get_ticker_position(short_ticker)
 		else:
 			lg.info("Insufficient Zscore!")
 	else:
