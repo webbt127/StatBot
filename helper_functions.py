@@ -68,6 +68,14 @@ def manage_new_trades(position_1, position_2):
 
 			initialize_order_execution(long_ticker)
 			initialize_order_execution(short_ticker)
+			
+			time.sleep(10)
+			
+			get_ticker_position(position_1)
+			get_ticker_position(position_2)
+			
+			if position_1.qty == 0:
+				continue
 		else:
 			lg.info("Insufficient Zscore!")
 	else:
@@ -260,6 +268,7 @@ def place_order(asset):
 
 	try:
 		asset.order = api.session.submit_order(symbol=asset.symbol, side=asset.side, type="limit", qty=asset.quantity, limit_price=asset.mid_price, time_in_force='day', stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss))
+		lg.info(asset.order)
 		lg.info("Order Submitted!")
 	except Exception as e:
 		lg.info(e)
