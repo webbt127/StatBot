@@ -104,7 +104,7 @@ def wait_for_market_open():
 	if not clock.is_open:
 		time_to_open = clock.next_open - clock.timestamp
 		sleep_time = round(time_to_open.total_seconds())
-		sleep(sleep_time)
+		time.sleep(sleep_time)
 	return clock
 
 def get_orderbook(asset):
