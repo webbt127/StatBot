@@ -45,6 +45,8 @@ if __name__ == "__main__":
 			get_orders(position_2)
 			get_ticker_position(position_1)
 			get_ticker_position(position_2)
+			
+			print(position_1.qty, position_2.qty, position_1.has_orders, position_2.has_orders)
 	
 			if position_1.qty == 0 and position_2.qty == 0 and position_1.has_orders == False and position_2.has_orders == False:
 				manage_new_trades(position_1, position_2)
