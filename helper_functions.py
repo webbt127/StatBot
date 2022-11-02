@@ -76,6 +76,13 @@ def manage_new_trades(position_1, position_2):
     # Output status
 	return
 
+def wait_for_market_open():
+	clock = api.session.get_clock()
+	if not clock.is_open:
+		time_to_open = clock.next_open - clock.timestamp
+		sleep_time = round(time_to_open.total_seconds())
+		sleep(sleep_time)
+	return clock
 
 def get_orderbook(asset):
 
