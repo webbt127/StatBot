@@ -34,7 +34,11 @@ if __name__ == "__main__":
 	print(coint_pairs)
         
     # # STEP 4
-	while 1:
+	begin_threading(buy_loop, sell_loop)
+	
+def buy_loop():
+	while True:
+		wait_for_market_open()
 		for i in coint_pairs['index']:
 			position_1 = position()
 			position_1.symbol = coint_pairs['sym_1'][i]
@@ -48,7 +52,9 @@ if __name__ == "__main__":
 	
 			if position_1.qty == 0 and position_2.qty == 0 and position_1.has_orders == False and position_2.has_orders == False:
 				manage_new_trades(position_1, position_2)
-			#elif position_1.qty != 0 and position_2.qty != 0: 
-				#manage_existing_trades(position_1, position_2)
 			else:
 				continue
+				
+def sell_loop():
+	while True:
+		continue
