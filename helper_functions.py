@@ -86,48 +86,48 @@ def get_orderbook(asset):
 	return asset
 
 def get_mid_price(asset):
-        if asset.direction == "Long":
-            asset.mid_price = asset.orderbook.bp # placing at Bid has high probability of not being cancelled, but may not fill
-        else:
-            asset.mid_price = asset.orderbook.ap  # placing at Ask has high probability of not being cancelled, but may not fill
-        return asset
+	if asset.direction == "Long":
+		asset.mid_price = asset.orderbook.bp # placing at Bid has high probability of not being cancelled, but may not fill
+	else:
+		asset.mid_price = asset.orderbook.ap  # placing at Ask has high probability of not being cancelled, but may not fill
+	return asset
 
 
 # Get trade details and latest prices
 def get_trade_details(asset, capital):
 
     # Set calculation and output variables
-    asset.price_rounding = 20
-    asset.quantity_rounding = 20
-    asset.mid_price = 0
-    asset.quantity = 0
-    asset.stop_loss = 0
+	asset.price_rounding = 20
+	asset.quantity_rounding = 20
+	asset.mid_price = 0
+	asset.quantity = 0
+	asset.stop_loss = 0
 
     # Get prices, stop loss and quantity
-    if hasattr(asset, 'orderbook'):
+	if hasattr(asset, 'orderbook'):
 
         # Set price rounding
-        asset.price_rounding = api.rounding_ticker_1 if asset.symbol == api.ticker_1 else api.rounding_ticker_2
-        asset.quantity_rounding = api.quantity_rounding_ticker_1 if asset.symbol == api.ticker_1 else api.quantity_rounding_ticker_2
+		asset.price_rounding = api.rounding_ticker_1 if asset.symbol == api.ticker_1 else api.rounding_ticker_2
+		asset.quantity_rounding = api.quantity_rounding_ticker_1 if asset.symbol == api.ticker_1 else api.quantity_rounding_ticker_2
 
             # Calculate hard stop loss
-        if asset.direction == "Long":
-            asset.mid_price = asset.orderbook.bp # placing at Bid has high probability of not being cancelled, but may not fill
-            asset.stop_loss = round(asset.mid_price * (1 - api.stop_loss_fail_safe), api.price_rounding)
-        else:
-            asset.mid_price = asset.orderbook.ap  # placing at Ask has high probability of not being cancelled, but may not fill
-            asset.stop_loss = round(asset.mid_price * (1 + api.stop_loss_fail_safe), api.price_rounding)
+	if asset.direction == "Long":
+		asset.mid_price = asset.orderbook.bp # placing at Bid has high probability of not being cancelled, but may not fill
+		asset.stop_loss = round(asset.mid_price * (1 - api.stop_loss_fail_safe), api.price_rounding)
+	else:
+		asset.mid_price = asset.orderbook.ap  # placing at Ask has high probability of not being cancelled, but may not fill
+		asset.stop_loss = round(asset.mid_price * (1 + api.stop_loss_fail_safe), api.price_rounding)
 
             # Calculate quantity
-        if asset.mid_price > 0:
-            asset.quantity = round(capital / asset.mid_price)
-        else:
-            asset.quantity = 0
-    else:
-        lg.info("Unable to get orderbook!")
+	if asset.mid_price > 0:
+		asset.quantity = round(capital / asset.mid_price)
+	else:
+		asset.quantity = 0
+	else:
+		lg.info("Unable to get orderbook!")
 
     # Output results
-    return asset
+	return asset
 
 def get_price_history():
 
@@ -180,28 +180,25 @@ def get_price_klines(asset):
 def get_ticker_trade_liquidity(position):
 
     # Get trades history
-    try:
-        trades = api.session.get_trades(
-            symbol=position.symbol,
-            limit=5
-        )
-    except:
-        lg.info("Unable to get trades %s" % e)
+	try:
+		trades = api.session.get_trades(symbol=position.symbol, limit=5)
+	except:
+		lg.info("Unable to get trades %s" % e)
 
     # Get the list for calculating the average liquidity
-    quantity_list = []
-    for trade in trades:
-        if hasattr(trade, 's'):
-            quantity_list.append(trade.s)
+	quantity_list = []
+	for trade in trades:
+		if hasattr(trade, 's'):
+			quantity_list.append(trade.s)
 
     # Return output
-    if len(quantity_list) > 0:
-        position.liquidity = sum(quantity_list) / len(quantity_list)
-        position.last_price = float(trades[-1].p)
-        return position
-    position.liquidity = 0
-    position.last_price = 0
-    return position
+	if len(quantity_list) > 0:
+		position.liquidity = sum(quantity_list) / len(quantity_list)
+		position.last_price = float(trades[-1].p)
+		return position
+	position.liquidity = 0
+	position.last_price = 0
+	return position
 
 def get_ticker_position(asset):
 	try:
@@ -230,11 +227,11 @@ def get_orders(position):
 def get_tradeable_symbols():
 
     # Get available symbols
-    active_assets = api.session.list_assets(status='active')
-    asset_list.symbols = [a for a in active_assets if a.easy_to_borrow == True and a.tradable == True and getattr(a, 'class') == 'us_equity']
+	active_assets = api.session.list_assets(status='active')
+	asset_list.symbols = [a for a in active_assets if a.easy_to_borrow == True and a.tradable == True and getattr(a, 'class') == 'us_equity']
 
     # Return ouput
-    return asset_list
+	return asset_list
 
 class Orderbook():
 	pass
