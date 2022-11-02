@@ -240,11 +240,11 @@ def get_orders(position):
 			else:
 				position.has_orders = False
 				lg.info("Order Not Found")
+		return position
 	except Exception as e:
 		lg.info("No Existing Orders! %s" % e)
 		position.has_orders = False
-		
-	return position
+		return position
 
 def get_tradeable_symbols():
 
