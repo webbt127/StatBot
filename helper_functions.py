@@ -230,16 +230,15 @@ def get_ticker_position(asset):
 	return asset
 
 def get_orders(position):
+	position.has_orders = False
 	try:
 		orders = api.session.list_orders(status='open', limit=100, nested=True)
 		for order in orders:
 			if order.symbol == position.symbol:
 				position.has_orders = True
-				lg.info("Order Found")
 				return position
 			else:
 				position.has_orders = False
-				lg.info("Order Not Found")
 		return position
 	except Exception as e:
 		lg.info("No Existing Orders! %s" % e)
