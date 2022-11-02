@@ -1,25 +1,13 @@
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-from func_get_symbols import *
-from func_prices_json import *
-from func_cointegration import *
+from helper_functions import *
 from config_strategy_api import *
-#from func_plot_trends import plot_trends
 import pandas as pd
-import json
-from json import JSONEncoder
-import pickle
-import shelve
-import persistent
 from logger import *
-from func_position_calls import *
-from func_trade_management import *
-from func_execution_calls import *
-from func_close_positions import *
 import time
 import sys
-from func_execution_calls import *
+from func_cointegration import *
 
 initialize_logger()
 
