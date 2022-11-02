@@ -211,11 +211,13 @@ def get_orders(position):
 	try:
 		orders = rest_client.list_orders(status='open', limit=100, nested=True)
 		for order in orders:
+			print(order.symbol)
+			print(position.symbol)
 			if order.symbol == position.symbol:
 				position.has_orders = True
-				return position
 			else:
 				position.has_orders = False
+			return position
 	except Exception as e:
 		lg.info("No Existing Orders!")
 		position.has_orders = False
