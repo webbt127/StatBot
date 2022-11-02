@@ -76,13 +76,13 @@ def manage_new_trades(position_1, position_2):
 			
 			while long_ticker.qty == 0:
 				api.session.cancel_order(long_ticker.order.id)
-				long_ticker.mid_price = long_ticker.mid_price * .98
+				long_ticker.mid_price = round(long_ticker.mid_price * .98, 2)
 				initialize_order_execution(long_ticker)
 				time.sleep(10)
 				get_ticker_position(long_ticker)
 			while short_ticker.qty == 0:
 				api.session.cancel_order(long_ticker.order.id)
-				long_ticker.mid_price = long_ticker.mid_price * .98
+				long_ticker.mid_price = round(long_ticker.mid_price * .98, 2)
 				initialize_order_execution(long_ticker)
 				time.sleep(10)
 				get_ticker_position(long_ticker)
