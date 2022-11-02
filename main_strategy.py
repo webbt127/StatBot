@@ -76,4 +76,5 @@ if __name__ == "__main__":
 	print(coint_pairs)
         
     # # STEP 4
+	cancel_orders()
 	begin_threading()
