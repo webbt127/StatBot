@@ -215,9 +215,9 @@ def get_orders(position):
 			print(position.symbol)
 			if order.symbol == position.symbol:
 				position.has_orders = True
+				return position
 			else:
 				position.has_orders = False
-			return position
 	except Exception as e:
 		lg.info("No Existing Orders! %s" % e)
 		position.has_orders = False
