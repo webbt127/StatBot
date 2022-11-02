@@ -46,8 +46,6 @@ def buy_loop():
 	
 			if position_1.qty == 0 and position_2.qty == 0 and position_1.has_orders == False and position_2.has_orders == False:
 				manage_new_trades(position_1, position_2)
-			else:
-				continue
 				
 def sell_loop():
 	while True:
