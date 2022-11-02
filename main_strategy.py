@@ -35,7 +35,7 @@ if __name__ == "__main__":
 	print(coint_pairs)
         
     # # STEP 4
-	begin_threading(buy_loop, sell_loop)
+	begin_threading('buy_loop', 'sell_loop')
 	
 def buy_loop():
 	while True:
