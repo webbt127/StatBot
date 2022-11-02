@@ -37,6 +37,24 @@ if __name__ == "__main__":
     # # STEP 4
 	begin_threading('buy_loop', 'sell_loop')
 	
+def begin_threading(buy_loop, sell_loop):
+	thread1 = threading.Thread(target=buy_loop)
+	thread2 = threading.Thread(target=sell_loop)
+	thread1.start()
+	time.sleep(5)
+	thread2.start()
+	time.sleep(5)
+	try:
+		thread1.join()
+	except Exception as e:
+        	lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
+	time.sleep(5)
+	try:
+		thread2.join()
+	except Exception as e:
+        	lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
+
+	
 def buy_loop():
 	while True:
 		wait_for_market_open()
