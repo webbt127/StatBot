@@ -12,31 +12,6 @@ from func_cointegration import *
 
 initialize_logger()
 
-"""STRATEGY CODE"""
-if __name__ == "__main__":
-    
-
-    # # STEP 1 - Get list of symbols
-	lg.info("Getting symbols...")
-	test_set = slice(0, 200, 1)
-	buy_set = slice(0, 10, 1)
-	get_tradeable_symbols()
-	# # Test Set
-	asset_list.symbols = asset_list.symbols[test_set]
-    # # STEP 2 - Construct and save price history
-	lg.info("Constructing and saving price data to JSON...")
-	#if len(asset_list) > 0:
-	get_price_history()
-
-    # # STEP 3 - Find Cointegrated pairs
-	lg.info("Calculating co-integration...")
-	#if len(asset_list) > 0:
-	coint_pairs = get_cointegrated_pairs()
-	print(coint_pairs)
-        
-    # # STEP 4
-	begin_threading()
-	
 def begin_threading():
 	thread1 = threading.Thread(target=buy_loop)
 	thread2 = threading.Thread(target=sell_loop)
@@ -77,3 +52,28 @@ def buy_loop():
 def sell_loop():
 	while True:
 		continue
+
+"""STRATEGY CODE"""
+if __name__ == "__main__":
+    
+
+    # # STEP 1 - Get list of symbols
+	lg.info("Getting symbols...")
+	test_set = slice(0, 200, 1)
+	buy_set = slice(0, 10, 1)
+	get_tradeable_symbols()
+	# # Test Set
+	asset_list.symbols = asset_list.symbols[test_set]
+    # # STEP 2 - Construct and save price history
+	lg.info("Constructing and saving price data to JSON...")
+	#if len(asset_list) > 0:
+	get_price_history()
+
+    # # STEP 3 - Find Cointegrated pairs
+	lg.info("Calculating co-integration...")
+	#if len(asset_list) > 0:
+	coint_pairs = get_cointegrated_pairs()
+	print(coint_pairs)
+        
+    # # STEP 4
+	begin_threading()
