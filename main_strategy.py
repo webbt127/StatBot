@@ -61,10 +61,10 @@ if __name__ == "__main__":
 	test_set = slice(0, 200, 1)
 	buy_set = slice(0, 10, 1)
 	get_tradeable_symbols()
-	# # Test Set
+	# # Reduce to Test Set
 	asset_list.symbols = asset_list.symbols[test_set]
     # # STEP 2 - Construct and save price history
-	lg.info("Constructing and saving price data to JSON...")
+	lg.info("Getting price history...")
 	#if len(asset_list) > 0:
 	get_price_history()
 
