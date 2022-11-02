@@ -209,7 +209,7 @@ def get_ticker_position(asset):
 
 def get_orders(position):
 	try:
-		orders = rest_client.list_orders(status='open', limit=100, nested=True)
+		orders = api.session.list_orders(status='open', limit=100, nested=True)
 		for order in orders:
 			print(order.symbol)
 			print(position.symbol)
