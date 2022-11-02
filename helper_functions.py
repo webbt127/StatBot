@@ -123,8 +123,6 @@ def get_trade_details(asset, capital):
 		asset.quantity = round(capital / asset.mid_price)
 	else:
 		asset.quantity = 0
-	else:
-		lg.info("Unable to get orderbook!")
 
     # Output results
 	return asset
