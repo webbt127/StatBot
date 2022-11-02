@@ -12,6 +12,8 @@ from func_cointegration import *
 
 initialize_logger()
 
+global open_position_list
+
 def begin_threading():
 	thread1 = threading.Thread(target=buy_loop)
 	thread2 = threading.Thread(target=sell_loop)
@@ -32,7 +34,8 @@ def begin_threading():
 	
 def buy_loop():
 	while True:
-		wait_for_market_open()
+		#wait_for_market_open()
+		trades_taken = 0
 		for i in coint_pairs['index']:
 			position_1 = position()
 			position_1.symbol = coint_pairs['sym_1'][i]
@@ -45,10 +48,22 @@ def buy_loop():
 			get_ticker_position(position_2)
 	
 			if position_1.qty == 0 and position_2.qty == 0 and position_1.has_orders == False and position_2.has_orders == False:
-				manage_new_trades(position_1, position_2)
+				trade_complete = manage_new_trades(position_1, position_2)
+			if trade_complete:
+				open_position_list[trades_taken] = i
+				trades_taken = trades_taken + 1
+			print(open_position_list)
+				
 				
 def sell_loop():
 	while True:
+		for trade in open_position_list:
+			position_1 = position()
+			position_1.symbol = open_position_list['sym_1'][trade]
+			position_2 = position()
+			position_2.symbol = open_position_list['sym_2'][trade]
+			get_ticker_position(position_1)
+			get_ticker_position(position_2)
 		continue
 
 """STRATEGY CODE"""
