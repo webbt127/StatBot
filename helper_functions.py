@@ -219,7 +219,7 @@ def get_orders(position):
 				position.has_orders = False
 			return position
 	except Exception as e:
-		lg.info("No Existing Orders!")
+		lg.info("No Existing Orders! %s" % e)
 		position.has_orders = False
 		
 	return position
