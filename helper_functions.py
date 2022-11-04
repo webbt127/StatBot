@@ -265,7 +265,7 @@ def get_tradeable_symbols():
 	active_assets = api.session.list_assets(status='active')
 	asset_list.symbols = [a for a in active_assets if a.easy_to_borrow == True and a.tradable == True and getattr(a, 'class') == 'us_equity']
 	Parallel(n_jobs=100, prefer="threads")(delayed(filter_assets)(a) for a in asset_list.symbols)
-	asset_list.symbols = [a for a in active_assets if a.average_volume > 1000000]
+	asset_list.symbols = [a for a in asset_list.symbols if a.average_volume > 1000000]
 	
 
     # Return ouput
@@ -273,8 +273,7 @@ def get_tradeable_symbols():
 
 def filter_assets(a):
 	try:
-		a.info = yf.download('TSLA', 'AAPL')
-		print(a.info)
+		a.info = yf.Ticker(a.symbol).info
 		a.average_volume = int(a.info['averageDailyVolume10Day'])
 	except:
 		a.average_volume = 0
