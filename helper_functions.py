@@ -278,7 +278,6 @@ def filter_assets(a):
 		a.average_volume = int(a.info['averageDailyVolume10Day'])
 	except Exception as e:
 		a.average_volume = 0
-		print(e)
 	print(a.symbol, a.average_volume)
 	return a
 
