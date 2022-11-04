@@ -261,9 +261,10 @@ def get_tradeable_symbols():
 
     # Get available symbols
 	active_assets = api.session.list_assets(status='active')
-	stock_info = yf.Ticker(ticker).info
-	stock_price = stock_info['regularMarketPrice']
-	print(stock_info)
+	for a in active_assets:
+		stock_info = yf.Ticker(a).info
+		stock_price = stock_info['regularMarketPrice']
+		print(stock_info)
 	asset_list.symbols = [a for a in active_assets if a.easy_to_borrow == True and a.tradable == True and getattr(a, 'class') == 'us_equity']
 	
 
