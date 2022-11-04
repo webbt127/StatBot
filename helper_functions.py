@@ -273,7 +273,7 @@ def get_tradeable_symbols():
 
 def filter_assets(a):
 	try:
-		a.info = yf.Ticker('TSLA', 'AAPL').info
+		a.info = yf.Tickers('TSLA', 'AAPL').info
 		print(a.info)
 		a.average_volume = int(a.info['averageDailyVolume10Day'])
 	except:
