@@ -22,8 +22,8 @@ def manage_new_trades(position_1, position_2):
 	get_orderbook(position_1)
 	get_orderbook(position_2)
 	
-	get_price_klines(position_1)
-	get_price_klines(position_2)
+	get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
+	get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
 	position_1.close_series = extract_close_prices(position_1)
 	position_2.close_series = extract_close_prices(position_2)
 	
