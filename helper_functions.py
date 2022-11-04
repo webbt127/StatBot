@@ -10,6 +10,7 @@ from func_cointegration import *
 from alive_progress import alive_bar
 import logging as lg
 from joblib import Parallel, delayed, parallel_backend
+from yahoo_fin import stock_info
 from alpaca_trade_api.rest import TimeFrame
 import datetime
 
@@ -265,7 +266,8 @@ def get_tradeable_symbols():
 	with alive_bar(len(asset_list.symbols)) as bar:
 		for a in asset_list.symbols:
 			try:
-				a.info = yf.Ticker(a.symbol).info
+				a.info = stock_info.get_data(a.symbol)
+				print(a.info)
 				a.average_volume = int(stock_info['averageDailyVolume10Day'])
 			except:
 				a.average_volume = 0
