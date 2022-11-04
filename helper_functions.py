@@ -262,7 +262,7 @@ def get_tradeable_symbols():
     # Get available symbols
 	active_assets = api.session.list_assets(status='active')
 	asset_list.symbols = [a for a in active_assets if a.easy_to_borrow == True and a.tradable == True and getattr(a, 'class') == 'us_equity']
-	Parallel(n_jobs=8, prefer="threads")(delayed(filter_tradeable_symbols)(a) for a in asset_list.symbols)
+	Parallel(n_jobs=8, prefer="threads")(delayed(filter_tradeable_symbols)(a) for a in asset_list)
 	asset_list.symbols = [a for a in active_assets if a.average_volume > 1000000]
 	
 
@@ -271,7 +271,7 @@ def get_tradeable_symbols():
 
 def filter_tradeable_symbols(a):
 	try:
-		a.info = yf.Ticker(a).info
+		a.info = yf.Ticker(a.symbols).info
 		a.average_volume = int(stock_info['averageDailyVolume10Day'])
 	except:
 		a.average_volume = 0
