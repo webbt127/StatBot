@@ -276,8 +276,9 @@ def filter_assets(a):
 	try:
 		a.info = yf.Ticker(a.symbol).info
 		a.average_volume = int(a.info['averageDailyVolume10Day'])
-	except:
+	except Exception as e:
 		a.average_volume = 0
+		print(e)
 	print(a.symbol, a.average_volume)
 	return a
 
