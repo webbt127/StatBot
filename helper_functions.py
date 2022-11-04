@@ -266,7 +266,7 @@ def get_tradeable_symbols():
 	with alive_bar(len(asset_list.symbols)) as bar:
 		for a in asset_list.symbols:
 			try:
-				a.info = stock_info.get_data(a.symbol)
+				a.info = Ticker(a.symbol).info
 				print(a.info)
 				a.average_volume = int(stock_info['averageDailyVolume10Day'])
 			except:
