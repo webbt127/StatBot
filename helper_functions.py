@@ -269,7 +269,7 @@ def get_tradeable_symbols():
     # Return ouput
 	return asset_list
 
-def filter_tradeable_symbols():
+def filter_tradeable_symbols(a):
 	try:
 		a.info = yf.Ticker(a).info
 		a.average_volume = int(stock_info['averageDailyVolume10Day'])
