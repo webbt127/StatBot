@@ -277,6 +277,7 @@ def filter_assets(a):
 		a.average_volume = int(stock_info['averageDailyVolume10Day'])
 	except:
 		a.average_volume = 0
+	print(a.symbol, a.average_volume)
 	return a
 
 class Orderbook():
