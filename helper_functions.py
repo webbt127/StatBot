@@ -279,7 +279,6 @@ def filter_assets(a):
 		#a.average_volume = int(a.info['averageDailyVolume10Day'])
 		_, a.day_klines = get_price_klines(a, TimeFrame.Day, 1)
 		a.average_volume = int(a.day_klines['volume'][0])
-		print(a.average_volume)
 	except Exception as e:
 		a.average_volume = 0
 	print(a.symbol, a.average_volume)
