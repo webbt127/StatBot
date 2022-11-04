@@ -16,7 +16,8 @@ class position_list:
 	def __init__(self):
     		pass
 
-global open_position_list = position_list()
+global open_position_list
+open_position_list = position_list()
 
 def begin_threading():
 	thread1 = threading.Thread(target=buy_loop)
