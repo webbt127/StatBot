@@ -277,7 +277,7 @@ def filter_assets(a):
 	try:
 		#a.info = yf.Ticker(a.symbol).info
 		#a.average_volume = int(a.info['averageDailyVolume10Day'])
-		_, a.average_volume = get_klines(a, TimeFrame.Day, 1)
+		_, a.average_volume = get_price_klines(a, TimeFrame.Day, 1)
 		print(a.average_volume)
 	except Exception as e:
 		a.average_volume = 0
