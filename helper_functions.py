@@ -275,6 +275,7 @@ def filter_tradeable_symbols(a):
 		a.average_volume = int(stock_info['averageDailyVolume10Day'])
 	except:
 		a.average_volume = 0
+	return
 
 class Orderbook():
 	pass
