@@ -276,11 +276,6 @@ def get_tradeable_symbols():
     # Return ouput
 	return asset_list
 
-def filter_tradeable_symbols(a):
-	try:
-		
-	return a
-
 class Orderbook():
 	pass
 
