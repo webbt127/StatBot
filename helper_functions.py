@@ -265,7 +265,7 @@ def get_tradeable_symbols():
 	with alive_bar(len(asset_list.symbols)) as bar:
 		for a in asset_list.symbols:
 			try:
-				a.info = yf.Ticker(a.symbol).info
+				a.info = yf.Ticker(asset_list.symbols.symbol).info
 				a.average_volume = int(stock_info['averageDailyVolume10Day'])
 			except:
 				a.average_volume = 0
