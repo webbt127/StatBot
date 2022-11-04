@@ -174,7 +174,8 @@ def get_price_history():
 
 def price_history_execution(asset):
 	asset.klines = None
-	get_price_klines(asset)
+	timeframe = TimeFrame.Hour
+	get_price_klines(asset, timeframe, api.kline_limit)
 	if asset.klines is not None:
 		lg.info("Successfully Stored Data For %s!" % asset.symbol)
 	else:
@@ -192,14 +193,14 @@ def get_start_time(api):
 	return time_start
 
 # Get historical prices (klines)
-def get_price_klines(asset):
+def get_price_klines(asset, timeframe, klines):
 
 	start_time = get_start_time(api)
 	try:
 		asset.klines = api.session.get_bars(
 			symbol = asset.symbol,
-			timeframe = TimeFrame.Hour,
-			limit = api.kline_limit,
+			timeframe = timeframe,
+			limit = klines,
 			start = start_time
 		).df
 	except Exception as e:
@@ -210,7 +211,7 @@ def get_price_klines(asset):
 	time.sleep(1.7)
 
     # Return output
-	return asset
+	return asset, asset.klines
 
 def get_ticker_trade_liquidity(position):
 
@@ -274,8 +275,10 @@ def get_tradeable_symbols():
 
 def filter_assets(a):
 	try:
-		a.info = yf.Ticker(a.symbol).info
-		a.average_volume = int(a.info['averageDailyVolume10Day'])
+		#a.info = yf.Ticker(a.symbol).info
+		#a.average_volume = int(a.info['averageDailyVolume10Day'])
+		_, a.average_volume = get_klines(a, TimeFrame.Day, 1)
+		print(a.average_volume)
 	except Exception as e:
 		a.average_volume = 0
 	print(a.symbol, a.average_volume)
