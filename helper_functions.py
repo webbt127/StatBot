@@ -267,8 +267,10 @@ def get_orders(position):
 def get_tradeable_symbols():
 
     # Get available symbols
+	test_set = slice(0, 200, 1)
 	active_assets = api.session.list_assets(status='active')
 	asset_list.symbols = [a for a in active_assets if a.easy_to_borrow == True and a.tradable == True and getattr(a, 'class') == 'us_equity']
+	asset_list.symbols = asset_list.symbols[test_set]
 	Parallel(n_jobs=8, prefer="threads")(delayed(filter_assets)(a) for a in asset_list.symbols)
 	asset_list.symbols = [a for a in asset_list.symbols if a.average_volume > 1000000]
 	print(len(asset_list.symbols))
