@@ -17,7 +17,7 @@ class position_list:
     		pass
 
 global open_position_list
-open_position_list = position_list()
+open_position_list = Lock()
 
 def begin_threading():
 	thread1 = threading.Thread(target=buy_loop)
