@@ -127,11 +127,9 @@ if __name__ == "__main__":
 
     # # STEP 1 - Get list of symbols
 	lg.info("Getting symbols...")
-	test_set = slice(0, 200, 1)
 	buy_set = slice(0, 10, 1)
 	get_tradeable_symbols()
 	# # Reduce to Test Set
-	asset_list.symbols = asset_list.symbols[test_set]
     # # STEP 2 - Construct and save price history
 	lg.info("Getting price history...")
 	#if len(asset_list) > 0:
