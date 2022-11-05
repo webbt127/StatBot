@@ -222,7 +222,7 @@ def get_ticker_trade_liquidity(position):
     # Get trades history
 	try:
 		trades = api.session.get_trades(symbol=position.symbol, limit=5)
-	except:
+	except Exception as e:
 		lg.info("Unable to get trades %s" % e)
 
     # Get the list for calculating the average liquidity
