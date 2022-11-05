@@ -7,7 +7,7 @@ import pandas as pd
 from logger import *
 import time
 import sys
-import threading
+from threading import Thread, Lock
 from func_cointegration import *
 
 initialize_logger()
@@ -20,8 +20,8 @@ global open_position_list
 open_position_list = Lock()
 
 def begin_threading():
-	thread1 = threading.Thread(target=buy_loop)
-	thread2 = threading.Thread(target=sell_loop)
+	thread1 = Thread(target=buy_loop)
+	thread2 = Thread(target=sell_loop)
 	thread1.start()
 	time.sleep(5)
 	thread2.start()
