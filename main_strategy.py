@@ -69,9 +69,10 @@ def buy_loop():
 				
 def sell_loop():
 	while True:
-		open_position_list.acquire()
-		open_position_list_working = open_position_list
-		open_position_list.release()
+		open_position_list.lock.acquire()
+		with open_position_list.lock:
+			open_position_list_working = open_position_list
+			open_position_list.release()
 		for trade in open_position_list_working:
 			position_1 = position()
 			position_1.symbol = trade['sym_1']
