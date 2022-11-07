@@ -64,7 +64,6 @@ def buy_loop():
 						open_position_list.append(i)
 						added_to_list = True
 						open_position_list.lock.release()
-			print(open_position_list)
 				
 				
 def sell_loop():
