@@ -79,18 +79,20 @@ def manage_new_trades(position_1, position_2):
 			get_orders(long_ticker)
 			get_orders(short_ticker)
 			
-			while long_ticker.qty == 0 and long_ticker.has_orders:
+			retry_count = 0
+			while long_ticker.qty == 0 and long_ticker.has_orders and retry_count < 5:
 				api.session.cancel_order(long_ticker.order.id)
 				long_ticker.mid_price = round(long_ticker.mid_price * 1.01, 2)
 				initialize_order_execution(long_ticker)
-				time.sleep(10)
+				time.sleep(60)
 				get_ticker_position(long_ticker)
 				get_orders(long_ticker)
-			while short_ticker.qty == 0 and long_ticker.has_orders:
+				retry_count = retry_count + 1
+			while short_ticker.qty == 0 and long_ticker.has_orders and retry_count < 5:
 				api.session.cancel_order(short_ticker.order.id)
 				short_ticker.mid_price = round(short_ticker.mid_price * 0.99, 2)
 				initialize_order_execution(short_ticker)
-				time.sleep(10)
+				time.sleep(60)
 				get_ticker_position(short_ticker)
 				get_orders(short_ticker)
 			if long_ticker.qty != 0 and short_ticker.qty != 0:
