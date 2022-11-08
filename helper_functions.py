@@ -13,7 +13,6 @@ from joblib import Parallel, delayed, parallel_backend
 from yahoo_fin import stock_info
 from alpaca_trade_api.rest import TimeFrame
 import datetime
-import ray
 
 
 # Manage new trade assessment and order placing
