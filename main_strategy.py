@@ -71,6 +71,7 @@ def sell_loop():
 		with open_position_list.lock:
 			open_position_list_working = open_position_list.positions
 			open_position_list.release()
+			time.sleep(10)
 		for trade in open_position_list_working:
 			position_1 = position()
 			position_1.symbol = trade['sym_1']
