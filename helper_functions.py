@@ -244,7 +244,7 @@ def get_ticker_trade_liquidity(position):
     # Return output
 	if len(quantity_list) > 0:
 		position.liquidity = sum(quantity_list) / len(quantity_list)
-		position.last_price = float(trades[-1].p)
+		position.last_price = round(float(trades[-1].p), 2)
 		return position
 	position.liquidity = 0
 	position.last_price = 0
