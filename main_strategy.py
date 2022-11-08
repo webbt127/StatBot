@@ -40,7 +40,6 @@ def begin_threading():
 def buy_loop():
 	while True:
 		#wait_for_market_open()
-		trades_taken = 0
 		for i in coint_pairs['index']:
 			position_1 = position()
 			position_1.symbol = coint_pairs['sym_1'][i]
@@ -55,13 +54,12 @@ def buy_loop():
 			if position_1.qty == 0 and position_2.qty == 0 and position_1.has_orders == False and position_2.has_orders == False:
 				trade_complete = manage_new_trades(position_1, position_2)
 			if trade_complete:
-				open_position_list[trades_taken] = i
-				trades_taken = trades_taken + 1
 				added_to_list = False
 				while not added_to_list:
 					open_position_list.lock.acquire()
 					with open_position_list.lock:
-						open_position_list.append(i)
+						open_position_list.positions.append(coint_pairs.loc[i])
+						print(open_position_list.positions)
 						added_to_list = True
 						open_position_list.lock.release()
 				
@@ -70,7 +68,7 @@ def sell_loop():
 	while True:
 		open_position_list.lock.acquire()
 		with open_position_list.lock:
-			open_position_list_working = open_position_list
+			open_position_list_working = open_position_list.positions
 			open_position_list.release()
 		for trade in open_position_list_working:
 			position_1 = position()
