@@ -155,9 +155,13 @@ def get_trade_details(asset, capital):
 	if asset.direction == "Long":
 		asset.mid_price = asset.orderbook.bp # placing at Bid has high probability of not being cancelled, but may not fill
 		asset.stop_loss = round(asset.mid_price * (1 - api.stop_loss_fail_safe), api.price_rounding)
+		if asset.stop_loss == 0:
+			asset.stop_loss = round(asset.close_series[0] * (1 - api.stop_loss_fail_safe), api.price_rounding)
 	else:
 		asset.mid_price = asset.orderbook.ap  # placing at Ask has high probability of not being cancelled, but may not fill
 		asset.stop_loss = round(asset.mid_price * (1 + api.stop_loss_fail_safe), api.price_rounding)
+		if asset.stop_loss == 0:
+			asset.stop_loss = round(asset.close_series[0] * (1 + api.stop_loss_fail_safe), api.price_rounding)
 
             # Calculate quantity
 	if asset.mid_price > 0:
