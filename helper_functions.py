@@ -206,7 +206,9 @@ def get_start_time(api):
 # Get historical prices (klines)
 def get_price_klines(asset, timeframe, klines):
 
+	asset.klines = None
 	start_time = get_start_time(api)
+	kline_set = slice(0, 9900, 1)
 	try:
 		asset.klines = api.session.get_bars(
 			symbol = asset.symbol,
@@ -214,6 +216,7 @@ def get_price_klines(asset, timeframe, klines):
 			limit = klines,
 			start = start_time
 		).df
+		asset.klines = asset.klines[kline_set]
 	except Exception as e:
 		print("Could Not Get Prices")
 		asset.klines = None
@@ -274,7 +277,7 @@ def get_orders(position):
 def get_tradeable_symbols():
 
     # Get available symbols
-	test_set = slice(0, 6000, 1)
+	test_set = slice(0, 1000, 1)
 	active_assets = api.session.list_assets(status='active')
 	asset_list.symbols = [a for a in active_assets if a.easy_to_borrow == True and a.tradable == True and getattr(a, 'class') == 'us_equity']
 	asset_list.symbols = asset_list.symbols[test_set]
