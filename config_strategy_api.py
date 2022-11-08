@@ -5,8 +5,8 @@ api_key_mainnet = ""
 api_secret_mainnet = ""
 
 # TEST API
-api_key_testnet = "PK1RBWYVQE4TEAWAA87M"
-api_secret_testnet = "Q4qCLpRb5h7moUXHiSugOi7MR8lylR30jwz80PEz"
+api_key_testnet = "PKE07GQ3S5MB6OPZ81Z0"
+api_secret_testnet = "XESwsqvmfZnf5QzdVPCweNRICmmmAk1VVyonbgDB"
 
 # SELECTED API
 api_key = api_key_testnet
