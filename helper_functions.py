@@ -304,11 +304,16 @@ def place_order(asset):
 		asset.side = "buy"
 	else:
 		asset.side = "sell"
-
-	try:
-		asset.order = api.session.submit_order(symbol=asset.symbol, side=asset.side, type="limit", qty=asset.quantity, limit_price=asset.mid_price, time_in_force='day', stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss))
-	except Exception as e:
-		lg.info(e)
+	if asset.mid_price > 0:
+		try:
+			asset.order = api.session.submit_order(symbol=asset.symbol, side=asset.side, type="limit", qty=asset.quantity, limit_price=asset.mid_price, time_in_force='day', stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss))
+		except Exception as e:
+			lg.info(e)
+	else:
+		try:
+			asset.order = api.session.submit_order(symbol=asset.symbol, side=asset.side, type="limit", qty=asset.quantity, limit_price=asset.close_series[0], time_in_force='day', stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss))
+		except Exception as e:
+			lg.info(e)
 
     # Return order
 	return asset
@@ -337,9 +342,9 @@ def get_position_info(asset):
 		asset.position = api.session.get_position(ticker)
 		asset.size = int(asset.position.qty)
 		if asset.size > 0:
-			asset.side = "Buy"
+			asset.side = "buy"
 		else:
-			asset.side = "Sell"
+			asset.side = "sell"
 	except Exception as e:
 		#lg.info("No Existing Position For %s!" % asset.symbol)
 		asset.size = 0
