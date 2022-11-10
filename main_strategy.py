@@ -16,8 +16,8 @@ class position_list:
 	def __init__(self):
     		self.lock = Lock()
 
-open_position_list = position_list()
 global open_position_list
+open_position_list = position_list()
 
 def begin_threading():
 	thread1 = Thread(target=buy_loop)
@@ -57,21 +57,19 @@ def buy_loop():
 				added_to_list = False
 				while not added_to_list:
 					open_position_list.lock.acquire()
-					with open_position_list.lock:
-						open_position_list.positions.append(coint_pairs.loc[i])
-						print(open_position_list.positions)
-						added_to_list = True
-						open_position_list.lock.release()
+					open_position_list.positions.append(coint_pairs.loc[i])
+					print(open_position_list.positions)
+					added_to_list = True
+					open_position_list.lock.release()
 				
 				
 def sell_loop():
 	while True:
 		wait_for_market_open()
 		open_position_list.lock.acquire()
-		with open_position_list.lock:
-			open_position_list_working = open_position_list.positions
-			open_position_list.release()
-			time.sleep(10)
+		open_position_list_working = open_position_list.positions
+		open_position_list.lock.release()
+		time.sleep(10)
 		for trade in open_position_list_working:
 			position_1 = position()
 			position_1.symbol = trade['sym_1']
@@ -100,10 +98,9 @@ def sell_loop():
 							removed_from_list = False
 							while not removed_from_list:
 								open_position_list.lock.acquire()
-								with open_position_list.lock:
-									open_position_list.remove(trade)
-									removed_from_list = True
-									open_position_list.lock.release()
+								open_position_list.remove(trade)
+								removed_from_list = True
+								open_position_list.lock.release()
 					else:
 						position_2.side = 'sell'
 						position_1.side = 'buy'
@@ -113,10 +110,9 @@ def sell_loop():
 							removed_from_list = False
 							while not removed_from_list:
 								open_position_list.lock.acquire()
-								with open_position_list.lock:
-									open_position_list.remove(trade)
-									removed_from_list = True
-									open_position_list.lock.release()
+								open_position_list.remove(trade)
+								removed_from_list = True
+								open_position_list.lock.release()
 						
 
 """STRATEGY CODE"""
