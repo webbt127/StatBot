@@ -56,7 +56,7 @@ def get_cointegrated_pairs():
     # Loop through coins and check for co-integration
 	with alive_bar((len(asset_list.symbols)*len(asset_list.symbols)), title='Checking Cointegration...') as bar:
 		global included_list
-		Parallel(n_jobs=20, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
+		Parallel(n_jobs=8, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
 		df_coint = pd.DataFrame(coint_pair_list)
 		if 'zero_crossings' in df_coint:
 			df_coint = df_coint.sort_values("zero_crossings", ascending=False)
@@ -78,6 +78,7 @@ def check_pairs(sym_1, sym_2):
 						coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
 						if coint_flag == 1:
 							included_list.append(unique)
+							lg.info(included_list)
 							coint_pair_list.append({
 								"sym_1": sym_1.symbol,
 								"sym_2": sym_2.symbol,
