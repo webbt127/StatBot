@@ -81,8 +81,6 @@ def manage_new_trades(position_1, position_2):
 				return True
 			else:
 				return False
-	else:
-		lg.info("Klines have unequal length, cannot calculate cointegration!")
 
 
     # Output status
