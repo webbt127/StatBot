@@ -40,9 +40,9 @@ class config:
 
 		self.limit_order_basis = True # will ensure positions (except for Close) will be placed on limit basis
 
-		self.tradable_capital_usdt = 250 # total tradeable capital to be split between both pairs
+		self.tradable_capital_usdt = 1000 # total tradeable capital to be split between both pairs
 		self.stop_loss_fail_safe = 0.30 # stop loss at market order in case of drastic event
-		self.signal_trigger_thresh = 0.2 # z-score threshold which determines trade (must be above zero)
+		self.signal_trigger_thresh = 1.2 # z-score threshold which determines trade (must be above zero)
 	
 		self.timeframe = 60
 		self.kline_limit = 10000
@@ -51,7 +51,7 @@ class config:
 		self.search_limit = 10000
 		self.get_new_history = False
 		self.capital = 100
-		self.test_set = 1100
+		self.test_set = 6000
 
 global api
 api = config()
