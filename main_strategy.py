@@ -15,7 +15,7 @@ initialize_logger()
 class position_list:
 	def __init__(self):
 		self.lock = Lock()
-		self.positions = pd.DataFrame(columns=['index'])
+		self.positions = pd.DataFrame(columns=['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings', 'index'])
 
 global open_position_list
 open_position_list = position_list()
@@ -61,7 +61,7 @@ def buy_loop():
 				while not added_to_list:
 					open_position_list.lock.acquire()
 					lg.info(coint_pairs.loc[[i]])
-					open_position_list.positions.concat([coint_pairs.loc[[i]], open_position_list.positions])
+					open_position_list.positions.append(coint_pairs.loc[[i]])
 					lg.info(open_position_list.positions)
 					added_to_list = True
 					open_position_list.lock.release()
