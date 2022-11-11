@@ -40,7 +40,7 @@ def begin_threading():
 	
 def buy_loop():
 	while True:
-		#wait_for_market_open()
+		wait_for_market_open()
 		for i in coint_pairs['index']:
 			position_1 = position()
 			position_1.symbol = coint_pairs['sym_1'][i]
@@ -70,7 +70,7 @@ def buy_loop():
 				
 def sell_loop():
 	while True:
-		#wait_for_market_open()
+		wait_for_market_open()
 		open_position_list.lock.acquire()
 		open_position_list_working = open_position_list.positions
 		open_position_list.lock.release()
