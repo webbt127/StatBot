@@ -51,7 +51,7 @@ class config:
 		self.search_limit = 10000
 		self.get_new_history = False
 		self.capital = 100
-		self.test_set = 500
+		self.test_set = 1000
 
 global api
 api = config()
