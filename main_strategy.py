@@ -61,7 +61,8 @@ def buy_loop():
 				while not added_to_list:
 					open_position_list.lock.acquire()
 					lg.info(coint_pairs.loc[[i]])
-					open_position_list.positions.append(coint_pairs.loc[[i]])
+					entry = coint_pairs.loc[coint_pairs['index'] == i]
+					open_position_list.positions.concat([open_position_list.positions, entry])
 					lg.info(open_position_list.positions)
 					added_to_list = True
 					open_position_list.lock.release()
