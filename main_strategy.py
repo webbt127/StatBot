@@ -15,7 +15,7 @@ initialize_logger()
 class position_list:
 	def __init__(self):
 		self.lock = Lock()
-		self.positions = pd.DataFrame
+		self.positions = pd.DataFrame(columns=['index'])
 
 global open_position_list
 open_position_list = position_list()
@@ -73,7 +73,7 @@ def sell_loop():
 		open_position_list_working = open_position_list.positions
 		open_position_list.lock.release()
 		time.sleep(10)
-		for trade in open_position_list_working:
+		for trade in open_position_list_working['index']:
 			position_1 = position()
 			position_1.symbol = trade['sym_1']
 			position_2 = position()
