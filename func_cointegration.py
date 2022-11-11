@@ -7,6 +7,7 @@ import math
 from alive_progress import alive_bar
 from joblib import Parallel, delayed, parallel_backend
 from func_cointegration import *
+import logging as lg
 
 
 # Calculate Z-Score
