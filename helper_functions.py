@@ -77,7 +77,7 @@ def manage_new_trades(position_1, position_2):
 			get_ticker_position(short_ticker)
 			lg.info("Pair Order Complete!")
 			
-			if True:#long_ticker.qty != 0 and short_ticker.qty != 0:
+			if long_ticker.qty != 0 and short_ticker.qty != 0:
 				return True
 			else:
 				return False
