@@ -314,12 +314,12 @@ def place_order(asset):
 		asset.side = "sell"
 	if asset.mid_price > 0:
 		try:
-			asset.order = api.session.submit_order(symbol=asset.symbol, side=asset.side, type="limit", qty=asset.quantity, limit_price=asset.last_price, time_in_force='day', stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss))
+			asset.order = api.session.submit_order(symbol=asset.symbol, side=asset.side, type="market", qty=asset.quantity, time_in_force='day', stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss))
 		except Exception as e:
 			lg.info(e)
 	else:
 		try:
-			asset.order = api.session.submit_order(symbol=asset.symbol, side=asset.side, type="limit", qty=asset.quantity, limit_price=round(asset.close_series[0], 2), time_in_force='day', stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss))
+			asset.order = api.session.submit_order(symbol=asset.symbol, side=asset.side, type="market", qty=asset.quantity, time_in_force='day', stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss))
 		except Exception as e:
 			lg.info(e)
 
