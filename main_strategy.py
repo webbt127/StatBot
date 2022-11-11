@@ -121,15 +121,14 @@ def sell_loop():
 """STRATEGY CODE"""
 if __name__ == "__main__":
     
-	while True:
-		lg.info("Getting symbols...")
-		buy_set = slice(0, 10, 1)
-		get_tradeable_symbols()
-		lg.info("Getting price history...")
-		get_price_history()
-		lg.info("Calculating co-integration...")
-		coint_pairs = get_cointegrated_pairs()
-		print(coint_pairs)
-		if not coint_pairs.empty:
-			cancel_orders()
-			begin_threading()
+	lg.info("Getting symbols...")
+	buy_set = slice(0, 10, 1)
+	get_tradeable_symbols()
+	lg.info("Getting price history...")
+	get_price_history()
+	lg.info("Calculating co-integration...")
+	coint_pairs = get_cointegrated_pairs()
+	print(coint_pairs)
+	if not coint_pairs.empty:
+		cancel_orders()
+		begin_threading()
