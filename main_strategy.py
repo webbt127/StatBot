@@ -15,7 +15,7 @@ initialize_logger()
 class position_list:
 	def __init__(self):
 		self.lock = Lock()
-		self.positions = pd.Dataframe
+		self.positions = pd.DataFrame
 
 global open_position_list
 open_position_list = position_list()
