@@ -62,7 +62,7 @@ def buy_loop():
 					open_position_list.lock.acquire()
 					lg.info(coint_pairs.loc[[i]])
 					entry = coint_pairs.loc[coint_pairs['index'] == i]
-					open_position_list.positions.concat([open_position_list.positions, entry])
+					open_position_list.positions = pd.concat([open_position_list.positions, entry])
 					lg.info(open_position_list.positions)
 					added_to_list = True
 					open_position_list.lock.release()
