@@ -43,17 +43,20 @@ def buy_loop():
 	while True:
 		#wait_for_market_open()
 		for i in coint_pairs['index']:
+			lg.info("Pair: %s" % i)
 			position_1 = position()
 			position_1.symbol = coint_pairs['sym_1'][i]
+			lg.info("Asset 1: %s" % position_1.symbol)
 			position_2 = position()
 			position_2.symbol = coint_pairs['sym_2'][i]
+			lg.info("Asset 2: %s" % position_2.symbol)
 			
 			open_position_list.lock.acquire()
 			open_position_list_temp = open_position_list
 			open_position_list.lock.release()
 			
-			if position_1.symbol not in open_position_list_temp.positions['sym_1'] or position_1.symbol not in open_position_list_temp.positions['sym_1']:
-				if position_2.symbol not in open_position_list_temp.positions['sym_1'] or position_2.symbol not in open_position_list_temp.positions['sym_1']:
+			if position_1.symbol not in open_position_list_temp.positions['sym_1'] and position_1.symbol not in open_position_list_temp.positions['sym_1']:
+				if position_2.symbol not in open_position_list_temp.positions['sym_1'] and position_2.symbol not in open_position_list_temp.positions['sym_1']:
 					get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
 					get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
 					position_1.close_series = extract_close_prices(position_1)
