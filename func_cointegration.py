@@ -79,7 +79,6 @@ def check_pairs(sym_1, sym_2):
 						coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
 						if coint_flag == 1:
 							included_list.append(unique)
-							lg.info(included_list)
 							coint_pair_list.append({
 								"sym_1": sym_1.symbol,
 								"sym_2": sym_2.symbol,
