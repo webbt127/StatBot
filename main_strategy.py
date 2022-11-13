@@ -7,6 +7,7 @@ import pandas as pd
 from logger import *
 import time
 import sys
+import yfinance as yf
 from threading import Thread, Lock
 from func_cointegration import *
 
@@ -48,21 +49,57 @@ def buy_loop():
 			position_2.symbol = coint_pairs['sym_2'][i]
 			
 			trade_complete = False
+			open_position_list.lock.acquire()
+			open_position_list_temp = open_position_list
+			open_position_list.lock.release()
 			
-			
-			if position_1.symbol not in open_position_list.positions['sym_1'] or position_1.symbol not in open_position_list.positions['sym_1']:
-				if position_2.symbol not in open_position_list.positions['sym_1'] or position_2.symbol not in open_position_list.positions['sym_1']:
-					trade_complete = manage_new_trades(position_1, position_2)
-			if trade_complete:
-				added_to_list = False
-				while not added_to_list:
-					open_position_list.lock.acquire()
-					lg.info(coint_pairs.loc[[i]])
-					entry = coint_pairs.loc[coint_pairs['index'] == i]
-					open_position_list.positions = pd.concat([open_position_list.positions, entry])
-					lg.info(open_position_list.positions)
-					added_to_list = True
-					open_position_list.lock.release()
+			if position_1.symbol not in open_position_list_temp.positions['sym_1'] or position_1.symbol not in open_position_list_temp.positions['sym_1']:
+				if position_2.symbol not in open_position_list_temp.positions['sym_1'] or position_2.symbol not in open_position_list_temp.positions['sym_1']:
+					get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
+					get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
+					position_1.close_series = extract_close_prices(position_1)
+					lg.info(position_1.close_series)
+					position_1.yf = yf.Ticker(position_1.symbol).info
+					position_1.close_series.append(position_1.yf['regularMarketPrice'])
+					lg.info(position_1.close_series)
+					position_2.close_series = extract_close_prices(position_2)
+					position_2.yf = yf.Ticker(position_2.symbol).info
+					position_2.close_series.append(position_2.yf['regularMarketPrice'])
+					position_1.quantity = round(api.capital_per_trade / position_1.yf['regularMarketPrice'])
+					position_2.quantity = round(api.capital_per_trade / position_2.yf['regularMarketPrice'])
+	
+					if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0):
+						_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
+						spread = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
+						zscore_list = calculate_zscore(spread)
+						zscore = zscore_list[-1]
+	
+						if zscore > 0:
+							position_1.side = "sell"
+							position_2.side = "buy"
+						else:
+							position_1.side = "buy"
+							position_2.side = "sell"
+						if abs(zscore) > api.signal_trigger_thresh:
+							if zscore > 0:
+								long_ticker = position_2
+								short_ticker = position_1
+							else:
+								long_ticker = position_1
+								short_ticker = position_2
+
+							initialize_order_execution(long_ticker)
+							initialize_order_execution(short_ticker)
+							if trade_complete:
+								added_to_list = False
+								while not added_to_list:
+									open_position_list.lock.acquire()
+									lg.info(coint_pairs.loc[[i]])
+									entry = coint_pairs.loc[coint_pairs['index'] == i]
+									open_position_list.positions = pd.concat([open_position_list.positions, entry])
+									lg.info(open_position_list.positions)
+									added_to_list = True
+									open_position_list.lock.release()
 				
 				
 def sell_loop():
@@ -79,42 +116,43 @@ def sell_loop():
 			position_2.symbol = trade['sym_2']
 			get_ticker_position(position_1)
 			get_ticker_position(position_2)
-			if position_1.qty != 0 and position_2.qty != 0:
-				get_orderbook(position_1)
-				get_orderbook(position_2)
-				get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
-				get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
-				position_1.close_series = extract_close_prices(position_1)
-				position_2.close_series = extract_close_prices(position_2)
-				if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0):
-					_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
-					spread = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
-					zscore_list = calculate_zscore(spread)
-					zscore = zscore_list[-1]
-					if position_1.qty > 0:
-						position_1.side = 'sell'
-						position_2.side = 'buy'
-						if zscore > 0:
-							place_market_close_order(position_1)
-							place_market_close_order(position_2)
-							removed_from_list = False
-							while not removed_from_list:
-								open_position_list.lock.acquire()
-								open_position_list.remove(trade)
-								removed_from_list = True
-								open_position_list.lock.release()
-					else:
-						position_2.side = 'sell'
-						position_1.side = 'buy'
-						if zscore < 0:
-							place_market_close_order(position_1)
-							place_market_close_order(position_2)
-							removed_from_list = False
-							while not removed_from_list:
-								open_position_list.lock.acquire()
-								open_position_list.remove(trade)
-								removed_from_list = True
-								open_position_list.lock.release()
+			get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
+			get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
+			position_1.close_series = extract_close_prices(position_1)
+			position_1.yf = yf.Ticker(position_1.symbol).info
+			position_1.close_series.append(position_1.yf['regularMarketPrice'])
+			position_2.close_series = extract_close_prices(position_2)
+			position_2.yf = yf.Ticker(position_2.symbol).info
+			position_2.close_series.append(position_2.yf['regularMarketPrice'])
+			if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0):
+				_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
+				spread = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
+				zscore_list = calculate_zscore(spread)
+				zscore = zscore_list[-1]
+				if position_1.qty > 0:
+					position_1.side = 'sell'
+					position_2.side = 'buy'
+					if zscore > 0:
+						place_market_close_order(position_1)
+						place_market_close_order(position_2)
+						removed_from_list = False
+						while not removed_from_list:
+							open_position_list.lock.acquire()
+							open_position_list.remove(trade)
+							removed_from_list = True
+							open_position_list.lock.release()
+				else:
+					position_2.side = 'sell'
+					position_1.side = 'buy'
+					if zscore < 0:
+						place_market_close_order(position_1)
+						place_market_close_order(position_2)
+						removed_from_list = False
+						while not removed_from_list:
+							open_position_list.lock.acquire()
+							open_position_list.remove(trade)
+							removed_from_list = True
+							open_position_list.lock.release()
 						
 
 """STRATEGY CODE"""
