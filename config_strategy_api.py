@@ -50,7 +50,7 @@ class config:
 		self.max_positions = 10
 		self.search_limit = 10000
 		self.get_new_history = False
-		self.capital = 100
+		self.capital_per_trade = 1000
 		self.test_set = 1000
 
 global api
