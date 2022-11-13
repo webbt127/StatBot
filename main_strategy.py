@@ -57,7 +57,6 @@ def buy_loop():
 					get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
 					get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
 					position_1.close_series = extract_close_prices(position_1)
-					lg.info(position_1.close_series)
 					position_1.yf = yf.Ticker(position_1.symbol).info
 					position_1.close_series.append(position_1.yf['regularMarketPrice'])
 					lg.info(position_1.close_series)
@@ -102,7 +101,7 @@ def sell_loop():
 		open_position_list_working = open_position_list
 		open_position_list.lock.release()
 		time.sleep(10)
-		for trade in open_position_list_working.positions:
+		for trade in open_position_list_working.positions['index']:
 			position_1 = position()
 			position_1.symbol = trade['sym_1']
 			position_2 = position()
