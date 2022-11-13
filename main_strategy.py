@@ -46,16 +46,13 @@ def buy_loop():
 			position_1.symbol = coint_pairs['sym_1'][i]
 			position_2 = position()
 			position_2.symbol = coint_pairs['sym_2'][i]
-    			
-			get_orders(position_1)
-			get_orders(position_2)
-			get_ticker_position(position_1)
-			get_ticker_position(position_2)
 			
 			trade_complete = False
-	
-			if position_1.qty == 0 and position_2.qty == 0 and position_1.has_orders == False and position_2.has_orders == False:
-				trade_complete = manage_new_trades(position_1, position_2)
+			
+			
+			if position_1.symbol not in open_position_list.positions['sym_1'] or position_1.symbol not in open_position_list.positions['sym_1']:
+				if position_2.symbol not in open_position_list.positions['sym_1'] or position_2.symbol not in open_position_list.positions['sym_1']:
+					trade_complete = manage_new_trades(position_1, position_2)
 			if trade_complete:
 				added_to_list = False
 				while not added_to_list:
@@ -130,6 +127,8 @@ if __name__ == "__main__":
 	get_price_history()
 	lg.info("Calculating co-integration...")
 	coint_pairs = get_cointegrated_pairs()
+	print(coint_pairs)
+	coint_pairs[buy_set]
 	print(coint_pairs)
 	if not coint_pairs.empty:
 		cancel_orders()
