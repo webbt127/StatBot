@@ -41,14 +41,13 @@ def begin_threading():
 	
 def buy_loop():
 	while True:
-		wait_for_market_open()
+		#wait_for_market_open()
 		for i in coint_pairs['index']:
 			position_1 = position()
 			position_1.symbol = coint_pairs['sym_1'][i]
 			position_2 = position()
 			position_2.symbol = coint_pairs['sym_2'][i]
 			
-			trade_complete = False
 			open_position_list.lock.acquire()
 			open_position_list_temp = open_position_list
 			open_position_list.lock.release()
@@ -74,42 +73,36 @@ def buy_loop():
 						zscore_list = calculate_zscore(spread)
 						zscore = zscore_list[-1]
 	
-						if zscore > 0:
-							position_1.side = "sell"
-							position_2.side = "buy"
-						else:
-							position_1.side = "buy"
-							position_2.side = "sell"
 						if abs(zscore) > api.signal_trigger_thresh:
 							if zscore > 0:
-								long_ticker = position_2
-								short_ticker = position_1
+								position_1.side = "sell"
+								position_2.side = "buy"
 							else:
-								long_ticker = position_1
-								short_ticker = position_2
+								position_1.side = "buy"
+								position_2.side = "sell"
 
-							initialize_order_execution(long_ticker)
-							initialize_order_execution(short_ticker)
-							if trade_complete:
-								added_to_list = False
-								while not added_to_list:
-									open_position_list.lock.acquire()
-									lg.info(coint_pairs.loc[[i]])
-									entry = coint_pairs.loc[coint_pairs['index'] == i]
-									open_position_list.positions = pd.concat([open_position_list.positions, entry])
-									lg.info(open_position_list.positions)
-									added_to_list = True
-									open_position_list.lock.release()
+							initialize_order_execution(position_1)
+							initialize_order_execution(position_2)
+							added_to_list = False
+							while not added_to_list:
+								open_position_list.lock.acquire()
+								lg.info(coint_pairs.loc[[i]])
+								entry = coint_pairs.loc[coint_pairs['index'] == i]
+								open_position_list.positions = pd.concat([open_position_list.positions, entry])
+								lg.info("Position List:")
+								lg.info(open_position_list.positions)
+								added_to_list = True
+								open_position_list.lock.release()
 				
 				
 def sell_loop():
 	while True:
-		wait_for_market_open()
+		#wait_for_market_open()
 		open_position_list.lock.acquire()
-		open_position_list_working = open_position_list.positions
+		open_position_list_working = open_position_list
 		open_position_list.lock.release()
 		time.sleep(10)
-		for trade in open_position_list_working['index']:
+		for trade in open_position_list_working.positions:
 			position_1 = position()
 			position_1.symbol = trade['sym_1']
 			position_2 = position()
@@ -138,7 +131,7 @@ def sell_loop():
 						removed_from_list = False
 						while not removed_from_list:
 							open_position_list.lock.acquire()
-							open_position_list.remove(trade)
+							open_position_list.positions.remove(trade)
 							removed_from_list = True
 							open_position_list.lock.release()
 				else:
@@ -153,7 +146,8 @@ def sell_loop():
 							open_position_list.remove(trade)
 							removed_from_list = True
 							open_position_list.lock.release()
-						
+				lg.info("Position List:")
+				lg.info(open_position_list_working.positions)	
 
 """STRATEGY CODE"""
 if __name__ == "__main__":
