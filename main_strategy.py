@@ -165,9 +165,7 @@ if __name__ == "__main__":
 	get_price_history()
 	lg.info("Calculating co-integration...")
 	coint_pairs = get_cointegrated_pairs()
-	print(coint_pairs)
-	coint_pairs[buy_set]
-	print(coint_pairs)
+	lg.info(coint_pairs)
 	if not coint_pairs.empty:
 		cancel_orders()
 		begin_threading()
