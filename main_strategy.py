@@ -59,7 +59,6 @@ def buy_loop():
 					position_1.close_series = extract_close_prices(position_1)
 					position_1.yf = yf.Ticker(position_1.symbol).info
 					position_1.close_series.append(position_1.yf['regularMarketPrice'])
-					lg.info(position_1.close_series)
 					position_2.close_series = extract_close_prices(position_2)
 					position_2.yf = yf.Ticker(position_2.symbol).info
 					position_2.close_series.append(position_2.yf['regularMarketPrice'])
