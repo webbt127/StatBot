@@ -67,12 +67,15 @@ def buy_loop():
 					position_2.close_series.append(position_2.yf['regularMarketPrice'])
 					position_1.quantity = round(api.capital_per_trade / position_1.yf['regularMarketPrice'])
 					position_2.quantity = round(api.capital_per_trade / position_2.yf['regularMarketPrice'])
+					lg.info(len(position_1.close_series))
+					lg.info(len(position_2.close_series))
 	
 					if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0):
 						_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
 						spread = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
 						zscore_list = calculate_zscore(spread)
 						zscore = zscore_list[-1]
+						lg.info("Zscore: %s" % zscore)
 	
 						if abs(zscore) > api.signal_trigger_thresh:
 							if zscore > 0:
