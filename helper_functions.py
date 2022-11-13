@@ -149,21 +149,10 @@ class Orderbook():
 # Place limit or market order
 def place_order(asset):
 
-    # Set variables
-	if asset.direction == "Long":
-		asset.side = "buy"
-	else:
-		asset.side = "sell"
-	if asset.mid_price > 0:
-		try:
-			asset.order = api.session.submit_order(symbol=asset.symbol, side=asset.side, type="market", qty=asset.quantity, time_in_force='day', stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss))
-		except Exception as e:
-			lg.info(e)
-	else:
-		try:
-			asset.order = api.session.submit_order(symbol=asset.symbol, side=asset.side, type="market", qty=asset.quantity, time_in_force='day', stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss))
-		except Exception as e:
-			lg.info(e)
+	try:
+		asset.order = api.session.submit_order(symbol=asset.symbol, side=asset.side, type="market", qty=asset.quantity, time_in_force='day', stop_loss=dict(stop_price=asset.stop_loss, limit_price=asset.stop_loss))
+	except Exception as e:
+		lg.info(e)
 
     # Return order
 	return asset
