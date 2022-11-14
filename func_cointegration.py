@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import math
 from alive_progress import alive_bar
-from joblib import Parallel, delayed, parallel_backend
+#from joblib import Parallel, delayed, parallel_backend
 from pbar_parallel import PBarParallel, delayed
 from func_cointegration import *
 import logging as lg
