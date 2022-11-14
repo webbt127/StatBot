@@ -39,19 +39,16 @@ class config:
 		self.price_rounding = 2
 
 		self.limit_order_basis = True # will ensure positions (except for Close) will be placed on limit basis
-
-		self.tradable_capital_usdt = 1000 # total tradeable capital to be split between both pairs
 		self.stop_loss_fail_safe = 0.30 # stop loss at market order in case of drastic event
-		self.signal_trigger_thresh = 0.5 # z-score threshold which determines trade (must be above zero)
 	
 		self.timeframe = 60
 		self.kline_limit = 10000
-		self.z_score_window = 21
+		self.z_score_window = 50
 		self.max_positions = 10
 		self.search_limit = 10000
-		self.get_new_history = False
 		self.capital_per_trade = 1000
 		self.test_set = 2000
+		self.bollinger_length = 50
 
 global api
 api = config()
