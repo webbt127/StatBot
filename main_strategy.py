@@ -92,7 +92,7 @@ def buy_loop():
 						sma = zscore_list.rolling(api.bollinger_length).mean()
 						std = zscore_list.rolling(api.bollinger_length).std()
 						bollinger_up = sma + std * 2 # Calculate top band
-    						bollinger_down = sma - std * 2 # Calculate bottom band
+						bollinger_down = sma - std * 2 # Calculate bottom band
 						lg.info("Zscore: %s" % zscore)
 	
 						if zscore > bollinger_up or zscore < bollinger_down:
