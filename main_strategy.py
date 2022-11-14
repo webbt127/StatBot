@@ -94,7 +94,9 @@ def buy_loop():
 						std = zscore_df.rolling(api.bollinger_length).std()
 						bollinger_up = sma + std * 2 # Calculate top band
 						bollinger_down = sma - std * 2 # Calculate bottom band
+						lg.info("BB Upper: %s" % bollinger_up.iloc[-1])
 						lg.info("Zscore: %s" % zscore)
+						lg.info("BB Lower: %s" % bollinger_down.iloc[-1])
 	
 						if zscore > bollinger_up.iloc[-1] or zscore < bollinger_down.iloc[-1]:
 							if zscore > bollinger_up.iloc[-1]:
