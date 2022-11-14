@@ -145,12 +145,20 @@ def sell_loop():
 			if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0):
 				_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
 				spread = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
-				zscore_list = calculate_zscore(spread)
+				zscore_df = calculate_zscore(spread)
+				zscore_list = zscore_df.astype(float).values
 				zscore = zscore_list[-1]
+				sma = zscore_df.rolling(api.bollinger_length).mean()
+				std = zscore_df.rolling(api.bollinger_length).std()
+				bollinger_up = sma + std * 2 # Calculate top band
+				bollinger_down = sma - std * 2 # Calculate bottom band
+				lg.info("BB Upper: %s" % bollinger_up.iloc[-1])
+				lg.info("Zscore: %s" % zscore)
+				lg.info("BB Lower: %s" % bollinger_down.iloc[-1])
 				if position_1.qty > 0:
 					position_1.side = 'sell'
 					position_2.side = 'buy'
-					if zscore > 0:
+					if zscore > 0 or zscore > bollinger_up.iloc[-1]:
 						place_market_close_order(position_1)
 						place_market_close_order(position_2)
 						removed_from_list = False
@@ -162,7 +170,7 @@ def sell_loop():
 				else:
 					position_2.side = 'sell'
 					position_1.side = 'buy'
-					if zscore < 0:
+					if zscore < 0 or zscore < bollinger_down.iloc[-1]:
 						place_market_close_order(position_1)
 						place_market_close_order(position_2)
 						removed_from_list = False
