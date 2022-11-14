@@ -96,8 +96,8 @@ def buy_loop():
 						bollinger_down = sma - std * 2 # Calculate bottom band
 						lg.info("Zscore: %s" % zscore)
 	
-						if zscore > bollinger_up or zscore < bollinger_down:
-							if zscore > bollinger_up:
+						if zscore > bollinger_up[-1] or zscore < bollinger_down[-1]:
+							if zscore > bollinger_up[-1]:
 								position_1.side = "sell"
 								position_2.side = "buy"
 							else:
