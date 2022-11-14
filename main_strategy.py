@@ -55,8 +55,8 @@ def buy_loop():
 			open_position_list_temp = open_position_list
 			open_position_list.lock.release()
 			
-			if not open_position_list_temp.positions['sym_1'].str.contains(position_1.symbol) and not open_position_list_temp.positions['sym_1'].str.contains(position_2.symbol):
-				if not open_position_list_temp.positions['sym_2'].str.contains(position_1.symbol) and not open_position_list_temp.positions['sym_2'].str.contains(position_2.symbol):
+			if open_position_list_temp.positions['sym_1'].str.contains(position_1.symbol).sum() == 0 and open_position_list_temp.positions['sym_1'].str.contains(position_2.symbol).sum() == 0:
+				if open_position_list_temp.positions['sym_2'].str.contains(position_1.symbol).sum() == 0 and open_position_list_temp.positions['sym_2'].str.contains(position_2.symbol).sum() == 0:
 					get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
 					get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
 					position_1.close_series = extract_close_prices(position_1)
