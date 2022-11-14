@@ -60,13 +60,19 @@ def buy_loop():
 					get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
 					get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
 					position_1.close_series = extract_close_prices(position_1)
-					position_1.yf = yf.Ticker(position_1.symbol).info
-					position_1.close_series.append(position_1.yf['regularMarketPrice'])
+					try:
+						position_1.yf = yf.Ticker(position_1.symbol).info
+						position_1.close_series.append(position_1.yf['regularMarketPrice'])
+						position_1.quantity = round(api.capital_per_trade / position_1.yf['regularMarketPrice'])
+					else:
+						position_1.quantity = 0
 					position_2.close_series = extract_close_prices(position_2)
-					position_2.yf = yf.Ticker(position_2.symbol).info
-					position_2.close_series.append(position_2.yf['regularMarketPrice'])
-					position_1.quantity = round(api.capital_per_trade / position_1.yf['regularMarketPrice'])
-					position_2.quantity = round(api.capital_per_trade / position_2.yf['regularMarketPrice'])
+					try:
+						position_2.yf = yf.Ticker(position_2.symbol).info
+						position_2.close_series.append(position_2.yf['regularMarketPrice'])
+						position_2.quantity = round(api.capital_per_trade / position_2.yf['regularMarketPrice'])
+					else:
+						position_2.quantity = 0
 					position_1.stop_loss = round(position_1.close_series[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
 					position_2.stop_loss = round(position_2.close_series[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
 					lg.info(len(position_1.close_series))
