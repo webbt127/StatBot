@@ -87,10 +87,11 @@ def buy_loop():
 					if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0 and position_1.quantity > 0 and position_2.quantity > 0):
 						_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
 						spread = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
-						zscore_list = calculate_zscore(spread)
+						zscore_df = calculate_zscore(spread)
+						zscore_list = zscore_df.astype(float).values
 						zscore = zscore_list[-1]
-						sma = zscore_list.rolling(api.bollinger_length).mean()
-						std = zscore_list.rolling(api.bollinger_length).std()
+						sma = zscore_df.rolling(api.bollinger_length).mean()
+						std = zscore_df.rolling(api.bollinger_length).std()
 						bollinger_up = sma + std * 2 # Calculate top band
 						bollinger_down = sma - std * 2 # Calculate bottom band
 						lg.info("Zscore: %s" % zscore)
