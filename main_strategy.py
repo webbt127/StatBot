@@ -89,10 +89,14 @@ def buy_loop():
 						spread = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
 						zscore_list = calculate_zscore(spread)
 						zscore = zscore_list[-1]
+						sma = zscore_list.rolling(api.bollinger_length).mean()
+						std = zscore_list.rolling(api.bollinger_length).std()
+						bollinger_up = sma + std * 2 # Calculate top band
+    						bollinger_down = sma - std * 2 # Calculate bottom band
 						lg.info("Zscore: %s" % zscore)
 	
-						if abs(zscore) > api.signal_trigger_thresh:
-							if zscore > 0:
+						if zscore > bollinger_up or zscore < bollinger_down:
+							if zscore > bollinger_up:
 								position_1.side = "sell"
 								position_2.side = "buy"
 							else:
