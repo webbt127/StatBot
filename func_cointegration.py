@@ -17,7 +17,7 @@ def calculate_zscore(spread):
 	std = df.rolling(center=False, window=api.z_score_window).std()
 	x = df.rolling(center=False, window=1).mean()
 	df["ZSCORE"] = (x - mean) / std
-	return df["ZSCORE"].astype(float).values
+	return df["ZSCORE"]
 
 
 # Calculate spread
