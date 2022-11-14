@@ -121,11 +121,11 @@ def sell_loop():
 		open_position_list.lock.release()
 		time.sleep(10)
 		for trade in open_position_list_working.positions['index']:
-			lg.info(open_position_list_working.positions[trade])
+			lg.info(open_position_list_working.positions.loc[trade])
 			position_1 = position()
-			position_1.symbol = open_position_list_working.positions[trade]['sym_1']
+			position_1.symbol = open_position_list_working.positions.loc[trade]['sym_1']
 			position_2 = position()
-			position_2.symbol = open_position_list_working.positions[trade]['sym_2']
+			position_2.symbol = open_position_list_working.positions.loc[trade]['sym_2']
 			get_ticker_position(position_1)
 			get_ticker_position(position_2)
 			get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
