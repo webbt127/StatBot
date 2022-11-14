@@ -47,7 +47,7 @@ class config:
 		self.max_positions = 10
 		self.search_limit = 10000
 		self.capital_per_trade = 1000
-		self.test_set = 2000
+		self.test_set = 6000
 		self.bollinger_length = 50
 
 global api
