@@ -84,7 +84,7 @@ def buy_loop():
 					lg.info(len(position_1.close_series))
 					lg.info(len(position_2.close_series))
 	
-					if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0):
+					if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0 and position_1.quantity > 0 and position_2.quantity > 0):
 						_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
 						spread = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
 						zscore_list = calculate_zscore(spread)
