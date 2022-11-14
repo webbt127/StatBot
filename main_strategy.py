@@ -55,8 +55,8 @@ def buy_loop():
 			open_position_list_temp = open_position_list
 			open_position_list.lock.release()
 			
-			if position_1.symbol not in open_position_list_temp.positions['sym_1'] and position_1.symbol not in open_position_list_temp.positions['sym_1']:
-				if position_2.symbol not in open_position_list_temp.positions['sym_1'] and position_2.symbol not in open_position_list_temp.positions['sym_1']:
+			if not open_position_list_temp.positions['sym_1'].str.contains(position_1.symbol) and not open_position_list_temp.positions['sym_1'].str.contains(position_2.symbol):
+				if not open_position_list_temp.positions['sym_2'].str.contains(position_1.symbol) and not open_position_list_temp.positions['sym_2'].str.contains(position_2.symbol):
 					get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
 					get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
 					position_1.close_series = extract_close_prices(position_1)
@@ -67,6 +67,8 @@ def buy_loop():
 					position_2.close_series.append(position_2.yf['regularMarketPrice'])
 					position_1.quantity = round(api.capital_per_trade / position_1.yf['regularMarketPrice'])
 					position_2.quantity = round(api.capital_per_trade / position_2.yf['regularMarketPrice'])
+					position_1.stop_loss = round(position_1.close_series[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
+					position_2.stop_loss = round(position_2.close_series[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
 					lg.info(len(position_1.close_series))
 					lg.info(len(position_2.close_series))
 	
