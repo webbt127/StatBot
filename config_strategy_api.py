@@ -51,7 +51,7 @@ class config:
 		self.search_limit = 10000
 		self.get_new_history = False
 		self.capital_per_trade = 1000
-		self.test_set = 900
+		self.test_set = 1200
 
 global api
 api = config()
