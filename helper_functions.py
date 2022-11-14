@@ -9,7 +9,8 @@ from config_strategy_api import *
 from func_cointegration import *
 from alive_progress import alive_bar
 import logging as lg
-from joblib import Parallel, delayed, parallel_backend
+#from joblib import Parallel, delayed, parallel_backend
+from pbar_parallel import PBarParallel, delayed
 from yahoo_fin import stock_info
 from alpaca_trade_api.rest import TimeFrame
 import datetime
@@ -42,7 +43,7 @@ def get_price_history():
 
     # Get prices and store in DataFrame
 	price_history_dict = {}
-	Parallel(n_jobs=8, prefer="threads")(delayed(price_history_execution)(asset) for asset in asset_list.symbols)	
+	PBarParallel(n_jobs=8, prefer="threads")(delayed(price_history_execution)(asset) for asset in asset_list.symbols)	
     # Return output
 	return asset_list
 
@@ -122,7 +123,7 @@ def get_tradeable_symbols():
 	active_assets = api.session.list_assets(status='active')
 	asset_list.symbols = [a for a in active_assets if a.easy_to_borrow == True and a.tradable == True and getattr(a, 'class') == 'us_equity']
 	asset_list.symbols = asset_list.symbols[test_set]
-	Parallel(n_jobs=8, prefer="threads")(delayed(filter_assets)(a) for a in asset_list.symbols)
+	PBarParallel(n_jobs=8, prefer="threads")(delayed(filter_assets)(a) for a in asset_list.symbols)
 	asset_list.symbols = [a for a in asset_list.symbols if a.average_volume > 1000000]
 	print(len(asset_list.symbols))
 	
