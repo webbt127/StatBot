@@ -41,7 +41,7 @@ def begin_threading():
 	
 def buy_loop():
 	while True:
-		#wait_for_market_open()
+		wait_for_market_open()
 		for i in coint_pairs['index']:
 			lg.info("Pair: %s" % i)
 			position_1 = position()
@@ -122,7 +122,7 @@ def buy_loop():
 				
 def sell_loop():
 	while True:
-		#wait_for_market_open()
+		wait_for_market_open()
 		open_position_list.lock.acquire()
 		open_position_list_working = open_position_list
 		open_position_list.lock.release()
