@@ -7,7 +7,6 @@ import math
 from alive_progress import alive_bar
 from joblib import Parallel, delayed, parallel_backend
 #from pbar_parallel import PBarParallel, delayed
-from helper_functions import match_series_lengths
 import logging as lg
 
 
@@ -82,3 +81,20 @@ def check_pairs(sym_1, sym_2):
 								"zero_crossings": zero_crossings
 								})
 	return sym_1, sym_2
+
+def match_series_lengths(position_1, position_2):
+	
+	if len(position_1.close_series) == len(position_2.close_series):
+		return position_1, position_2
+	if len(position_1.close_series) > len(position_2.close_series):
+		difference = len(position_1.close_series) - len(position_2.close_series)
+		slice = slice(difference, len(position_2.close_series), 1)
+		position_1.close_series = position_1.close_series[slice]
+		return position_1, position_2
+	if len(position_2.close_series) > len(position_1.close_series):
+		difference = len(position_2.close_series) - len(position_1.close_series)
+		slice = slice(difference, len(position_1.close_series), 1)
+		position_2.close_series = position_2.close_series[slice]
+		return position_1, position_2
+	else:
+		return position_1, position_2
