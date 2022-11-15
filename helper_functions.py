@@ -72,7 +72,6 @@ def get_price_klines(asset, timeframe, klines):
 
 	asset.klines = None
 	start_time = get_start_time(api)
-	kline_set = slice(0, 9900, 1)
 	try:
 		asset.klines = api.session.get_bars(
 			symbol = asset.symbol,
@@ -80,7 +79,6 @@ def get_price_klines(asset, timeframe, klines):
 			limit = klines,
 			start = start_time
 		).df
-		asset.klines = asset.klines[kline_set]
 	except Exception as e:
 		print("Could Not Get Prices")
 		asset.klines = None
