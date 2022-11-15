@@ -89,12 +89,14 @@ def match_series_lengths(position_1, position_2):
 	if len(position_1.close_series) > len(position_2.close_series):
 		difference = len(position_1.close_series) - len(position_2.close_series)
 		slice_param = slice(difference, len(position_2.close_series), 1)
-		position_1.close_series = position_1.close_series[slice_param]
+		position_1.close_series_matched = position_1.close_series[slice_param]
+		position_2.close_series_matched = position_2.close_series
 		return position_1, position_2
 	if len(position_2.close_series) > len(position_1.close_series):
 		difference = len(position_2.close_series) - len(position_1.close_series)
 		slice_param = slice(difference, len(position_1.close_series), 1)
-		position_2.close_series = position_2.close_series[slice_param]
+		position_2.close_series_matched = position_2.close_series[slice_param]
+		position_1.close_series_matched = position_1.close_series
 		return position_1, position_2
 	else:
 		return position_1, position_2
