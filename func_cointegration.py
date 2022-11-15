@@ -11,20 +11,11 @@ from func_cointegration import *
 import logging as lg
 
 
-# Calculate Z-Score
-def calculate_zscore(spread):
-	df = pd.DataFrame(spread)
-	mean = df.rolling(center=False, window=api.z_score_window).mean()
-	std = df.rolling(center=False, window=api.z_score_window).std()
-	x = df.rolling(center=False, window=1).mean()
-	df["ZSCORE"] = (x - mean) / std
-	return df["ZSCORE"]
-
-
 # Calculate spread
 def calculate_spread(series_1, series_2, hedge_ratio):
 	spread = pd.Series(series_1) - (pd.Series(series_2) * hedge_ratio)
-	return spread
+	df = pd.DataFrame(spread)
+	return df
 
 
 # Calculate co-integration
@@ -90,23 +81,3 @@ def check_pairs(sym_1, sym_2):
 								"zero_crossings": zero_crossings
 								})
 	return sym_1, sym_2
-
-						
-def get_latest_zscore(position_1, position_2):
-
-    # Get latest price history
-	get_price_klines(position_1)
-	get_price_klines(position_2)
-
-    # Get z_score and confirm if hot
-	if len(position_1.klines) > 0 and len(position_2.klines) > 0:
-
-        # Get latest zscore
-		_, zscore_list = calculate_metrics(position_1.klines, position_2.klines)
-		zscore = zscore_list[-1]
-
-        # Return output
-		return zscore
-
-    # Return output if not true
-	return
