@@ -20,17 +20,21 @@ def calculate_spread(series_1, series_2, hedge_ratio):
 # Calculate co-integration
 def calculate_cointegration(sym_1, sym_2):
 	coint_flag = 0
-	coint_res = coint(sym_1.close_series_matched, sym_2.close_series_matched)
-	coint_t = coint_res[0]
-	p_value = coint_res[1]
-	critical_value = coint_res[2][1]
-	model = sm.OLS(sym_1.close_series_matched, sym_2.close_series_matched).fit()
-	hedge_ratio = model.params[0]
-	spread = calculate_spread(sym_1.close_series_matched, sym_2.close_series_matched, hedge_ratio)
-	zero_crossings = len(np.where(np.diff(np.sign(spread)))[0])
-	if p_value < 0.05 and coint_t < critical_value:
-		coint_flag = 1
-	return (coint_flag, round(p_value, 3), round(coint_t, 3), round(critical_value, 3), round(hedge_ratio, 2), zero_crossings)
+	try:
+		coint_res = coint(sym_1.close_series_matched, sym_2.close_series_matched)
+		coint_t = coint_res[0]
+		p_value = coint_res[1]
+		critical_value = coint_res[2][1]
+		model = sm.OLS(sym_1.close_series_matched, sym_2.close_series_matched).fit()
+		hedge_ratio = model.params[0]
+		spread = calculate_spread(sym_1.close_series_matched, sym_2.close_series_matched, hedge_ratio)
+		zero_crossings = len(np.where(np.diff(np.sign(spread)))[0])
+		if p_value < 0.05 and coint_t < critical_value and zero_crossings > api.min_zero_crosses:
+			coint_flag = 1
+		return (coint_flag, round(p_value, 3), round(coint_t, 3), round(critical_value, 3), round(hedge_ratio, 2), zero_crossings)
+	except Exception as e:
+		lg.info(e)
+		return (0, 0, 0, 0, 0, 0)
 
 
 # Put close prices into a list
