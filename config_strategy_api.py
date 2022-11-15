@@ -49,6 +49,7 @@ class config:
 		self.capital_per_trade = 1000
 		self.test_set = 6000
 		self.bollinger_length = 50
+		self.min_zero_crosses = 10
 
 global api
 api = config()
