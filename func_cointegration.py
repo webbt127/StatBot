@@ -7,7 +7,7 @@ import math
 from alive_progress import alive_bar
 from joblib import Parallel, delayed, parallel_backend
 #from pbar_parallel import PBarParallel, delayed
-from func_cointegration import *
+from helper_functions import *
 import logging as lg
 
 
@@ -47,7 +47,7 @@ def extract_close_prices(asset):
 def get_cointegrated_pairs():
 
     # Loop through coins and check for co-integration
-	with alive_bar((len(asset_list.symbols)*len(asset_list.symbols)), title='Checking Cointegration...') as bar:
+	with alive_bar(0, title='Checking Cointegration...') as bar:
 		global included_list
 		Parallel(n_jobs=8, verbose=10, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
 		df_coint = pd.DataFrame(coint_pair_list)
@@ -67,6 +67,7 @@ def check_pairs(sym_1, sym_2):
 				if sym_1.klines is not None and sym_2.klines is not None and 'close' in sym_1.klines and 'close' in sym_2.klines:
 					sym_1.close_series = extract_close_prices(sym_1)
 					sym_2.close_series = extract_close_prices(sym_2)
+					match_series_lengths(sym_1, sym_2)
 					if len(sym_1.close_series) == len(sym_2.close_series):
 						coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
 						if coint_flag == 1:
