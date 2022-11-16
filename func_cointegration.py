@@ -71,11 +71,7 @@ def check_pairs(sym_1, sym_2):
 					sym_1.close_series = extract_close_prices(sym_1)
 					sym_2.close_series = extract_close_prices(sym_2)
 					#match_series_lengths(sym_1, sym_2)
-					lg.info(sym_1.close_series)
-					lg.info(sym_2.close_series)
 					if len(sym_1.close_series) == len(sym_2.close_series) and len(sym_1.close_series) > 0:
-						lg.info(len(sym_1.close_series))
-						lg.info(len(sym_2.close_series))
 						coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
 						if coint_flag == 1:
 							included_list.append(unique)
