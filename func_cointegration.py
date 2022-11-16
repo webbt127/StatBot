@@ -71,6 +71,8 @@ def check_pairs(sym_1, sym_2):
 					sym_1.close_series = extract_close_prices(sym_1)
 					sym_2.close_series = extract_close_prices(sym_2)
 					match_series_lengths(sym_1, sym_2)
+					lg.info(sym_1.close_series_matched)
+					lg.info(sym_2.close_series_matched)
 					if len(sym_1.close_series_matched) == len(sym_2.close_series_matched) and len(sym_1.close_series_matched) > 0:
 						lg.info(len(sym_1.close_series_matched))
 						lg.info(len(sym_2.close_series_matched))
