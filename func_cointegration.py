@@ -90,14 +90,11 @@ def check_pairs(sym_1, sym_2):
 
 def match_series_lengths(position_1, position_2):
 	
-	position_1.close_series_matched = position_1.close_series
-	position_2.close_series_matched = position_2.close_series
-	if len(position_1.close_series_matched) == len(position_2.close_series_matched):
-		return position_1, position_2
-	while len(position_1.close_series_matched) > len(position_2.close_series_matched):
-		position_1.close_series_matched.pop(0)
-	while len(position_2.close_series_matched) > len(position_1.close_series_matched):
-		position_2.close_series_matched.pop(0)
+	position_1.close_series_matched = pd.DataFrame(position_1.close_series)
+	position_2.close_series_matched = pd.DataFrame(position_2.close_series)
+	#if len(position_1.close_series_matched) == len(position_2.close_series_matched):
+	lg.info(position_1.close_series_matched)
+	lg.info(position_2.close_series_matched)
 	#if len(position_1.close_series) > len(position_2.close_series):
 	#	difference = len(position_1.close_series) - len(position_2.close_series)
 	#	slice_param = slice(difference, len(position_2.close_series), 1)
