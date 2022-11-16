@@ -58,7 +58,7 @@ def buy_loop():
 					get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
 					position_1.close_series = extract_close_prices(position_1)
 					position_2.close_series = extract_close_prices(position_2)
-					match_series_lengths(position_1, positions_2)
+					#match_series_lengths(position_1, positions_2)
 					try:
 						position_1.yf = yf.Ticker(position_1.symbol).info
 						position_1.close_series.append(position_1.yf['regularMarketPrice'])
@@ -139,7 +139,7 @@ def sell_loop():
 			position_2.close_series = extract_close_prices(position_2)
 			position_2.yf = yf.Ticker(position_2.symbol).info
 			position_2.close_series.append(position_2.yf['regularMarketPrice'])
-			match_series_lengths(position_1, positions_2)
+			#match_series_lengths(position_1, positions_2)
 			if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0):
 				_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
 				spread_df = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
