@@ -43,13 +43,13 @@ class config:
 	
 		self.timeframe = 60
 		self.kline_limit = 2000
-		self.z_score_window = 50
+		self.z_score_window = 21
 		self.max_positions = 10
 		self.search_limit = 10000
 		self.capital_per_trade = 1000
 		self.test_set = 6000
-		self.bollinger_length = 50
-		self.min_zero_crosses = 10
+		self.bollinger_length = 21
+		self.min_zero_crosses = 1
 
 global api
 api = config()
