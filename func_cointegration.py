@@ -93,16 +93,28 @@ def match_series_lengths(position_1, position_2):
 	position_1.close_series_matched = pd.DataFrame(position_1.close_series)
 	position_2.close_series_matched = pd.DataFrame(position_2.close_series)
 	if position_1.close_series_matched.size == position_2.close_series_matched.size:
+		position_1.close_series_matched.reindex()
+		position_2.close_series_matched.reindex()
+		lg.info(position_1.close_series_matched)
+		lg.info(position_2.close_series_matched)
 		return position_1, position_2
 	if position_1.close_series_matched.size > position_2.close_series_matched.size:
 		difference = position_1.close_series_matched.size - position_2.close_series_matched.size
 		end_index = position_2.close_series_matched.size - 1
 		position_1.close_series_matched = position_1.close_series_matched.loc[difference:end_index]
+		position_1.close_series_matched.reindex()
+		position_2.close_series_matched.reindex()
+		lg.info(position_1.close_series_matched)
+		lg.info(position_2.close_series_matched)
 		return position_1, position_2
 	if position_2.close_series_matched.size > position_1.close_series_matched.size:
 		difference = position_2.close_series_matched.size - position_1.close_series_matched.size
 		end_index = position_1.close_series_matched.size - 1
 		position_2.close_series_matched = position_2.close_series_matched.loc[difference:end_index]
+		position_1.close_series_matched.reindex()
+		position_2.close_series_matched.reindex()
+		lg.info(position_1.close_series_matched)
+		lg.info(position_2.close_series_matched)
 		return position_1, position_2
 	else:
 		return position_1, position_2
