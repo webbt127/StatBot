@@ -92,20 +92,17 @@ def match_series_lengths(position_1, position_2):
 	
 	position_1.close_series_matched = pd.DataFrame(position_1.close_series)
 	position_2.close_series_matched = pd.DataFrame(position_2.close_series)
-	#if len(position_1.close_series_matched) == len(position_2.close_series_matched):
-	lg.info(position_1.close_series_matched)
-	lg.info(position_2.close_series_matched)
-	#if len(position_1.close_series) > len(position_2.close_series):
-	#	difference = len(position_1.close_series) - len(position_2.close_series)
-	#	slice_param = slice(difference, len(position_2.close_series), 1)
-	#	position_1.close_series_matched = position_1.close_series[slice_param]
-	#	position_2.close_series_matched = position_2.close_series
-	#	return position_1, position_2
-	#if len(position_2.close_series) > len(position_1.close_series):
-	#	difference = len(position_2.close_series) - len(position_1.close_series)
-	#	slice_param = slice(difference, len(position_1.close_series), 1)
-	#	position_2.close_series_matched = position_2.close_series[slice_param]
-	#	position_1.close_series_matched = position_1.close_series
-	#	return position_1, position_2
-	#else:
-	return position_1, position_2
+	if position_1.close_series_matched.size == position_2.close_series_matched.size:
+		return position_1, position_2
+	if position_1.close_series_matched.size > position_2.close_series_matched.size:
+		difference = position_1.close_series_matched.size - position_2.close_series_matched.size
+		end_index = position_2.close_series_matched.size - 1
+		position_1.close_series_matched = position_1.close_series_matched.loc[difference:end_index]
+		return position_1, position_2
+	if position_2.close_series_matched.size > position_1.close_series_matched.size:
+		difference = position_2.close_series_matched.size - position_1.close_series_matched.size
+		end_index = position_1.close_series_matched.size - 1
+		position_2.close_series_matched = position_2.close_series_matched.loc[difference:end_index]
+		return position_1, position_2
+	else:
+		return position_1, position_2
