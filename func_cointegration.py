@@ -90,21 +90,29 @@ def check_pairs(sym_1, sym_2):
 
 def match_series_lengths(position_1, position_2):
 	
-	if len(position_1.close_series) == len(position_2.close_series):
-		position_1.close_series_matched = position_1.close_series
-		position_2.close_series_matched = position_2.close_series
+	position_1.close_series.dropna()
+	position_2.close_series.dropna()
+	position_1.close_series_matched = position_1.close_series
+	position_2.close_series_matched = position_2.close_series
+	if len(position_1.close_series_matched) == len(position_2.close_series_matched):
 		return position_1, position_2
-	if len(position_1.close_series) > len(position_2.close_series):
-		difference = len(position_1.close_series) - len(position_2.close_series)
-		slice_param = slice(difference, len(position_2.close_series), 1)
-		position_1.close_series_matched = position_1.close_series[slice_param]
-		position_2.close_series_matched = position_2.close_series
-		return position_1, position_2
-	if len(position_2.close_series) > len(position_1.close_series):
-		difference = len(position_2.close_series) - len(position_1.close_series)
-		slice_param = slice(difference, len(position_1.close_series), 1)
-		position_2.close_series_matched = position_2.close_series[slice_param]
-		position_1.close_series_matched = position_1.close_series
-		return position_1, position_2
-	else:
-		return position_1, position_2
+	while len(position_1.close_series_matched) > len(position_2.close_series_matched):
+		position_1.close_series_matched.drop(0)
+		position_1.close_series_matched.reindex()
+	while len(position_2.close_series_matched) > len(position_1.close_series_matched):
+		position_2.close_series_matched.drop(0)
+		position_2.close_series_matched.reindex()
+	#if len(position_1.close_series) > len(position_2.close_series):
+	#	difference = len(position_1.close_series) - len(position_2.close_series)
+	#	slice_param = slice(difference, len(position_2.close_series), 1)
+	#	position_1.close_series_matched = position_1.close_series[slice_param]
+	#	position_2.close_series_matched = position_2.close_series
+	#	return position_1, position_2
+	#if len(position_2.close_series) > len(position_1.close_series):
+	#	difference = len(position_2.close_series) - len(position_1.close_series)
+	#	slice_param = slice(difference, len(position_1.close_series), 1)
+	#	position_2.close_series_matched = position_2.close_series[slice_param]
+	#	position_1.close_series_matched = position_1.close_series
+	#	return position_1, position_2
+	#else:
+	return position_1, position_2
