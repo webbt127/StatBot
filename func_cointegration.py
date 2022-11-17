@@ -14,7 +14,7 @@ import logging as lg
 # Calculate spread
 def calculate_spread(series_1, series_2, hedge_ratio):
 	spread = pd.Series(series_1) - (pd.Series(series_2) * hedge_ratio)
-	df = pd.DataFrame(spread)
+	df['close'] = pd.DataFrame(spread)
 	return df
 
 
