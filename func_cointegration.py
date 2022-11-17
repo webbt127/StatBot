@@ -7,6 +7,7 @@ import math
 from alive_progress import alive_bar
 from joblib import Parallel, delayed, parallel_backend
 #from pbar_parallel import PBarParallel, delayed
+from func_cointegration import *
 import logging as lg
 
 
@@ -20,21 +21,17 @@ def calculate_spread(series_1, series_2, hedge_ratio):
 # Calculate co-integration
 def calculate_cointegration(sym_1, sym_2):
 	coint_flag = 0
-	try:
-		coint_res = coint(sym_1.close_series, sym_2.close_series)
-		coint_t = coint_res[0]
-		p_value = coint_res[1]
-		critical_value = coint_res[2][1]
-		model = sm.OLS(sym_1.close_series, sym_2.close_series).fit()
-		hedge_ratio = model.params[0]
-		spread = calculate_spread(sym_1.close_series, sym_2.close_series, hedge_ratio)
-		zero_crossings = len(np.where(np.diff(np.sign(spread)))[0])
-		if p_value < 0.5 and coint_t < critical_value and zero_crossings > api.min_zero_crosses:
-			coint_flag = 1
-		return (coint_flag, round(p_value, 3), round(coint_t, 3), round(critical_value, 3), round(hedge_ratio, 2), zero_crossings)
-	except Exception as e:
-		lg.info(e)
-		return (0, 0, 0, 0, 0, 0)
+	coint_res = coint(sym_1.close_series, sym_2.close_series)
+	coint_t = coint_res[0]
+	p_value = coint_res[1]
+	critical_value = coint_res[2][1]
+	model = sm.OLS(sym_1.close_series, sym_2.close_series).fit()
+	hedge_ratio = model.params[0]
+	spread = calculate_spread(sym_1.close_series, sym_2.close_series, hedge_ratio)
+	zero_crossings = len(np.where(np.diff(np.sign(spread)))[0])
+	if p_value < 0.05 and coint_t < critical_value:
+		coint_flag = 1
+	return (coint_flag, round(p_value, 3), round(coint_t, 3), round(critical_value, 3), round(hedge_ratio, 2), zero_crossings)
 
 
 # Put close prices into a list
@@ -50,7 +47,7 @@ def extract_close_prices(asset):
 def get_cointegrated_pairs():
 
     # Loop through coins and check for co-integration
-	with alive_bar(0, title='Checking Cointegration...') as bar:
+	with alive_bar((len(asset_list.symbols)*len(asset_list.symbols)), title='Checking Cointegration...') as bar:
 		global included_list
 		Parallel(n_jobs=8, verbose=10, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
 		df_coint = pd.DataFrame(coint_pair_list)
@@ -70,8 +67,7 @@ def check_pairs(sym_1, sym_2):
 				if sym_1.klines is not None and sym_2.klines is not None and 'close' in sym_1.klines and 'close' in sym_2.klines:
 					sym_1.close_series = extract_close_prices(sym_1)
 					sym_2.close_series = extract_close_prices(sym_2)
-					#match_series_lengths(sym_1, sym_2)
-					if len(sym_1.close_series) == len(sym_2.close_series) and len(sym_1.close_series) > 0:
+					if len(sym_1.close_series) == len(sym_2.close_series):
 						coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
 						if coint_flag == 1:
 							included_list.append(unique)
@@ -85,28 +81,3 @@ def check_pairs(sym_1, sym_2):
 								"zero_crossings": zero_crossings
 								})
 	return sym_1, sym_2
-
-def match_series_lengths(position_1, position_2):
-	
-	position_1.close_series_matched = pd.DataFrame(position_1.close_series)
-	position_2.close_series_matched = pd.DataFrame(position_2.close_series)
-	if position_1.close_series_matched.size == position_2.close_series_matched.size:
-		position_1.close_series_matched.reindex()
-		position_2.close_series_matched.reindex()
-		return position_1, position_2
-	if position_1.close_series_matched.size > position_2.close_series_matched.size:
-		difference = position_1.close_series_matched.size - position_2.close_series_matched.size
-		end_index = position_2.close_series_matched.size - 1
-		position_1.close_series_matched = position_1.close_series_matched.loc[difference:end_index]
-		position_1.close_series_matched.reindex()
-		position_2.close_series_matched.reindex()
-		return position_1, position_2
-	if position_2.close_series_matched.size > position_1.close_series_matched.size:
-		difference = position_2.close_series_matched.size - position_1.close_series_matched.size
-		end_index = position_1.close_series_matched.size - 1
-		position_2.close_series_matched = position_2.close_series_matched.loc[difference:end_index]
-		position_1.close_series_matched.reindex()
-		position_2.close_series_matched.reindex()
-		return position_1, position_2
-	else:
-		return position_1, position_2
