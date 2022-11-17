@@ -92,13 +92,13 @@ def buy_loop():
 						lg.info("========== CHECKING TO OPEN POSITIONS ==========")
 						lg.info("Asset 1: %s" % position_1.symbol)
 						lg.info("Asset 2: %s" % position_2.symbol)
-						lg.info("BB Upper: %s" % bollinger_up['0'].iloc[-1])
+						lg.info("BB Upper: %s" % bollinger_up['spread'].iloc[-1])
 						lg.info("Spread: %s" % spread)
-						lg.info("BB Lower: %s" % bollinger_down['0'].iloc[-1])
+						lg.info("BB Lower: %s" % bollinger_down['spread'].iloc[-1])
 						lg.info("=================================================")
 	
-						if spread > bollinger_up['0'].iloc[-1] or spread < bollinger_down['0'].iloc[-1]:
-							if spread > bollinger_up['0'].iloc[-1]:
+						if spread > bollinger_up['spread'].iloc[-1] or spread < bollinger_down['spread'].iloc[-1]:
+							if spread > bollinger_up['spread'].iloc[-1]:
 								position_1.side = "sell"
 								position_2.side = "buy"
 							else:
@@ -152,14 +152,14 @@ def sell_loop():
 				lg.info("========== CHECKING TO CLOSE POSITIONS ==========")
 				lg.info("Asset 1: %s" % position_1.symbol)
 				lg.info("Asset 2: %s" % position_2.symbol)
-				lg.info("BB Upper: %s" % bollinger_up['0'].iloc[-1])
+				lg.info("BB Upper: %s" % bollinger_up['spread'].iloc[-1])
 				lg.info("Spread: %s" % spread)
-				lg.info("BB Lower: %s" % bollinger_down['0'].iloc[-1])
+				lg.info("BB Lower: %s" % bollinger_down['spread'].iloc[-1])
 				lg.info("=================================================")
 				if position_1.qty > 0 and position_2.qty < 0:
 					position_1.side = 'sell'
 					position_2.side = 'buy'
-					if spread > 0 or spread > bollinger_up['0'].iloc[-1]:
+					if spread > 0 or spread > bollinger_up['spread'].iloc[-1]:
 						place_market_close_order(position_1)
 						place_market_close_order(position_2)
 						removed_from_list = False
