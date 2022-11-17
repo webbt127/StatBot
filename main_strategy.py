@@ -41,15 +41,12 @@ def begin_threading():
 	
 def buy_loop():
 	while True:
-		#wait_for_market_open()
+		wait_for_market_open()
 		for i in coint_pairs['index']:
-			lg.info("Pair: %s" % i)
 			position_1 = position()
 			position_1.symbol = coint_pairs['sym_1'][i]
-			lg.info("Asset 1: %s" % position_1.symbol)
 			position_2 = position()
 			position_2.symbol = coint_pairs['sym_2'][i]
-			lg.info("Asset 2: %s" % position_2.symbol)
 			
 			open_position_list.lock.acquire()
 			open_position_list_temp = open_position_list
@@ -60,6 +57,8 @@ def buy_loop():
 					get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
 					get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
 					position_1.close_series = extract_close_prices(position_1)
+					position_2.close_series = extract_close_prices(position_2)
+					#match_series_lengths(position_1, positions_2)
 					try:
 						position_1.yf = yf.Ticker(position_1.symbol).info
 						position_1.close_series.append(position_1.yf['regularMarketPrice'])
@@ -69,7 +68,6 @@ def buy_loop():
 							position_1.quantity = 0
 					except:
 						position_1.quantity = 0
-					position_2.close_series = extract_close_prices(position_2)
 					try:
 						position_2.yf = yf.Ticker(position_2.symbol).info
 						position_2.close_series.append(position_2.yf['regularMarketPrice'])
@@ -81,25 +79,26 @@ def buy_loop():
 						position_2.quantity = 0
 					position_1.stop_loss = round(position_1.close_series[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
 					position_2.stop_loss = round(position_2.close_series[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
-					lg.info(len(position_1.close_series))
-					lg.info(len(position_2.close_series))
 	
 					if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0 and position_1.quantity > 0 and position_2.quantity > 0):
 						_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
-						spread = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
-						zscore_df = calculate_zscore(spread)
-						zscore_list = zscore_df.astype(float).values
-						zscore = zscore_list[-1]
-						sma = zscore_df.rolling(api.bollinger_length).mean()
-						std = zscore_df.rolling(api.bollinger_length).std()
+						spread_df = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
+						spread_list = spread_df.astype(float).values
+						spread = spread_list[-1]
+						sma = spread_df.rolling(api.bollinger_length).mean()
+						std = spread_df.rolling(api.bollinger_length).std()
 						bollinger_up = sma + std * 2 # Calculate top band
 						bollinger_down = sma - std * 2 # Calculate bottom band
+						lg.info("========== CHECKING TO OPEN POSITIONS ==========")
+						lg.info("Asset 1: %s" % position_1.symbol)
+						lg.info("Asset 2: %s" % position_2.symbol)
 						lg.info("BB Upper: %s" % bollinger_up.iloc[-1])
-						lg.info("Zscore: %s" % zscore)
+						lg.info("Spread: %s" % spread)
 						lg.info("BB Lower: %s" % bollinger_down.iloc[-1])
+						lg.info("=================================================")
 	
-						if zscore > bollinger_up.iloc[-1] or zscore < bollinger_down.iloc[-1]:
-							if zscore > bollinger_up.iloc[-1]:
+						if spread > bollinger_up.iloc[-1] or spread < bollinger_down.iloc[-1]:
+							if spread > bollinger_up.iloc[-1]:
 								position_1.side = "sell"
 								position_2.side = "buy"
 							else:
@@ -111,18 +110,16 @@ def buy_loop():
 							added_to_list = False
 							while not added_to_list:
 								open_position_list.lock.acquire()
-								lg.info(coint_pairs.loc[[i]])
 								entry = coint_pairs.loc[coint_pairs['index'] == i]
 								open_position_list.positions = pd.concat([open_position_list.positions, entry])
-								lg.info("Position List:")
-								lg.info(open_position_list.positions)
+								lg.info("Open Position List: %s" % open_position_list.positions)
 								added_to_list = True
 								open_position_list.lock.release()
 				
 				
 def sell_loop():
 	while True:
-		#wait_for_market_open()
+		wait_for_market_open()
 		open_position_list.lock.acquire()
 		open_position_list_working = open_position_list
 		open_position_list.lock.release()
@@ -142,23 +139,27 @@ def sell_loop():
 			position_2.close_series = extract_close_prices(position_2)
 			position_2.yf = yf.Ticker(position_2.symbol).info
 			position_2.close_series.append(position_2.yf['regularMarketPrice'])
+			#match_series_lengths(position_1, positions_2)
 			if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0):
 				_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
-				spread = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
-				zscore_df = calculate_zscore(spread)
-				zscore_list = zscore_df.astype(float).values
-				zscore = zscore_list[-1]
-				sma = zscore_df.rolling(api.bollinger_length).mean()
-				std = zscore_df.rolling(api.bollinger_length).std()
+				spread_df = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
+				spread_list = spread_df.astype(float).values
+				spread = spread_list[-1]
+				sma = spread_df.rolling(api.bollinger_length).mean()
+				std = spread_df.rolling(api.bollinger_length).std()
 				bollinger_up = sma + std * 2 # Calculate top band
 				bollinger_down = sma - std * 2 # Calculate bottom band
+				lg.info("========== CHECKING TO CLOSE POSITIONS ==========")
+				lg.info("Asset 1: %s" % position_1.symbol)
+				lg.info("Asset 2: %s" % position_2.symbol)
 				lg.info("BB Upper: %s" % bollinger_up.iloc[-1])
-				lg.info("Zscore: %s" % zscore)
+				lg.info("Spread: %s" % spread)
 				lg.info("BB Lower: %s" % bollinger_down.iloc[-1])
-				if position_1.qty > 0:
+				lg.info("=================================================")
+				if position_1.qty > 0 and position_2.qty < 0:
 					position_1.side = 'sell'
 					position_2.side = 'buy'
-					if zscore > 0 or zscore > bollinger_up.iloc[-1]:
+					if spread > 0 or spread > bollinger_up.iloc[-1]:
 						place_market_close_order(position_1)
 						place_market_close_order(position_2)
 						removed_from_list = False
@@ -167,10 +168,10 @@ def sell_loop():
 							open_position_list.positions.remove(trade)
 							removed_from_list = True
 							open_position_list.lock.release()
-				else:
+				if position_1.qty < 0 and position_2.qty > 0:
 					position_2.side = 'sell'
 					position_1.side = 'buy'
-					if zscore < 0 or zscore < bollinger_down.iloc[-1]:
+					if spread < 0 or spread < bollinger_down.iloc[-1]:
 						place_market_close_order(position_1)
 						place_market_close_order(position_2)
 						removed_from_list = False
