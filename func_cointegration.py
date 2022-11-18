@@ -16,7 +16,7 @@ def calculate_spread(series_1, series_2, hedge_ratio):
 	spread = pd.Series(series_1) - (pd.Series(series_2) * hedge_ratio)
 	df = pd.DataFrame()
 	df['spread'] = spread
-	return df
+	return df, spread
 
 
 # Calculate co-integration
@@ -28,7 +28,7 @@ def calculate_cointegration(sym_1, sym_2):
 	critical_value = coint_res[2][1]
 	model = sm.OLS(sym_1.close_series, sym_2.close_series).fit()
 	hedge_ratio = model.params[0]
-	spread = calculate_spread(sym_1.close_series, sym_2.close_series, hedge_ratio)
+	spread, spreadnp = calculate_spread(sym_1.close_series, sym_2.close_series, hedge_ratio)
 	zero_crossings = len(np.where(np.diff(np.sign(spread)))[0])
 	if p_value < 0.05 and coint_t < critical_value:
 		coint_flag = 1
