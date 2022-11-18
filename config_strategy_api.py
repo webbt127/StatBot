@@ -47,7 +47,7 @@ class config:
 		self.max_positions = 10
 		self.search_limit = 10000
 		self.capital_per_trade = 1000
-		self.test_set = 6000
+		self.test_set = 1500
 		self.bollinger_length = 21
 		self.min_zero_crosses = 1
 
