@@ -82,7 +82,7 @@ def buy_loop():
 						position_1.stop_loss = round(position_1.close_series[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
 						position_2.stop_loss = round(position_2.close_series[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
 						_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
-						spread_df = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
+						spread_df, spread_np = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
 						spread_list = spread_df.astype(float).values
 						spread = spread_list[-1]
 						sma = spread_df.rolling(api.bollinger_length).mean()
@@ -142,7 +142,7 @@ def sell_loop():
 			#match_series_lengths(position_1, positions_2)
 			if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0):
 				_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
-				spread_df = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
+				spread_df, spread_np = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
 				spread_list = spread_df.astype(float).values
 				spread = spread_list[-1]
 				sma = spread_df.rolling(api.bollinger_length).mean()
