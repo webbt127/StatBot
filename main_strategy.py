@@ -77,10 +77,10 @@ def buy_loop():
 							position_2.quantity = 0
 					except:
 						position_2.quantity = 0
-					position_1.stop_loss = round(position_1.close_series[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
-					position_2.stop_loss = round(position_2.close_series[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
 	
 					if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0 and position_1.quantity > 0 and position_2.quantity > 0):
+						position_1.stop_loss = round(position_1.close_series[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
+						position_2.stop_loss = round(position_2.close_series[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
 						_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
 						spread_df = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
 						spread_list = spread_df.astype(float).values
