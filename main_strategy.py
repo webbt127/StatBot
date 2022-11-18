@@ -171,7 +171,7 @@ def sell_loop():
 				if position_1.qty < 0 and position_2.qty > 0:
 					position_2.side = 'sell'
 					position_1.side = 'buy'
-					if spread < 0 or spread < bollinger_down['0'].iloc[-1]:
+					if spread < 0 or spread < bollinger_down['spread'].iloc[-1]:
 						place_market_close_order(position_1)
 						place_market_close_order(position_2)
 						removed_from_list = False
