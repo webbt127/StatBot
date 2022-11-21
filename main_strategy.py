@@ -140,50 +140,48 @@ def sell_loop():
 			position_2.yf = yf.Ticker(position_2.symbol).info
 			position_2.close_series.append(position_2.yf['regularMarketPrice'])
 			#match_series_lengths(position_1, positions_2)
-			if(len(position_1.close_series) == len(position_2.close_series) and len(position_1.close_series) > 0):
-				_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
-				spread_df, spread_np = calculate_spread(position_1.close_series, position_2.close_series, hedge_ratio)
-				spread_list = spread_df.astype(float).values
-				spread = spread_list[-1]
-				sma = spread_df.rolling(api.bollinger_length).mean()
-				std = spread_df.rolling(api.bollinger_length).std()
-				bollinger_up = sma + std * 2 # Calculate top band
-				bollinger_down = sma - std * 2 # Calculate bottom band
-				lg.info("========== CHECKING TO CLOSE POSITIONS ==========")
-				lg.info("Asset 1: %s" % position_1.symbol)
-				lg.info("Asset 2: %s" % position_2.symbol)
-				lg.info("BB Upper: %s" % bollinger_up['spread'].iloc[-1])
-				lg.info("Spread: %s" % spread)
-				lg.info("BB Lower: %s" % bollinger_down['spread'].iloc[-1])
-				lg.info("=================================================")
-				if position_1.qty > 0 and position_2.qty < 0:
-					position_2.qty = abs(position_2.qty)
-					position_1.side = 'sell'
-					position_2.side = 'buy'
-					if spread > 0 or spread > bollinger_up['spread'].iloc[-1]:
-						place_market_close_order(position_1)
-						place_market_close_order(position_2)
-						removed_from_list = False
-						while not removed_from_list:
-							open_position_list.lock.acquire()
-							open_position_list.positions.drop(trade)
-							removed_from_list = True
-							open_position_list.lock.release()
-				if position_1.qty < 0 and position_2.qty > 0:
-					position_1.qty = abs(position_1.qty)
-					position_2.side = 'sell'
-					position_1.side = 'buy'
-					if spread < 0 or spread < bollinger_down['spread'].iloc[-1]:
-						place_market_close_order(position_1)
-						place_market_close_order(position_2)
-						removed_from_list = False
-						while not removed_from_list:
-							open_position_list.lock.acquire()
-							open_position_list.positions.remove(trade)
-							removed_from_list = True
-							open_position_list.lock.release()
-				lg.info("Position List:")
-				lg.info(open_position_list_working.positions)	
+			spread_df, spread_np = calculate_spread(position_1.close_series, position_2.close_series, open_position_list_working.positions[trade]['hedge_ratio'])
+			spread_list = spread_df.astype(float).values
+			spread = spread_list[-1]
+			sma = spread_df.rolling(api.bollinger_length).mean()
+			std = spread_df.rolling(api.bollinger_length).std()
+			bollinger_up = sma + std * 2 # Calculate top band
+			bollinger_down = sma - std * 2 # Calculate bottom band
+			lg.info("========== CHECKING TO CLOSE POSITIONS ==========")
+			lg.info("Asset 1: %s" % position_1.symbol)
+			lg.info("Asset 2: %s" % position_2.symbol)
+			lg.info("BB Upper: %s" % bollinger_up['spread'].iloc[-1])
+			lg.info("Spread: %s" % spread)
+			lg.info("BB Lower: %s" % bollinger_down['spread'].iloc[-1])
+			lg.info("=================================================")
+			if position_1.qty > 0 and position_2.qty < 0:
+				position_2.qty = abs(position_2.qty)
+				position_1.side = 'sell'
+				position_2.side = 'buy'
+				if spread > 0 or spread > bollinger_up['spread'].iloc[-1]:
+					place_market_close_order(position_1)
+					place_market_close_order(position_2)
+					removed_from_list = False
+					while not removed_from_list:
+						open_position_list.lock.acquire()
+						open_position_list.positions.drop(trade)
+						removed_from_list = True
+						open_position_list.lock.release()
+			if position_1.qty < 0 and position_2.qty > 0:
+				position_1.qty = abs(position_1.qty)
+				position_2.side = 'sell'
+				position_1.side = 'buy'
+				if spread < 0 or spread < bollinger_down['spread'].iloc[-1]:
+					place_market_close_order(position_1)
+					place_market_close_order(position_2)
+					removed_from_list = False
+					while not removed_from_list:
+						open_position_list.lock.acquire()
+						open_position_list.positions.remove(trade)
+						removed_from_list = True
+						open_position_list.lock.release()
+			lg.info("Position List:")
+			lg.info(open_position_list_working.positions)	
 
 """STRATEGY CODE"""
 if __name__ == "__main__":
