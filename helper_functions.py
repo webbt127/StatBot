@@ -28,6 +28,7 @@ def wait_for_market_open():
 		time_to_open = clock.next_open - clock.timestamp
 		sleep_time = round(time_to_open.total_seconds())
 		time.sleep(sleep_time)
+		cancel_orders()
 	return clock
 
 def get_orderbook(asset):
