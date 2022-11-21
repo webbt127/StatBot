@@ -166,7 +166,7 @@ def sell_loop():
 						removed_from_list = False
 						while not removed_from_list:
 							open_position_list.lock.acquire()
-							open_position_list.positions.remove(trade)
+							open_position_list.positions.drop(trade)
 							removed_from_list = True
 							open_position_list.lock.release()
 				if position_1.qty < 0 and position_2.qty > 0:
