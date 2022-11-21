@@ -157,6 +157,7 @@ def sell_loop():
 				lg.info("BB Lower: %s" % bollinger_down['spread'].iloc[-1])
 				lg.info("=================================================")
 				if position_1.qty > 0 and position_2.qty < 0:
+					position_2.qty = abs(position_2.qty)
 					position_1.side = 'sell'
 					position_2.side = 'buy'
 					if spread > 0 or spread > bollinger_up['spread'].iloc[-1]:
@@ -169,6 +170,7 @@ def sell_loop():
 							removed_from_list = True
 							open_position_list.lock.release()
 				if position_1.qty < 0 and position_2.qty > 0:
+					position_1.qty = abs(position_1.qty)
 					position_2.side = 'sell'
 					position_1.side = 'buy'
 					if spread < 0 or spread < bollinger_down['spread'].iloc[-1]:
