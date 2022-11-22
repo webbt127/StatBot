@@ -48,11 +48,11 @@ class config:
 		self.max_positions = 10
 		self.search_limit = 10000
 		self.capital_per_trade = 1000
-		self.test_set = 1700
+		self.test_set = 6000
 		self.bollinger_length = 21
 		self.min_zero_crosses = 1
 		self.pairs_path = Path("cointegrated_pairs.csv")
-		self.get_new_pairs = False
+		self.get_new_pairs = True
 
 global api
 api = config()
