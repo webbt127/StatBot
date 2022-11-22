@@ -110,10 +110,9 @@ def buy_loop():
 							added_to_list = False
 							while not added_to_list:
 								open_position_list.lock.acquire()
-								entry = coint_pairs.loc[coint_pairs['index'] == i]
-								open_position_list.positions = open_position_list.positions.reset_index()
-								open_position_list.positions = pd.concat([open_position_list.positions, entry])
 								lg.info("Open Position List: %s" % open_position_list.positions)
+								entry = coint_pairs.loc[coint_pairs['index'] == i]
+								open_position_list.positions = pd.concat([open_position_list.positions, entry])
 								added_to_list = True
 								open_position_list.lock.release()
 				
@@ -187,13 +186,17 @@ def sell_loop():
 """STRATEGY CODE"""
 if __name__ == "__main__":
     
-	lg.info("Getting symbols...")
-	buy_set = slice(0, 10, 1)
-	get_tradeable_symbols()
-	lg.info("Getting price history...")
-	get_price_history()
-	lg.info("Calculating co-integration...")
-	coint_pairs = get_cointegrated_pairs()
+	if api.get_new_pairs == True:
+		lg.info("Getting symbols...")
+		buy_set = slice(0, 10, 1)
+		get_tradeable_symbols()
+		lg.info("Getting price history...")
+		get_price_history()
+		lg.info("Calculating co-integration...")
+		coint_pairs = get_cointegrated_pairs()
+	
+	else:
+		coint_pairs = pd.read_csv("2_cointegrated_pairs.csv")
 	lg.info(coint_pairs)
 	if not coint_pairs.empty:
 		cancel_orders()
