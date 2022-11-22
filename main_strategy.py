@@ -118,7 +118,9 @@ def buy_loop():
 								open_position_list.lock.acquire()
 								lg.info("Open Position List: %s" % open_position_list.positions)
 								entry = coint_pairs.loc[coint_pairs['index'] == i]
+								entry['index'] = None
 								open_position_list.positions = pd.concat([open_position_list.positions, entry])
+								open_position_list.positions.reset_index(drop=True)
 								added_to_list = True
 								open_position_list.lock.release()
 				
