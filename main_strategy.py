@@ -111,7 +111,7 @@ def buy_loop():
 
 							initialize_order_execution(position_1)
 							initialize_order_execution(position_2)
-							message = 'Positions Opened For %s and %s', position_1.symbol, position_2.symbol)
+							message = lg.info('Positions Opened For %s and %s', position_1.symbol, position_2.symbol)
 							send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 							added_to_list = False
 							while not added_to_list:
@@ -169,7 +169,7 @@ def sell_loop():
 				if spread > 0 or spread > bollinger_up['spread'].iloc[-1]:
 					place_market_close_order(position_1)
 					place_market_close_order(position_2)
-					message = 'Positions Closed For %s and %s', position_1.symbol, position_2.symbol)
+					message = lf.info('Positions Closed For %s and %s', position_1.symbol, position_2.symbol)
 					send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 					removed_from_list = False
 					while not removed_from_list:
@@ -184,7 +184,7 @@ def sell_loop():
 				if spread < 0 or spread < bollinger_down['spread'].iloc[-1]:
 					place_market_close_order(position_1)
 					place_market_close_order(position_2)
-					message = 'Positions Closed For %s and %s', position_1.symbol, position_2.symbol)
+					message = lg.info('Positions Closed For %s and %s', position_1.symbol, position_2.symbol)
 					send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 					removed_from_list = False
 					while not removed_from_list:
