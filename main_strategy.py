@@ -81,7 +81,7 @@ def buy_loop():
 					except:
 						position_2.quantity = 0
 	
-					match_series_lengths(position_1, positions_2)
+					match_series_lengths(position_1, position_2)
 					if(len(position_1.close_series_matched) == len(position_2.close_series_matched) and len(position_1.close_series_matched) > 0 and position_1.quantity > 0 and position_2.quantity > 0):
 						position_1.stop_loss = round(position_1.close_series_matched[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
 						position_2.stop_loss = round(position_2.close_series_matched[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
@@ -221,5 +221,4 @@ if __name__ == "__main__":
 		cancel_orders()
 		message = 'Starting Trading Bot Interface...'
 		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
-		lg.info("Telegram Notification Sent! %s" % message)
 		begin_threading()
