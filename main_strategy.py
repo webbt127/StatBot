@@ -186,7 +186,7 @@ def sell_loop():
 """STRATEGY CODE"""
 if __name__ == "__main__":
     
-	get_new_pairs = input('Get New Pairs? (y/n)'
+	get_new_pairs = input('Get New Pairs? (y/n)')
 	if get_new_pairs == 'y':
 		lg.info("Getting symbols...")
 		buy_set = slice(0, 10, 1)
