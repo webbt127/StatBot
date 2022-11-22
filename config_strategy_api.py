@@ -48,7 +48,7 @@ class config:
 		self.max_positions = 10
 		self.search_limit = 10000
 		self.capital_per_trade = 1000
-		self.test_set = 1000
+		self.test_set = 1200
 		self.bollinger_length = 21
 		self.min_zero_crosses = 5
 		self.pairs_path = Path("cointegrated_pairs.csv")
