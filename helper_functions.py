@@ -53,7 +53,7 @@ def price_history_execution(asset):
 	timeframe = TimeFrame.Hour
 	get_price_klines(asset, timeframe, api.kline_limit)
 	if asset.klines is not None:
-		lg.info("Successfully Stored Data For %s!" % asset.symbol)
+		#lg.info("Successfully Stored Data For %s!" % asset.symbol)
 	else:
 		asset_list.symbols.remove(asset)
 		lg.info("Unable To Store Data For %s! Removed From Asset List" % asset.symbol)
@@ -85,7 +85,7 @@ def get_price_klines(asset, timeframe, klines):
 		asset.klines = None
 
     # Manage API calls
-	time.sleep(1.8)
+	time.sleep(1.9)
 
     # Return output
 	return asset, asset.klines
@@ -138,7 +138,7 @@ def filter_assets(a):
 		a.average_volume = int(a.day_klines['volume'][0])
 	except Exception as e:
 		a.average_volume = 0
-	print(a.symbol, a.average_volume)
+	#print(a.symbol, a.average_volume)
 	return a
 
 class Orderbook():
