@@ -22,13 +22,13 @@ def calculate_spread(series_1, series_2, hedge_ratio):
 # Calculate co-integration
 def calculate_cointegration(sym_1, sym_2):
 	coint_flag = 0
-	coint_res = coint(sym_1.close_series, sym_2.close_series)
+	coint_res = coint(sym_1.close_series_matched, sym_2.close_series_matched)
 	coint_t = coint_res[0]
 	p_value = coint_res[1]
 	critical_value = coint_res[2][1]
-	model = sm.OLS(sym_1.close_series, sym_2.close_series).fit()
+	model = sm.OLS(sym_1.close_series_matched, sym_2.close_series_matched).fit()
 	hedge_ratio = model.params[0]
-	spread, spreadnp = calculate_spread(sym_1.close_series, sym_2.close_series, hedge_ratio)
+	spread, spreadnp = calculate_spread(sym_1.close_series_matched, sym_2.close_series_matched, hedge_ratio)
 	zero_crossings = len(np.where(np.diff(np.sign(spreadnp)))[0])
 	if p_value < 0.05 and coint_t < critical_value:
 		coint_flag = 1
@@ -70,7 +70,8 @@ def check_pairs(sym_1, sym_2):
 				if sym_1.klines is not None and sym_2.klines is not None and 'close' in sym_1.klines and 'close' in sym_2.klines:
 					sym_1.close_series = extract_close_prices(sym_1)
 					sym_2.close_series = extract_close_prices(sym_2)
-					if len(sym_1.close_series) == len(sym_2.close_series):
+					match_series_lengths(sym_1, sym_2)
+					if len(sym_1.close_series_matched) == len(sym_2.close_series_matched):
 						coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
 						if coint_flag == 1 and zero_crossings > api.min_zero_crosses:
 							included_list.append(unique)
