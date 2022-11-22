@@ -58,7 +58,7 @@ def get_cointegrated_pairs():
 			df_coint = df_coint.sort_values("zero_crossings", ascending=False)
 			df_coint = df_coint.reset_index(drop=True)
 			df_coint['index'] = df_coint.index
-			df_coint.to_csv("2_cointegrated_pairs.csv")
+			#df_coint.to_csv("2_cointegrated_pairs.csv")
 		return df_coint
 	
 def check_pairs(sym_1, sym_2):
