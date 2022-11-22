@@ -55,6 +55,7 @@ def get_cointegrated_pairs():
 		#Parallel(n_jobs=8, verbose=10, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
 		for sym_1 in asset_list.symbols:
 			for sym_2 in asset_list.symbols:
+				check_pairs(sym_1, sym_2)
 				df_coint = pd.DataFrame(coint_pair_list)
 				if 'zero_crossings' in df_coint:
 					df_coint = df_coint.sort_values("zero_crossings", ascending=False)
