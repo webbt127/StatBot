@@ -11,6 +11,7 @@ import yfinance as yf
 from threading import Thread, Lock
 from func_cointegration import *
 from telegram_notifications import *
+import urllib3
 
 initialize_logger()
 
@@ -21,6 +22,8 @@ class position_list:
 
 global open_position_list
 open_position_list = position_list()
+
+urllib3.disable_warnings()
 
 def begin_threading():
 	thread1 = Thread(target=buy_loop)
@@ -108,6 +111,8 @@ def buy_loop():
 
 							initialize_order_execution(position_1)
 							initialize_order_execution(position_2)
+							message = 'Positions Opened For %s and %s', position_1.symbol, position_2.symbol)
+							send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 							added_to_list = False
 							while not added_to_list:
 								open_position_list.lock.acquire()
@@ -162,6 +167,8 @@ def sell_loop():
 				if spread > 0 or spread > bollinger_up['spread'].iloc[-1]:
 					place_market_close_order(position_1)
 					place_market_close_order(position_2)
+					message = 'Positions Closed For %s and %s', position_1.symbol, position_2.symbol)
+					send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 					removed_from_list = False
 					while not removed_from_list:
 						open_position_list.lock.acquire()
@@ -175,6 +182,8 @@ def sell_loop():
 				if spread < 0 or spread < bollinger_down['spread'].iloc[-1]:
 					place_market_close_order(position_1)
 					place_market_close_order(position_2)
+					message = 'Positions Closed For %s and %s', position_1.symbol, position_2.symbol)
+					send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 					removed_from_list = False
 					while not removed_from_list:
 						open_position_list.lock.acquire()
@@ -202,5 +211,7 @@ if __name__ == "__main__":
 	lg.info(coint_pairs)
 	if not coint_pairs.empty:
 		cancel_orders()
-		send_telegram_message('Starting Trading Bot Interface...', api.telegram_chat_id, api.telegram_api_key)
+		message = 'Starting Trading Bot Interface...'
+		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
+		lg.info("Telegram Notification Sent! %s" % message)
 		begin_threading()
