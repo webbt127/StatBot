@@ -1,5 +1,6 @@
 import requests
 import json
+import logging as lg
 
 def send_telegram_message(message: str, chat_id: str, api_key: str):
 	responses = {}
@@ -8,4 +9,5 @@ def send_telegram_message(message: str, chat_id: str, api_key: str):
 	data = json.dumps(data_dict)
 	url = f'https://api.telegram.org/bot{api_key}/sendMessage'
 	response = requests.post(url, data=data, headers=headers, verify=False)
+	lg.info("Telegram Notification Sent! %s" % message)
 	return response
