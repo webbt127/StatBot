@@ -186,7 +186,8 @@ def sell_loop():
 """STRATEGY CODE"""
 if __name__ == "__main__":
     
-	if api.get_new_pairs == True:
+	get_new_pairs = input('Get New Pairs? (y/n)'
+	if get_new_pairs == 'y':
 		lg.info("Getting symbols...")
 		buy_set = slice(0, 10, 1)
 		get_tradeable_symbols()
@@ -195,7 +196,7 @@ if __name__ == "__main__":
 		lg.info("Calculating co-integration...")
 		coint_pairs = get_cointegrated_pairs()
 	
-	else:
+	if get_new_pairs == 'n':
 		coint_pairs = pd.read_csv("2_cointegrated_pairs.csv")
 	lg.info(coint_pairs)
 	if not coint_pairs.empty:
