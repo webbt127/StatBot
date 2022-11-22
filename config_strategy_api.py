@@ -53,6 +53,8 @@ class config:
 		self.min_zero_crosses = 5
 		self.pairs_path = Path("cointegrated_pairs.csv")
 		self.get_new_pairs = True
+		self.telegram_chat_id = '1993028760'
+		self.telegram_api_key = '5558182464:AAE-d-6mNR8zNr2gxW-QxicXIbRCmB6vi6E'
 
 global api
 api = config()
