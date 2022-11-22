@@ -10,6 +10,7 @@ import sys
 import yfinance as yf
 from threading import Thread, Lock
 from func_cointegration import *
+from telegram_notifications import *
 
 initialize_logger()
 
