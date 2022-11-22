@@ -26,6 +26,7 @@ def calculate_cointegration(sym_1, sym_2):
 	coint_t = coint_res[0]
 	p_value = coint_res[1]
 	critical_value = coint_res[2][1]
+	lg.info(len(sym_1.close_series_matched), len(sym_2.close_series_matched))
 	model = sm.OLS(sym_1.close_series_matched, sym_2.close_series_matched).fit()
 	hedge_ratio = model.params[0]
 	spread, spreadnp = calculate_spread(sym_1.close_series_matched, sym_2.close_series_matched, hedge_ratio)
