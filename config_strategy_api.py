@@ -50,7 +50,7 @@ class config:
 		self.capital_per_trade = 1000
 		self.test_set = 6000
 		self.bollinger_length = 21
-		self.min_zero_crosses = 1
+		self.min_zero_crosses = 5
 		self.pairs_path = Path("cointegrated_pairs.csv")
 		self.get_new_pairs = False
 
