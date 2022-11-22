@@ -72,7 +72,7 @@ def check_pairs(sym_1, sym_2):
 					sym_2.close_series = extract_close_prices(sym_2)
 					if len(sym_1.close_series) == len(sym_2.close_series):
 						coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
-						if coint_flag == 1:
+						if coint_flag == 1 and zero_crossings > api.min_zero_crosses:
 							included_list.append(unique)
 							coint_pair_list.append({
 								"sym_1": sym_1.symbol,
