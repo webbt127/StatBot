@@ -1,4 +1,5 @@
 from alpaca_trade_api import REST, Stream
+from pathlib import Path
 
 # LIVE API
 api_key_mainnet = ""
