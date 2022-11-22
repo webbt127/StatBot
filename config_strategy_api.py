@@ -52,7 +52,7 @@ class config:
 		self.bollinger_length = 21
 		self.min_zero_crosses = 1
 		self.pairs_path = Path("cointegrated_pairs.csv")
-		self.get_new_pairs = True
+		self.get_new_pairs = False
 
 global api
 api = config()
