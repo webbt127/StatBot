@@ -197,7 +197,7 @@ if __name__ == "__main__":
 		coint_pairs = get_cointegrated_pairs()
 	
 	if get_new_pairs == 'n':
-		coint_pairs = pd.read_csv("2_cointegrated_pairs.csv")
+		coint_pairs = pd.read_csv(api.pairs_path)
 	lg.info(coint_pairs)
 	if not coint_pairs.empty:
 		cancel_orders()
