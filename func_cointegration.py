@@ -57,6 +57,7 @@ def get_cointegrated_pairs():
 			for sym_2 in asset_list.symbols:
 				check_pairs(sym_1, sym_2)
 				df_coint = pd.DataFrame(coint_pair_list)
+				bar()
 				if 'zero_crossings' in df_coint:
 					df_coint = df_coint.sort_values("zero_crossings", ascending=False)
 					df_coint = df_coint.reset_index(drop=True)
@@ -74,8 +75,8 @@ def check_pairs(sym_1, sym_2):
 					sym_1.close_series = extract_close_prices(sym_1)
 					sym_2.close_series = extract_close_prices(sym_2)
 					match_series_lengths(sym_1, sym_2)
-					lg.info(len(sym_1.close_series_matched))
-					lg.info(len(sym_2.close_series_matched))
+					#lg.info(len(sym_1.close_series_matched))
+					#lg.info(len(sym_2.close_series_matched))
 					if len(sym_1.close_series_matched) == len(sym_2.close_series_matched) and len(sym_1.close_series_matched) > 0:
 						coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
 						if coint_flag == 1:# and zero_crossings > api.min_zero_crosses:
