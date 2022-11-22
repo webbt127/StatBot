@@ -202,4 +202,5 @@ if __name__ == "__main__":
 	lg.info(coint_pairs)
 	if not coint_pairs.empty:
 		cancel_orders()
+		send_telegram_message('Starting Trading Bot Interface...', api.telegram_chat_id, api.telegram_api_key)
 		begin_threading()
