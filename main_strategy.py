@@ -110,7 +110,7 @@ def buy_loop():
 								position_2.side = "sell"
 
 							open_position_list.lock.acquire()
-							if i not in open_position_list.positions:
+							if i not in open_position_list.positions['index']:
 								initialize_order_execution(position_1)
 								initialize_order_execution(position_2)
 								message = lg.info('Positions Opened For %s and %s', position_1.symbol, position_2.symbol)
