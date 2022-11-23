@@ -47,7 +47,7 @@ class config:
 		self.telegram_chat_id = '1993028760'
 		self.telegram_api_key = '5558182464:AAE-d-6mNR8zNr2gxW-QxicXIbRCmB6vi6E'
 		self.threaded = True
-		self.std = 0.5
+		self.std = 0.1
 
 global api
 api = config()
