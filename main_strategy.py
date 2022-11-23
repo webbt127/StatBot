@@ -123,21 +123,13 @@ def sell_loop():
 				position_1.side = 'sell'
 				position_2.side = 'buy'
 				if spread > 0 or spread > bollinger_up['spread'].iloc[-1]:
-					place_market_close_order(position_1)
-					place_market_close_order(position_2)
-					message = 'Positions closed for: ' + position_1.symbol + ', ' + position_2.symbol
-					send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
-					remove_asset(open_position_list, trade)
+					close_positions(position_1, position_2, open_position_list, trade)
 			if position_1.qty < 0 and position_2.qty > 0:
 				position_1.qty = abs(position_1.qty)
 				position_2.side = 'sell'
 				position_1.side = 'buy'
 				if spread < 0 or spread < bollinger_down['spread'].iloc[-1]:
-					place_market_close_order(position_1)
-					place_market_close_order(position_2)
-					message = 'Positions closed for: ' + position_1.symbol + ', ' + position_2.symbol
-					send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
-					remove_asset(open_position_list, trade)
+					close_positions(position_1, position_2, open_position_list, trade)
 			lg.info("Position List:")
 			lg.info(open_position_list_working.positions)	
 
@@ -147,13 +139,11 @@ if __name__ == "__main__":
 	get_new_pairs = input('Get New Pairs? (y/n)')
 	if get_new_pairs == 'y':
 		lg.info("Getting symbols...")
-		buy_set = slice(0, 10, 1)
 		get_tradeable_symbols()
 		lg.info("Getting price history...")
 		get_price_history()
 		lg.info("Calculating co-integration...")
 		coint_pairs = get_cointegrated_pairs()
-	
 	if get_new_pairs == 'n':
 		coint_pairs = pd.read_csv(api.pairs_path)
 	lg.info(coint_pairs)
