@@ -203,7 +203,7 @@ def add_asset(coint_pairs, open_position_list, i):
 	while not added_to_list:
 		open_position_list.positions = pd.merge([open_position_list.positions, entry])
 		added_to_list = True
-	open_position_list.positions.reindex()
+	lg.info(open_position_list.positions)
 	return open_position_list
 	
 
