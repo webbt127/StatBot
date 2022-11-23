@@ -55,7 +55,7 @@ class config:
 		self.get_new_pairs = True
 		self.telegram_chat_id = '1993028760'
 		self.telegram_api_key = '5558182464:AAE-d-6mNR8zNr2gxW-QxicXIbRCmB6vi6E'
-		self.threaded = True
+		self.threaded = False
 
 global api
 api = config()
