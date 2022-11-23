@@ -109,20 +109,19 @@ def buy_loop():
 								position_1.side = "buy"
 								position_2.side = "sell"
 
-							initialize_order_execution(position_1)
-							initialize_order_execution(position_2)
-							message = lg.info('Positions Opened For %s and %s', position_1.symbol, position_2.symbol)
-							send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
-							added_to_list = False
-							while not added_to_list:
-								open_position_list.lock.acquire()
-								lg.info("Open Position List: %s" % open_position_list.positions)
-								entry = coint_pairs.loc[coint_pairs['index'] == i]
-								entry['index'] = None
-								open_position_list.positions = pd.concat([open_position_list.positions, entry])
-								open_position_list.positions.reset_index(drop=True)
-								added_to_list = True
-								open_position_list.lock.release()
+							open_position_list.lock.acquire()
+							if i not in open_position_list.positions:
+								initialize_order_execution(position_1)
+								initialize_order_execution(position_2)
+								message = lg.info('Positions Opened For %s and %s', position_1.symbol, position_2.symbol)
+								send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
+								added_to_list = False
+								while not added_to_list:
+									lg.info("Open Position List: %s" % open_position_list.positions)
+									entry = coint_pairs.loc[coint_pairs['index'] == i]
+									open_position_list.positions = pd.concat([open_position_list.positions, entry])
+									added_to_list = True
+							open_position_list.lock.release()
 				
 				
 def sell_loop():
