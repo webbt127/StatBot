@@ -7,6 +7,7 @@ import threading
 import yfinance as yf
 from config_strategy_api import *
 from func_cointegration import *
+from telegram_notifications import *
 from alive_progress import alive_bar
 import logging as lg
 from joblib import Parallel, delayed, parallel_backend
@@ -256,3 +257,11 @@ def get_yf_info(position):
 	except:
 		position.quantity = 0
 	return position
+
+def close_positions(position_1, position_2, open_position_list, trade):
+	place_market_close_order(position_1)
+	place_market_close_order(position_2)
+	message = 'Positions closed for: ' + position_1.symbol + ', ' + position_2.symbol
+	send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
+	remove_asset(open_position_list, trade)
+	return position_1, position_2, open_position_list
