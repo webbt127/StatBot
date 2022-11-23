@@ -36,11 +36,15 @@ def begin_threading():
 		thread1.join()
 	except Exception as e:
         	lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
+		message = 'Exception Occurred: ' + e
+		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 	time.sleep(5)
 	try:
 		thread2.join()
 	except Exception as e:
         	lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
+		message = 'Exception Occurred: ' + e
+		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 
 	
 def buy_loop():
@@ -221,9 +225,4 @@ if __name__ == "__main__":
 		cancel_orders()
 		message = 'Starting Trading Bot Interface...'
 		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
-		try:
-			begin_threading()
-		except Exception as e:
-			lg.info(e)
-			message = 'Exception Occurred: ' + e
-			send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
+		begin_threading()
