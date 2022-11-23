@@ -29,10 +29,6 @@ class assets:
 class config:
 	def __init__(self):
     
-		self.ticker_1 = "MATICUSDT"
-		self.ticker_2 = "STXUSDT"
-		self.signal_positive_ticker = self.ticker_2
-		self.signal_negative_ticker = self.ticker_1
 		self.rounding_ticker_1 = 2
 		self.rounding_ticker_2 = 2
 		self.quantity_rounding_ticker_1 = 0
@@ -48,11 +44,10 @@ class config:
 		self.max_positions = 10
 		self.search_limit = 10000
 		self.capital_per_trade = 1000
-		self.test_set = 500
+		self.test_set = 6000
 		self.bollinger_length = 21
-		self.min_zero_crosses = 5
+		self.min_zero_crosses = 10
 		self.pairs_path = Path("cointegrated_pairs.csv")
-		self.get_new_pairs = True
 		self.telegram_chat_id = '1993028760'
 		self.telegram_api_key = '5558182464:AAE-d-6mNR8zNr2gxW-QxicXIbRCmB6vi6E'
 		self.threaded = True
