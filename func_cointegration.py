@@ -52,17 +52,25 @@ def get_cointegrated_pairs():
     # Loop through coins and check for co-integration
 	with alive_bar((len(asset_list.symbols)*len(asset_list.symbols)), title='Checking Cointegration...') as bar:
 		global included_list
-		#Parallel(n_jobs=8, verbose=10, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
-		for sym_1 in asset_list.symbols:
-			for sym_2 in asset_list.symbols:
-				check_pairs(sym_1, sym_2)
-				df_coint = pd.DataFrame(coint_pair_list)
-				bar()
-				if 'zero_crossings' in df_coint:
-					df_coint = df_coint.sort_values("zero_crossings", ascending=False)
-					df_coint = df_coint.reset_index(drop=True)
-					df_coint['index'] = df_coint.index
-					df_coint.to_csv(api.pairs_path)
+		if api.threaded:
+			Parallel(n_jobs=8, verbose=10, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
+			df_coint = pd.DataFrame(coint_pair_list)
+			if 'zero_crossings' in df_coint:
+				df_coint = df_coint.sort_values("zero_crossings", ascending=False)
+				df_coint = df_coint.reset_index(drop=True)
+				df_coint['index'] = df_coint.index
+				df_coint.to_csv(api.pairs_path)
+		else:
+			for sym_1 in asset_list.symbols:
+				for sym_2 in asset_list.symbols:
+					check_pairs(sym_1, sym_2)
+					df_coint = pd.DataFrame(coint_pair_list)
+					bar()
+					if 'zero_crossings' in df_coint:
+						df_coint = df_coint.sort_values("zero_crossings", ascending=False)
+						df_coint = df_coint.reset_index(drop=True)
+						df_coint['index'] = df_coint.index
+						df_coint.to_csv(api.pairs_path)
 		return df_coint
 	
 def check_pairs(sym_1, sym_2):
@@ -79,7 +87,7 @@ def check_pairs(sym_1, sym_2):
 					#lg.info(len(sym_2.close_series_matched))
 					if len(sym_1.close_series_matched) == len(sym_2.close_series_matched) and len(sym_1.close_series_matched) > 0:
 						coint_flag, p_value, t_value, c_value, hedge_ratio, zero_crossings = calculate_cointegration(sym_1, sym_2)
-						if coint_flag == 1:# and zero_crossings > api.min_zero_crosses:
+						if coint_flag == 1: and zero_crossings > api.min_zero_crosses:
 							included_list.append(unique)
 							coint_pair_list.append({
 								"sym_1": sym_1.symbol,
@@ -100,13 +108,11 @@ def match_series_lengths(position_1, position_2):
 		return position_1, position_2
 	if len(position_1.close_series) > len(position_2.close_series):
 		difference = len(position_1.close_series) - len(position_2.close_series)
-		#new_slice = slice(difference, len(position_2.close_series), 1)
 		position_1.close_series_matched = position_1.close_series[difference:]
 		position_2.close_series_matched = position_2.close_series
 		return position_1, position_2
 	if len(position_2.close_series) > len(position_1.close_series):
 		difference = len(position_2.close_series) - len(position_1.close_series)
-		#new_slice = slice(difference, len(position_1.close_series), 1)
 		position_2.close_series_matched = position_2.close_series[difference:]
 		position_1.close_series_matched = position_1.close_series
 		return position_1, position_2
