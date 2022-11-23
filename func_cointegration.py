@@ -103,17 +103,17 @@ def check_pairs(sym_1, sym_2):
 def match_series_lengths(position_1, position_2):
 	
 	if len(position_1.close_series) == len(position_2.close_series):
-		position_1.close_series_matched = position_1.close_series
-		position_2.close_series_matched = position_2.close_series
-		return position_1, position_2
+		matched_series_1 = position_1.close_series
+		matched_series_2 = position_2.close_series
+		return matched_series_1, matched_series_2
 	if len(position_1.close_series) > len(position_2.close_series):
 		difference = len(position_1.close_series) - len(position_2.close_series)
-		position_1.close_series_matched = position_1.close_series[difference:]
-		position_2.close_series_matched = position_2.close_series
-		return position_1, position_2
+		matched_series_1 = position_1.close_series[difference:]
+		matched_series_2 = position_2.close_series
+		return matched_series_1, matched_series_2
 	if len(position_2.close_series) > len(position_1.close_series):
 		difference = len(position_2.close_series) - len(position_1.close_series)
-		position_2.close_series_matched = position_2.close_series[difference:]
-		position_1.close_series_matched = position_1.close_series
-		return position_1, position_2
-	return position_1, position_2
+		matched_series_1 = position_2.close_series[difference:]
+		matched_series_2 = position_1.close_series
+		return matched_series_1, matched_series_2
+	return matched_series_1, matched_series_2
