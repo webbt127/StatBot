@@ -55,6 +55,7 @@ def buy_loop():
 			open_position_list.lock.acquire()
 			open_position_list_temp = open_position_list
 			open_position_list.lock.release()
+			open_position_list.lock.hold()
 			
 			if open_position_list_temp.positions['sym_1'].str.contains(position_1.symbol).sum() == 0 and open_position_list_temp.positions['sym_1'].str.contains(position_2.symbol).sum() == 0:
 				if open_position_list_temp.positions['sym_2'].str.contains(position_1.symbol).sum() == 0 and open_position_list_temp.positions['sym_2'].str.contains(position_2.symbol).sum() == 0:
