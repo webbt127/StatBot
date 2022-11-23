@@ -193,3 +193,12 @@ def place_market_close_order(asset):
 
     # Return
 	return
+
+def remove_asset(open_position_list, trade):
+	removed_from_list = False
+	while not removed_from_list:
+		open_position_list.lock.acquire()
+		open_position_list.positions.remove(trade)
+		removed_from_list = True
+		open_position_list.lock.release()
+	return open_position_list
