@@ -128,7 +128,7 @@ def buy_loop_threaded(i):
 						initialize_order_execution(position_2)
 						message = 'Positions opened for: ' + position_1.symbol + ', ' + position_2.symbol
 						send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
-						add_asset(coint_pairs, open_position_list, i)
+						add_asset(coint_pairs, open_position_list, i, position_1)
 					open_position_list.lock.release()
 				
 				
