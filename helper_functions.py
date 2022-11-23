@@ -202,3 +202,25 @@ def remove_asset(open_position_list, trade):
 		removed_from_list = True
 		open_position_list.lock.release()
 	return open_position_list
+
+def print_close(position_1, position_2, bollinger_up, bollinger_down, spread):
+	
+	lg.info("========== CHECKING TO CLOSE POSITIONS ==========")
+	lg.info("Asset 1: %s" % position_1.symbol)
+	lg.info("Asset 2: %s" % position_2.symbol)
+	lg.info("BB Upper: %s" % bollinger_up['spread'].iloc[-1])
+	lg.info("Spread: %s" % spread)
+	lg.info("BB Lower: %s" % bollinger_down['spread'].iloc[-1])
+	lg.info("=================================================")
+	return
+	
+def print_open(position_1, position_2, bollinger_up, bollinger_down, spread):
+	
+	lg.info("========== CHECKING TO OPEN POSITIONS ==========")
+	lg.info("Asset 1: %s" % position_1.symbol)
+	lg.info("Asset 2: %s" % position_2.symbol)
+	lg.info("BB Upper: %s" % bollinger_up['spread'].iloc[-1])
+	lg.info("Spread: %s" % spread)
+	lg.info("BB Lower: %s" % bollinger_down['spread'].iloc[-1])
+	lg.info("=================================================")
+	return
