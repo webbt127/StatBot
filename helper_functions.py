@@ -203,8 +203,8 @@ def add_asset(coint_pairs, open_position_list, i):
 	entry = pd.DataFrame(entry, columns=['sym_1','sym_2','hedge_ratio'])
 	while not added_to_list:
 		open_position_list.positions = pd.DataFrame(open_position_list.positions, columns=['sym_1','sym_2','hedge_ratio'])
-		open_position_list.positions = pd.concat([open_position_list.positions, entry])
-		open_position_list.positions.reindex()
+		open_position_list.positions.append(entry)
+		#open_position_list.positions.reindex()
 		added_to_list = True
 	lg.info(open_position_list.positions)
 	return open_position_list
