@@ -35,14 +35,10 @@ class config:
 		self.quantity_rounding_ticker_2 = 0
 		self.price_rounding = 2
 
-		self.limit_order_basis = True # will ensure positions (except for Close) will be placed on limit basis
-		self.stop_loss_fail_safe = 0.30 # stop loss at market order in case of drastic event
-	
+		self.stop_loss_fail_safe = 0.30 # stop loss at market order in case of drastic event	
 		self.timeframe = 60
 		self.kline_limit = 10000
-		self.z_score_window = 21
 		self.max_positions = 10
-		self.search_limit = 10000
 		self.capital_per_trade = 1000
 		self.test_set = 4000
 		self.bollinger_length = 50
