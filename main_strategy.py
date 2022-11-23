@@ -35,14 +35,14 @@ def begin_threading():
 	try:
 		thread1.join()
 	except Exception as e:
-        	lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
+		lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
 		message = 'Exception Occurred: ' + e
 		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 	time.sleep(5)
 	try:
 		thread2.join()
 	except Exception as e:
-        	lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
+		lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
 		message = 'Exception Occurred: ' + e
 		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 
