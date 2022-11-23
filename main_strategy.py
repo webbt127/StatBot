@@ -12,8 +12,15 @@ from threading import Thread, Lock
 from func_cointegration import *
 from telegram_notifications import *
 import urllib3
+import atexit
 
 initialize_logger()
+atexit.register(exit_handler)
+
+def exit_handler():
+	message = 'Exception Occurred'
+	send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
+	return
 
 class position_list:
 	def __init__(self):
