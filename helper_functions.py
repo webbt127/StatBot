@@ -196,15 +196,14 @@ def place_market_close_order(asset):
     # Return
 	return
 
-def add_asset(coint_pairs, open_position_list, i):
+def add_asset(coint_pairs, open_position_list, i, position_1):
 	added_to_list = False
 	lg.info("Open Position List: %s" % open_position_list.positions)
 	entry = coint_pairs.loc[coint_pairs['index'] == i]
-	entry = pd.DataFrame(entry, columns=['sym_1','sym_2','hedge_ratio'])
+	entry['index'][0] = position_1.order
 	while not added_to_list:
-		open_position_list.positions = pd.DataFrame(open_position_list.positions, columns=['sym_1','sym_2','hedge_ratio'])
 		open_position_list.positions.append(entry)
-		#open_position_list.positions.reindex()
+		open_position_list.positions.reindex()
 		added_to_list = True
 	lg.info(open_position_list.positions)
 	return open_position_list
