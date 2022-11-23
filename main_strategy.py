@@ -73,7 +73,7 @@ def buy_loop():
 						position_2.stop_loss = round(position_2.close_series_matched[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
 						spread_df, spread_np = calculate_spread(position_1.close_series_matched, position_2.close_series_matched, coint_pairs['hedge_ratio'][i])
 						spread_list = spread_df.astype(float).values
-						spread = spread_list[-1]
+						spread = float(spread_list[-1]) + 1
 						sma = spread_df.rolling(api.bollinger_length).mean()
 						std = spread_df.rolling(api.bollinger_length).std()
 						bollinger_up = sma + std * api.std # Calculate top band
