@@ -201,10 +201,7 @@ def add_asset(coint_pairs, open_position_list, i):
 	while not added_to_list:
 		lg.info("Open Position List: %s" % open_position_list.positions)
 		entry = coint_pairs.loc[coint_pairs['index'] == i]
-		lg.info(entry)
-		entry.drop(['index'])
 		open_position_list.positions = pd.concat([open_position_list.positions, entry])
-		open_position_list.positions.reindex()
 		lg.info(open_position_list.positions)
 		added_to_list = True
 		return open_position_list
