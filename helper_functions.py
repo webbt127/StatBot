@@ -202,7 +202,7 @@ def add_asset(coint_pairs, open_position_list, i, position_1):
 	entry = coint_pairs.loc[coint_pairs['index'] == i]
 	entry.set_index(keys='index')
 	#open_position_list.positions.drop(columns=['Unnamed: 0','index'])
-	#entry.drop(columns=['Unnamed: 0'])
+	entry.drop(columns=['Unnamed: 0'])
 	lg.info("Open Position List: %s" % open_position_list.positions)
 	lg.info(entry)
 	while not added_to_list:
