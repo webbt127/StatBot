@@ -15,7 +15,6 @@ import urllib3
 import atexit
 
 initialize_logger()
-atexit.register(exit_handler)
 
 def exit_handler():
 	message = 'Exception Occurred'
@@ -27,6 +26,7 @@ class position_list:
 		self.lock = Lock()
 		self.positions = pd.DataFrame(columns=['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings', 'index', 'hedge_ratio'])
 
+atexit.register(exit_handler)
 global open_position_list
 open_position_list = position_list()
 
