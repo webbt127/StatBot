@@ -63,30 +63,12 @@ def buy_loop():
 					get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
 					position_1.close_series = extract_close_prices(position_1)
 					position_2.close_series = extract_close_prices(position_2)
-					try:
-						position_1.yf = yf.Ticker(position_1.symbol).info
-						position_1.close_series.append(position_1.yf['regularMarketPrice'])
-						if position_1.yf['regularMarketPrice'] > 0:
-							position_1.quantity = round(api.capital_per_trade / position_1.yf['regularMarketPrice'])
-						else:
-							position_1.quantity = 0
-					except:
-						position_1.quantity = 0
-					try:
-						position_2.yf = yf.Ticker(position_2.symbol).info
-						position_2.close_series.append(position_2.yf['regularMarketPrice'])
-						if position_2.yf['regularMarketPrice'] > 0:
-							position_2.quantity = round(api.capital_per_trade / position_2.yf['regularMarketPrice'])
-						else:
-							position_2.quantity = 0
-					except:
-						position_2.quantity = 0
-	
+					get_yf_info(position_1)
+					get_yf_info(position_2)
 					position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1, position_2)
 					if(len(position_1.close_series_matched) == len(position_2.close_series_matched) and len(position_1.close_series_matched) > 0 and position_1.quantity > 0 and position_2.quantity > 0):
 						position_1.stop_loss = round(position_1.close_series_matched[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
 						position_2.stop_loss = round(position_2.close_series_matched[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
-						#_, _, _, _, hedge_ratio, _ = calculate_cointegration(position_1, position_2)
 						spread_df, spread_np = calculate_spread(position_1.close_series_matched, position_2.close_series_matched, coint_pairs['hedge_ratio'][i])
 						spread_list = spread_df.astype(float).values
 						spread = spread_list[-1]
@@ -94,34 +76,16 @@ def buy_loop():
 						std = spread_df.rolling(api.bollinger_length).std()
 						bollinger_up = sma + std * 2 # Calculate top band
 						bollinger_down = sma - std * 2 # Calculate bottom band
-						lg.info("========== CHECKING TO OPEN POSITIONS ==========")
-						lg.info("Asset 1: %s" % position_1.symbol)
-						lg.info("Asset 2: %s" % position_2.symbol)
-						lg.info("BB Upper: %s" % bollinger_up['spread'].iloc[-1])
-						lg.info("Spread: %s" % spread)
-						lg.info("BB Lower: %s" % bollinger_down['spread'].iloc[-1])
-						lg.info("=================================================")
-	
+						print_open(position_1, position_2, bollinger_up, bollinger_down, spread)
+						set_order_sides(spread, bollinger_up, bollinger_down, position_1, position_2)
 						if spread > bollinger_up['spread'].iloc[-1] or spread < bollinger_down['spread'].iloc[-1]:
-							if spread > bollinger_up['spread'].iloc[-1]:
-								position_1.side = "sell"
-								position_2.side = "buy"
-							else:
-								position_1.side = "buy"
-								position_2.side = "sell"
-
 							open_position_list.lock.acquire()
 							if i not in open_position_list.positions['index']:
 								initialize_order_execution(position_1)
 								initialize_order_execution(position_2)
 								message = 'Positions opened for: ' + position_1.symbol + ', ' + position_2.symbol
 								send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
-								added_to_list = False
-								while not added_to_list:
-									lg.info("Open Position List: %s" % open_position_list.positions)
-									entry = coint_pairs.loc[coint_pairs['index'] == i]
-									open_position_list.positions = pd.concat([open_position_list.positions, entry])
-									added_to_list = True
+								add_asset(coint_pairs, open_position_list, i)
 							open_position_list.lock.release()
 				
 				
@@ -141,18 +105,10 @@ def sell_loop():
 			get_ticker_position(position_2)
 			get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
 			get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
-			try:
-				position_1.close_series = extract_close_prices(position_1)
-				position_1.yf = yf.Ticker(position_1.symbol).info
-				position_1.close_series.append(position_1.yf['regularMarketPrice'])
-			except Exception as e:
-				lg.info(e)
-			try:
-				position_2.close_series = extract_close_prices(position_2)
-				position_2.yf = yf.Ticker(position_2.symbol).info
-				position_2.close_series.append(position_2.yf['regularMarketPrice'])
-			except Exception as e:
-				lg.info(e)
+			position_1.close_series = extract_close_prices(position_1)
+			position_2.close_series = extract_close_prices(position_2)
+			get_yf_info(position_1)
+			get_yf_info(position_2)
 			position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1, positions_2)
 			spread_df, spread_np = calculate_spread(position_1.close_series_matched, position_2.close_series_matched, open_position_list_working.positions[trade]['hedge_ratio'])
 			spread_list = spread_df.astype(float).values
@@ -161,13 +117,7 @@ def sell_loop():
 			std = spread_df.rolling(api.bollinger_length).std()
 			bollinger_up = sma + std * 2 # Calculate top band
 			bollinger_down = sma - std * 2 # Calculate bottom band
-			lg.info("========== CHECKING TO CLOSE POSITIONS ==========")
-			lg.info("Asset 1: %s" % position_1.symbol)
-			lg.info("Asset 2: %s" % position_2.symbol)
-			lg.info("BB Upper: %s" % bollinger_up['spread'].iloc[-1])
-			lg.info("Spread: %s" % spread)
-			lg.info("BB Lower: %s" % bollinger_down['spread'].iloc[-1])
-			lg.info("=================================================")
+			print_close(position_1, position_2, bollinger_up, bollinger_down, spread)
 			if position_1.qty > 0 and position_2.qty < 0:
 				position_2.qty = abs(position_2.qty)
 				position_1.side = 'sell'
@@ -177,12 +127,7 @@ def sell_loop():
 					place_market_close_order(position_2)
 					message = 'Positions closed for: ' + position_1.symbol + ', ' + position_2.symbol
 					send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
-					removed_from_list = False
-					while not removed_from_list:
-						open_position_list.lock.acquire()
-						open_position_list.positions.drop(trade)
-						removed_from_list = True
-						open_position_list.lock.release()
+					remove_asset(open_position_list, trade)
 			if position_1.qty < 0 and position_2.qty > 0:
 				position_1.qty = abs(position_1.qty)
 				position_2.side = 'sell'
@@ -192,12 +137,7 @@ def sell_loop():
 					place_market_close_order(position_2)
 					message = 'Positions closed for: ' + position_1.symbol + ', ' + position_2.symbol
 					send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
-					removed_from_list = False
-					while not removed_from_list:
-						open_position_list.lock.acquire()
-						open_position_list.positions.remove(trade)
-						removed_from_list = True
-						open_position_list.lock.release()
+					remove_asset(open_position_list, trade)
 			lg.info("Position List:")
 			lg.info(open_position_list_working.positions)	
 
