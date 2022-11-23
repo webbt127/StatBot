@@ -45,7 +45,7 @@ class config:
 		self.search_limit = 10000
 		self.capital_per_trade = 1000
 		self.test_set = 4000
-		self.bollinger_length = 21
+		self.bollinger_length = 50
 		self.min_zero_crosses = 10
 		self.pairs_path = Path("cointegrated_pairs.csv")
 		self.telegram_chat_id = '1993028760'
