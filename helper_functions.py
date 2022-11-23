@@ -15,6 +15,15 @@ from yahoo_fin import stock_info
 from alpaca_trade_api.rest import TimeFrame
 import datetime
 
+def exit_handler():
+	message = 'Exception Occurred'
+	send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
+	return
+
+class position_list:
+	def __init__(self):
+		self.lock = Lock()
+		self.positions = pd.DataFrame(columns=['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings', 'index', 'hedge_ratio'])
 
 def cancel_orders():
 	try:
