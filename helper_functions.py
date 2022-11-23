@@ -194,6 +194,16 @@ def place_market_close_order(asset):
     # Return
 	return
 
+def add_asset(coint_pairs, open_position_list, i):
+	added_to_list = False
+	while not added_to_list:
+		lg.info("Open Position List: %s" % open_position_list.positions)
+		entry = coint_pairs.loc[coint_pairs['index'] == i]
+		open_position_list.positions = pd.concat([open_position_list.positions, entry])
+		added_to_list = True
+		return open_position_list
+	
+
 def remove_asset(open_position_list, trade):
 	removed_from_list = False
 	while not removed_from_list:
@@ -224,3 +234,13 @@ def print_open(position_1, position_2, bollinger_up, bollinger_down, spread):
 	lg.info("BB Lower: %s" % bollinger_down['spread'].iloc[-1])
 	lg.info("=================================================")
 	return
+
+def set_order_sides(spread, bollinger_up, bollinger_down, position_1, position_2):
+	if spread > bollinger_up['spread'].iloc[-1] or spread < bollinger_down['spread'].iloc[-1]:
+		if spread > bollinger_up['spread'].iloc[-1]:
+			position_1.side = "sell"
+			position_2.side = "buy"
+		else:
+			position_1.side = "buy"
+			position_2.side = "sell"
+	return position_1, position_2
