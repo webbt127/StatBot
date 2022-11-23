@@ -244,3 +244,15 @@ def set_order_sides(spread, bollinger_up, bollinger_down, position_1, position_2
 			position_1.side = "buy"
 			position_2.side = "sell"
 	return position_1, position_2
+
+def get_yf_info(position):
+	try:
+		position.yf = yf.Ticker(position.symbol).info
+		position.close_series.append(position.yf['regularMarketPrice'])
+		if position.yf['regularMarketPrice'] > 0:
+			position.quantity = round(api.capital_per_trade / position.yf['regularMarketPrice'])
+		else:
+			position.quantity = 0
+	except:
+		position.quantity = 0
+	return position
