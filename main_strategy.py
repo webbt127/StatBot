@@ -81,7 +81,7 @@ def buy_loop():
 					except:
 						position_2.quantity = 0
 	
-					match_series_lengths(position_1, position_2)
+					position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1, position_2)
 					if(len(position_1.close_series_matched) == len(position_2.close_series_matched) and len(position_1.close_series_matched) > 0 and position_1.quantity > 0 and position_2.quantity > 0):
 						position_1.stop_loss = round(position_1.close_series_matched[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
 						position_2.stop_loss = round(position_2.close_series_matched[-1] * (1 - api.stop_loss_fail_safe), api.price_rounding)
@@ -152,7 +152,7 @@ def sell_loop():
 				position_2.close_series.append(position_2.yf['regularMarketPrice'])
 			except Exception as e:
 				lg.info(e)
-			match_series_lengths(position_1, positions_2)
+			position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1, positions_2)
 			spread_df, spread_np = calculate_spread(position_1.close_series_matched, position_2.close_series_matched, open_position_list_working.positions[trade]['hedge_ratio'])
 			spread_list = spread_df.astype(float).values
 			spread = spread_list[-1]
