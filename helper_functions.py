@@ -26,7 +26,8 @@ class position_list:
 	def __init__(self):
 		self.lock = Lock()
 		self.positions = pd.DataFrame(columns=['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings', 'index', 'hedge_ratio'])
-
+		self.positions.set_index(keys='index')
+		
 def cancel_orders():
 	try:
 		api.session.cancel_all_orders()
