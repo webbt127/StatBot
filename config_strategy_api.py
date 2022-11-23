@@ -39,7 +39,7 @@ class config:
 		self.stop_loss_fail_safe = 0.30 # stop loss at market order in case of drastic event
 	
 		self.timeframe = 60
-		self.kline_limit = 2000
+		self.kline_limit = 10000
 		self.z_score_window = 21
 		self.max_positions = 10
 		self.search_limit = 10000
