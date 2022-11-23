@@ -76,8 +76,8 @@ def buy_loop():
 						spread = spread_list[-1]
 						sma = spread_df.rolling(api.bollinger_length).mean()
 						std = spread_df.rolling(api.bollinger_length).std()
-						bollinger_up = sma + std * 2 # Calculate top band
-						bollinger_down = sma - std * 2 # Calculate bottom band
+						bollinger_up = sma + std * api.std # Calculate top band
+						bollinger_down = sma - std * api.std # Calculate bottom band
 						print_open(position_1, position_2, bollinger_up, bollinger_down, spread)
 						set_order_sides(spread, bollinger_up, bollinger_down, position_1, position_2)
 						if spread > bollinger_up['spread'].iloc[-1] or spread < bollinger_down['spread'].iloc[-1]:
