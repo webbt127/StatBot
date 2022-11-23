@@ -5,6 +5,7 @@ import pandas as pd
 import math
 import threading
 import yfinance as yf
+from threading import Thread, Lock
 from config_strategy_api import *
 from func_cointegration import *
 from telegram_notifications import *
