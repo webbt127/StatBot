@@ -198,13 +198,15 @@ def place_market_close_order(asset):
 
 def add_asset(coint_pairs, open_position_list, i):
 	added_to_list = False
+	lg.info("Open Position List: %s" % open_position_list.positions)
+	entry = coint_pairs.loc[coint_pairs['index'] == i]
 	while not added_to_list:
-		lg.info("Open Position List: %s" % open_position_list.positions)
-		entry = coint_pairs.loc[coint_pairs['index'] == i]
-		open_position_list.positions = pd.join([open_position_list.positions, entry])
-		lg.info(open_position_list.positions)
-		added_to_list = True
-		return open_position_list
+		if i not in open_position_list.positions['index']:
+			open_position_list.positions = pd.join([open_position_list.positions, entry])
+			added_to_list = True
+		else:
+			entry['index'] = entry['index'] + 1
+	return open_position_list
 	
 
 def remove_asset(open_position_list, trade):
