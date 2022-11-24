@@ -25,28 +25,27 @@ urllib3.disable_warnings()
 def begin_threading():
 	thread1 = Thread(target=buy_loop)
 	thread2 = Thread(target=sell_loop)
-	if api.buy:
-		thread1.start()
-		time.sleep(5)
-		try:
-			thread1.join()
-		except Exception as e:
-			lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
-			message = 'Exception Occurred: ' + e
-			send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
-	if api.sell:
-		thread2.start()
-		time.sleep(5)
-		try:
-			thread2.join()
-		except Exception as e:
-			lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
-			message = 'Exception Occurred: ' + e
-			send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
+	thread1.start()
+	time.sleep(5)
+	try:
+		thread1.join()
+	except Exception as e:
+		lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
+		message = 'Exception Occurred: ' + e
+		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
+	thread2.start()
+	time.sleep(5)
+	try:
+		thread2.join()
+	except Exception as e:
+		lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
+		message = 'Exception Occurred: ' + e
+		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 		
 def buy_loop():
-	#wait_for_market_open()
-	Parallel(n_jobs=6, verbose=10, prefer="threads")(delayed(buy_loop_threaded)(i) for i in coint_pairs.index)
+	wait_for_market_open()
+	while api.buy:
+		Parallel(n_jobs=6, verbose=10, prefer="threads")(delayed(buy_loop_threaded)(i) for i in coint_pairs.index)
 							
 def buy_loop_threaded(i):
 	position_1 = position()
@@ -92,8 +91,8 @@ def buy_loop_threaded(i):
 				
 				
 def sell_loop():
-	while True:
-		#wait_for_market_open()
+	while api.sell:
+		wait_for_market_open()
 		open_position_list.lock.acquire()
 		open_position_list_working = open_position_list
 		open_position_list.lock.release()
@@ -120,21 +119,21 @@ def sell_loop():
 			bollinger_up = sma + std * 2 # Calculate top band
 			bollinger_down = sma - std * 2 # Calculate bottom band
 			print_close(position_1, position_2, bollinger_up, bollinger_down, spread)
-			close_positions(position_1, position_2, open_position_list, trade)
+			#close_positions(position_1, position_2, open_position_list, trade)
 			if position_1.qty > 0 and position_2.qty < 0:
 				position_2.qty = abs(position_2.qty)
 				position_1.side = 'sell'
 				position_2.side = 'buy'
 				if spread > 0 or spread > bollinger_up['spread'].iloc[-1]:
 					no_operation()
-					#close_positions(position_1, position_2, open_position_list, trade)
+					close_positions(position_1, position_2, open_position_list, trade)
 			if position_1.qty < 0 and position_2.qty > 0:
 				position_1.qty = abs(position_1.qty)
 				position_2.side = 'sell'
 				position_1.side = 'buy'
 				if spread < 0 or spread < bollinger_down['spread'].iloc[-1]:
 					no_operation()
-					#close_positions(position_1, position_2, open_position_list, trade)
+					close_positions(position_1, position_2, open_position_list, trade)
 			#lg.info("Position List:")
 			#lg.info(open_position_list_working.positions)	
 
