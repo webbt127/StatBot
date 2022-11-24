@@ -99,13 +99,10 @@ def sell_loop():
 		open_position_list.lock.release()
 		time.sleep(10)
 		for trade in open_position_list_working.positions.index:
-			lg.info(trade)
 			position_1 = position()
 			position_1.symbol = open_position_list_working.positions.loc[trade]['sym_1']
 			position_2 = position()
 			position_2.symbol = open_position_list_working.positions.loc[trade]['sym_2']
-			lg.info(position_1.symbol)
-			lg.info(position_2.symbol)
 			get_ticker_position(position_1)
 			get_ticker_position(position_2)
 			get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
@@ -123,18 +120,19 @@ def sell_loop():
 			bollinger_up = sma + std * 2 # Calculate top band
 			bollinger_down = sma - std * 2 # Calculate bottom band
 			print_close(position_1, position_2, bollinger_up, bollinger_down, spread)
+			close_positions(position_1, position_2, open_position_list, trade)
 			if position_1.qty > 0 and position_2.qty < 0:
 				position_2.qty = abs(position_2.qty)
 				position_1.side = 'sell'
 				position_2.side = 'buy'
 				if spread > 0 or spread > bollinger_up['spread'].iloc[-1]:
-					close_positions(position_1, position_2, open_position_list, trade)
+					#close_positions(position_1, position_2, open_position_list, trade)
 			if position_1.qty < 0 and position_2.qty > 0:
 				position_1.qty = abs(position_1.qty)
 				position_2.side = 'sell'
 				position_1.side = 'buy'
 				if spread < 0 or spread < bollinger_down['spread'].iloc[-1]:
-					close_positions(position_1, position_2, open_position_list, trade)
+					#close_positions(position_1, position_2, open_position_list, trade)
 			lg.info("Position List:")
 			lg.info(open_position_list_working.positions)	
 
