@@ -19,7 +19,7 @@ api_url = "https://paper-api.alpaca.markets"
 # CONFIG
 class position:
 	def __init__(self):
-    		self.symbol = ""
+		self.symbol = ""
 		self.side = "sell"
 		
 class assets:
