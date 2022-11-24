@@ -126,12 +126,14 @@ def sell_loop():
 				position_1.side = 'sell'
 				position_2.side = 'buy'
 				if spread > 0 or spread > bollinger_up['spread'].iloc[-1]:
+					no_operation()
 					#close_positions(position_1, position_2, open_position_list, trade)
 			if position_1.qty < 0 and position_2.qty > 0:
 				position_1.qty = abs(position_1.qty)
 				position_2.side = 'sell'
 				position_1.side = 'buy'
 				if spread < 0 or spread < bollinger_down['spread'].iloc[-1]:
+					no_operation()
 					#close_positions(position_1, position_2, open_position_list, trade)
 			lg.info("Position List:")
 			lg.info(open_position_list_working.positions)	
