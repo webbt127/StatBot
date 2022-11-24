@@ -114,7 +114,7 @@ def sell_loop():
 			position_2.close_series = extract_close_prices(position_2)
 			get_yf_info(position_1)
 			get_yf_info(position_2)
-			position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1, positions_2)
+			position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1, position_2)
 			spread_df, spread_np = calculate_spread(position_1.close_series_matched, position_2.close_series_matched, open_position_list_working.positions[trade]['hedge_ratio'])
 			spread_list = spread_df.astype(float).values
 			spread = spread_list[-1]
