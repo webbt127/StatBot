@@ -222,6 +222,7 @@ def remove_asset(open_position_list, trade):
 		open_position_list.positions.drop(open_position_list.positions.index[trade])
 		if trade not in open_position_list.positions.index:
 			removed_from_list = True
+		lg.info(trade)
 		lg.info(open_position_list.positions)
 		open_position_list.lock.release()
 	return open_position_list
