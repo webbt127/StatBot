@@ -40,7 +40,7 @@ class config:
 		self.kline_limit = 10000
 		self.max_positions = 10
 		self.capital_per_trade = 1000
-		self.test_set = 1200
+		self.test_set = 500
 		self.bollinger_length = 50
 		self.min_zero_crosses = 10
 		self.pairs_path = Path("cointegrated_pairs.csv")
