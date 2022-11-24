@@ -51,7 +51,7 @@ class config:
 		self.std = 0.1
 		self.buy = True
 		self.sell = True
-		self.use_trade_history = True
+		self.use_trade_history = False
 
 global api
 api = config()
