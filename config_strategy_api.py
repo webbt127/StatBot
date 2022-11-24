@@ -41,18 +41,18 @@ class config:
 		self.kline_limit = 10000
 		self.max_positions = 10
 		self.capital_per_trade = 1000
-		self.test_set = 500
+		self.test_set = 6000
 		self.bollinger_length = 50
-		self.min_zero_crosses = 10
+		self.min_zero_crosses = 50
 		self.pairs_path = Path("cointegrated_pairs.csv")
 		self.trade_path = Path("trade_history.csv")
 		self.telegram_chat_id = '1993028760'
 		self.telegram_api_key = '5558182464:AAE-d-6mNR8zNr2gxW-QxicXIbRCmB6vi6E'
 		self.threaded = True
-		self.std = 0.1
-		self.buy = False
+		self.std = 2
+		self.buy = True
 		self.sell = True
-		self.use_trade_history = True
+		self.use_trade_history = False
 
 global api
 api = config()
