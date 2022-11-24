@@ -269,8 +269,8 @@ def get_yf_info(position):
 	return position
 
 def close_positions(position_1, position_2, open_position_list, trade):
-	place_market_close_order(position_1)
-	place_market_close_order(position_2)
+	#place_market_close_order(position_1)
+	#place_market_close_order(position_2)
 	message = 'Positions closed for: ' + position_1.symbol + ', ' + position_2.symbol
 	send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 	remove_asset(open_position_list, trade)
