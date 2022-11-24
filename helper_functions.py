@@ -198,7 +198,7 @@ def place_market_close_order(asset):
 
 def add_asset(coint_pairs, open_position_list, i, position_1):
 	added_to_list = False
-	loc = coint_pairs.loc[coint_pairs['index'] == i]
+	loc = coint_pairs.loc[coint_pairs.index == i]
 	entry = coint_pairs.iloc[loc['index']]
 	#open_position_list.positions.drop(columns=['Unnamed: 0','index'])
 	#entry.drop(columns=['Unnamed: 0'])
