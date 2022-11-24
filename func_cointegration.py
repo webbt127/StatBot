@@ -57,7 +57,7 @@ def get_cointegrated_pairs():
 		if 'zero_crossings' in df_coint:
 			df_coint = df_coint.sort_values("zero_crossings", ascending=False)
 			df_coint = df_coint.reset_index(drop=True)
-			df_coint['index'] = df_coint.index
+			#df_coint['index'] = df_coint.index
 			df_coint.to_csv(api.pairs_path, index=False)
 		return df_coint
 	
