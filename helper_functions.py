@@ -210,7 +210,8 @@ def add_asset(coint_pairs, open_position_list, i, position_1):
 	while not added_to_list:
 		open_position_list.positions = pd.concat([entry, open_position_list.positions])
 		open_position_list.positions.to_csv(api.trade_path, index=False)
-		added_to_list = True
+		if i in open_position_list.positions.index:
+			added_to_list = True
 	lg.info(open_position_list.positions)
 	return open_position_list
 	
@@ -272,8 +273,8 @@ def get_yf_info(position):
 	return position
 
 def close_positions(position_1, position_2, open_position_list, trade):
-	#place_market_close_order(position_1)
-	#place_market_close_order(position_2)
+	place_market_close_order(position_1)
+	place_market_close_order(position_2)
 	message = 'Positions closed for: ' + position_1.symbol + ', ' + position_2.symbol
 	send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 	remove_asset(open_position_list, trade)
