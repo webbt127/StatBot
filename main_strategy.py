@@ -46,7 +46,7 @@ def begin_threading():
 	
 def buy_loop():
 	while api.threaded:
-		Parallel(n_jobs=6, verbose=10, prefer="threads")(delayed(buy_loop_threaded)(i) for i in coint_pairs['index'])
+		Parallel(n_jobs=6, verbose=10, prefer="threads")(delayed(buy_loop_threaded)(i) for i in coint_pairs.index)
 	while not api.threaded:
 		wait_for_market_open()
 		for i in coint_pairs['index']:
