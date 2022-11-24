@@ -28,22 +28,21 @@ def begin_threading():
 	if api.buy:
 		thread1.start()
 		time.sleep(5)
+		try:
+			thread1.join()
+		except Exception as e:
+			lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
+			message = 'Exception Occurred: ' + e
+			send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 	if api.sell:
 		thread2.start()
 		time.sleep(5)
-	try:
-		thread1.join()
-	except Exception as e:
-		lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
-		message = 'Exception Occurred: ' + e
-		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
-	time.sleep(5)
-	try:
-		thread2.join()
-	except Exception as e:
-		lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
-		message = 'Exception Occurred: ' + e
-		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
+		try:
+			thread2.join()
+		except Exception as e:
+			lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
+			message = 'Exception Occurred: ' + e
+			send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 		
 def buy_loop():
 	Parallel(n_jobs=6, verbose=10, prefer="threads")(delayed(buy_loop_threaded)(i) for i in coint_pairs['index'])
