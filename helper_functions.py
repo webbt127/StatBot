@@ -33,6 +33,9 @@ def cancel_orders():
 	except Exception as e:
 		lg.info("Unable To Cancel All Orders")
 
+def no_operation():
+	return
+
 def wait_for_market_open():
 	clock = api.session.get_clock()
 	if not clock.is_open:
