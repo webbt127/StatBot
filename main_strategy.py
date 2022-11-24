@@ -44,6 +44,9 @@ def begin_threading():
 		lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
 		message = 'Exception Occurred: ' + e
 		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
+		
+def buy_loop():
+	Parallel(n_jobs=6, verbose=10, prefer="threads")(delayed(buy_loop_threaded)(i) for i in coint_pairs['index'])
 							
 def buy_loop_threaded(i):
 	position_1 = position()
