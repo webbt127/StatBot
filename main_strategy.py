@@ -135,8 +135,8 @@ def sell_loop():
 				if spread < 0 or spread < bollinger_down['spread'].iloc[-1]:
 					no_operation()
 					#close_positions(position_1, position_2, open_position_list, trade)
-			lg.info("Position List:")
-			lg.info(open_position_list_working.positions)	
+			#lg.info("Position List:")
+			#lg.info(open_position_list_working.positions)	
 
 """STRATEGY CODE"""
 if __name__ == "__main__":
