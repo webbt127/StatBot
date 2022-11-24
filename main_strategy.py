@@ -100,9 +100,9 @@ def sell_loop():
 		time.sleep(10)
 		for trade in open_position_list_working.positions:
 			position_1 = position()
-			position_1.symbol = trade['sym_1']
+			position_1.symbol = open_position_list_working.positions.loc[trade]['sym_1']
 			position_2 = position()
-			position_2.symbol = trade['sym_2']
+			position_2.symbol = open_position_list_working.positions.loc[trade]['sym_2']
 			lg.info(position_1.symbol)
 			lg.info(position_2.symbol)
 			get_ticker_position(position_1)
