@@ -219,7 +219,7 @@ def remove_asset(open_position_list, trade):
 	removed_from_list = False
 	while not removed_from_list:
 		open_position_list.lock.acquire()
-		open_position_list.positions.drop(trade)
+		open_position_list.positions.drop(open_position_list.positions.index[trade])
 		if trade not in open_position_list.positions.index:
 			removed_from_list = True
 		open_position_list.lock.release()
