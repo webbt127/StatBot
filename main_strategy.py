@@ -27,13 +27,14 @@ def begin_threading():
 	thread2 = Thread(target=sell_loop)
 	thread1.start()
 	time.sleep(5)
+	thread2.start()
+	time.sleep(5)
 	try:
 		thread1.join()
 	except Exception as e:
 		lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
 		message = 'Exception Occurred: ' + e
 		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
-	thread2.start()
 	time.sleep(5)
 	try:
 		thread2.join()
