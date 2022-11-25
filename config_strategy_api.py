@@ -6,8 +6,8 @@ api_key_mainnet = ""
 api_secret_mainnet = ""
 
 # TEST API
-api_key_testnet = "PKAFGQA2GG10RZ5BNX23"
-api_secret_testnet = "hgOWFBG8WylBZ8EwP8i9KSU1FXNu7vFZWlTUgfa0"
+api_key_testnet = "PK4YHXIZUOSQ8OU7CPD0"
+api_secret_testnet = "Vlnvk2kGB2hh1CKsvBL13xfpIgw521ZrCMTI6OkM"
 
 # SELECTED API
 api_key = api_key_testnet
@@ -52,7 +52,7 @@ class config:
 		self.std = 2
 		self.buy = True
 		self.sell = True
-		self.use_trade_history = True
+		self.use_trade_history = False
 
 global api
 api = config()
