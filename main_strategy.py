@@ -92,7 +92,6 @@ def buy_loop_threaded(i):
 				
 				
 def sell_loop():
-	lg.info("Hello World")
 	while api.sell:
 		wait_for_market_open()
 		open_position_list.lock.acquire()
