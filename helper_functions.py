@@ -205,14 +205,14 @@ def add_asset(coint_pairs, open_position_list, i, position_1):
 	entry = coint_pairs.iloc[loc.index]
 	#open_position_list.positions.drop(columns=['Unnamed: 0','index'])
 	#entry.drop(columns=['Unnamed: 0'])
-	lg.info("Open Position List: %s" % open_position_list.positions)
-	lg.info(entry)
+	#lg.info("Open Position List: %s" % open_position_list.positions)
+	#lg.info(entry)
 	while not added_to_list:
 		open_position_list.positions = pd.concat([entry, open_position_list.positions])
 		if i in open_position_list.positions.index:
 			open_position_list.positions.to_csv(api.trade_path, index=False)
 			added_to_list = True
-	lg.info(open_position_list.positions)
+	#lg.info(open_position_list.positions)
 	return open_position_list
 	
 
@@ -224,8 +224,8 @@ def remove_asset(open_position_list, trade):
 		if trade not in open_position_list.positions.index:
 			open_position_list.positions.to_csv(api.trade_path, index=False)
 			removed_from_list = True
-		lg.info(trade)
-		lg.info(open_position_list.positions)
+		#lg.info(trade)
+		#lg.info(open_position_list.positions)
 		open_position_list.lock.release()
 	return open_position_list
 
