@@ -81,7 +81,7 @@ def buy_loop_threaded(i):
 				#add_asset(coint_pairs, open_position_list, i, position_1)
 				if spread > bollinger_up['spread'].iloc[-1] or spread < bollinger_down['spread'].iloc[-1]:
 					open_position_list.lock.acquire()
-					if i not in open_position_list.positions['index']:
+					if i not in open_position_list.positions.index:
 						initialize_order_execution(position_1)
 						initialize_order_execution(position_2)
 						message = 'Positions opened for: ' + position_1.symbol + ', ' + position_2.symbol
