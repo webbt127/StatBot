@@ -62,7 +62,6 @@ def get_cointegrated_pairs():
 	return df_coint
 	
 def check_pairs(sym_1, sym_2):
-	alive_bar(0)
 	if sym_2 != sym_1:
 		sorted_characters = sorted(sym_1.symbol + sym_2.symbol)
 		unique = "".join(sorted_characters)
