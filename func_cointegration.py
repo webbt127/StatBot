@@ -10,6 +10,7 @@ from joblib import Parallel, delayed, parallel_backend
 from func_cointegration import *
 import logging as lg
 import threading
+import ray
 
 
 # Calculate spread
@@ -53,23 +54,29 @@ def get_cointegrated_pairs():
     # Loop through coins and check for co-integration
 	#with alive_bar((len(asset_list.symbols)*len(asset_list.symbols)), title='Checking Cointegration...') as bar:
 	global included_list
+	ray.init()
 	tasks = []
+	for sym_1 in asset_list.symbols:
+		for sym_2 in asset_list.symbols:
+			tasks.append(check_pairs.remote(sym_1, sym_2))
+	ray.get(tasks)
 	#Parallel(n_jobs=8, verbose=10, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
 	df_coint = pd.DataFrame(coint_pair_list)
-	with alive_bar(len(asset_list.symbols)*len(asset_list.symbols)) as bar:
-		for sym_1 in asset_list.symbols:
-			for sym_2 in asset_list.symbols:
-				bar()
-				t1 = threading.Thread(target=check_pairs, args=[sym_1, sym_2])
-				t1.start()
-				tasks.append(t1)
+	#with alive_bar(len(asset_list.symbols)*len(asset_list.symbols)) as bar:
+	#	for sym_1 in asset_list.symbols:
+	#		for sym_2 in asset_list.symbols:
+	#			bar()
+	#			t1 = threading.Thread(target=check_pairs, args=[sym_1, sym_2])
+	#			t1.start()
+	#			tasks.append(t1)
 	if 'zero_crossings' in df_coint:
 		df_coint = df_coint.sort_values("zero_crossings", ascending=False)
 		df_coint = df_coint.reset_index(drop=True)
 		#df_coint['index'] = df_coint.index
 		df_coint.to_csv(api.pairs_path, index=False)
 	return df_coint
-	
+
+@ray.remote
 def check_pairs(sym_1, sym_2):
 	if sym_2 != sym_1:
 		sorted_characters = sorted(sym_1.symbol + sym_2.symbol)
