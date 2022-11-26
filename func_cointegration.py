@@ -55,9 +55,7 @@ def get_cointegrated_pairs():
 	#with alive_bar((len(asset_list.symbols)*len(asset_list.symbols)), title='Checking Cointegration...') as bar:
 	global included_list
 	pool = Pool()
-	for sym_1 in asset_list.symbols:
-		for sym_2 in asset_list.symbols:
-			pool.map(check_pairs, [sym_1, sym_2])
+	for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols pool.map(check_pairs, [sym_1, sym_2]):
 	#Parallel(n_jobs=8, verbose=10, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
 	df_coint = pd.DataFrame(coint_pair_list)
 	#with alive_bar(len(asset_list.symbols)*len(asset_list.symbols)) as bar:
