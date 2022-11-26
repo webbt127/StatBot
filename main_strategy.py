@@ -149,7 +149,7 @@ if __name__ == "__main__":
 		lg.info("Getting price history...")
 		get_price_history()
 		lg.info("Calculating co-integration...")
-		ray.init()
+		ray.init(num_cpus=8)
 		coint_pairs = ray.get(get_cointegrated_pairs.remote())
 	if get_new_pairs == 'n':
 		coint_pairs = pd.read_csv(api.pairs_path)
