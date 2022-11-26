@@ -13,6 +13,7 @@ from func_cointegration import *
 from telegram_notifications import *
 import urllib3
 import atexit
+import ray
 
 initialize_logger()
 
@@ -148,7 +149,8 @@ if __name__ == "__main__":
 		lg.info("Getting price history...")
 		get_price_history()
 		lg.info("Calculating co-integration...")
-		coint_pairs = get_cointegrated_pairs()
+		ray.init()
+		coint_pairs = ray.get(get_cointegrated_pairs.remote())
 	if get_new_pairs == 'n':
 		coint_pairs = pd.read_csv(api.pairs_path)
 	lg.info(coint_pairs)
