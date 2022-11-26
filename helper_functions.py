@@ -137,7 +137,7 @@ def get_tradeable_symbols():
 	asset_list.symbols = [a for a in active_assets if a.easy_to_borrow == True and a.tradable == True and getattr(a, 'class') == 'us_equity']
 	asset_list.symbols = asset_list.symbols[test_set]
 	Parallel(n_jobs=8, verbose=10, prefer="threads")(delayed(filter_assets)(a) for a in asset_list.symbols)
-	asset_list.symbols = [a for a in asset_list.symbols if a.average_volume > 1000000]
+	asset_list.symbols = [a for a in asset_list.symbols if a.average_volume > self.min_vol]
 	print(len(asset_list.symbols))
 	
 
