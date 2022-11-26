@@ -55,7 +55,6 @@ def get_cointegrated_pairs():
     # Loop through coins and check for co-integration
 	#with alive_bar((len(asset_list.symbols)*len(asset_list.symbols)), title='Checking Cointegration...') as bar:
 	global included_list
-	ray.init()
 	for sym_1 in asset_list.symbols:
 		for sym_2 in asset_list.symbols:
 			check_pairs(sym_1, sym_2)
