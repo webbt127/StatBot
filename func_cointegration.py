@@ -60,9 +60,9 @@ def get_cointegrated_pairs():
 		for sym_2 in asset_list.symbols:
 			with alive_bar(len(asset_list.symbols)*len(asset_list.symbols)) as bar:
 				bar()
-    				t1 = threading.Thread(target=check_pairs, args=[sym_1, sym_2])
-    				t1.start()
-    				tasks.append(t1)
+				t1 = threading.Thread(target=check_pairs, args=[sym_1, sym_2])
+				t1.start()
+				tasks.append(t1)
 	if 'zero_crossings' in df_coint:
 		df_coint = df_coint.sort_values("zero_crossings", ascending=False)
 		df_coint = df_coint.reset_index(drop=True)
