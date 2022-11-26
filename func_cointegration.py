@@ -50,18 +50,19 @@ def extract_close_prices(asset):
 def get_cointegrated_pairs():
 
     # Loop through coins and check for co-integration
-	with alive_bar((len(asset_list.symbols)*len(asset_list.symbols)), title='Checking Cointegration...') as bar:
-		global included_list
-		Parallel(n_jobs=8, verbose=10, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
-		df_coint = pd.DataFrame(coint_pair_list)
-		if 'zero_crossings' in df_coint:
-			df_coint = df_coint.sort_values("zero_crossings", ascending=False)
-			df_coint = df_coint.reset_index(drop=True)
-			#df_coint['index'] = df_coint.index
-			df_coint.to_csv(api.pairs_path, index=False)
-		return df_coint
+	#with alive_bar((len(asset_list.symbols)*len(asset_list.symbols)), title='Checking Cointegration...') as bar:
+	global included_list
+	Parallel(n_jobs=8, verbose=10, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) with alive_bar(0) as bar for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
+	df_coint = pd.DataFrame(coint_pair_list)
+	if 'zero_crossings' in df_coint:
+		df_coint = df_coint.sort_values("zero_crossings", ascending=False)
+		df_coint = df_coint.reset_index(drop=True)
+		#df_coint['index'] = df_coint.index
+		df_coint.to_csv(api.pairs_path, index=False)
+	return df_coint
 	
 def check_pairs(sym_1, sym_2):
+	bar()
 	if sym_2 != sym_1:
 		sorted_characters = sorted(sym_1.symbol + sym_2.symbol)
 		unique = "".join(sorted_characters)
