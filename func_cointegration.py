@@ -9,6 +9,7 @@ from joblib import Parallel, delayed, parallel_backend
 #from pbar_parallel import PBarParallel, delayed
 from func_cointegration import *
 import logging as lg
+import threading
 
 
 # Calculate spread
@@ -52,8 +53,16 @@ def get_cointegrated_pairs():
     # Loop through coins and check for co-integration
 	#with alive_bar((len(asset_list.symbols)*len(asset_list.symbols)), title='Checking Cointegration...') as bar:
 	global included_list
-	Parallel(n_jobs=8, verbose=10, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
+	tasks = []
+	#Parallel(n_jobs=8, verbose=10, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
 	df_coint = pd.DataFrame(coint_pair_list)
+	for sym_1 in asset_list.symbols:
+		for sym_2 in asset_list.symbols:
+			with alive_bar(len(asset_list.symbols)*len(asset_list.symbols)) as bar:
+				bar()
+    				t1 = threading.Thread(target=check_pairs, args=[sym_1, sym_2])
+    				t1.start()
+    				tasks.append(t1)
 	if 'zero_crossings' in df_coint:
 		df_coint = df_coint.sort_values("zero_crossings", ascending=False)
 		df_coint = df_coint.reset_index(drop=True)
