@@ -49,17 +49,16 @@ def extract_close_prices(asset):
 
 
 # Calculate cointegrated pairs
+@ray.remote
 def get_cointegrated_pairs():
 
     # Loop through coins and check for co-integration
 	#with alive_bar((len(asset_list.symbols)*len(asset_list.symbols)), title='Checking Cointegration...') as bar:
 	global included_list
 	ray.init()
-	tasks = []
 	for sym_1 in asset_list.symbols:
 		for sym_2 in asset_list.symbols:
-			tasks.append(check_pairs.remote(sym_1, sym_2))
-	ray.get(tasks)
+			check_pairs(sym_1, sym_2)
 	#Parallel(n_jobs=8, verbose=10, prefer="threads")(delayed(check_pairs)(sym_1, sym_2) for sym_1 in asset_list.symbols for sym_2 in asset_list.symbols)
 	df_coint = pd.DataFrame(coint_pair_list)
 	#with alive_bar(len(asset_list.symbols)*len(asset_list.symbols)) as bar:
@@ -76,7 +75,6 @@ def get_cointegrated_pairs():
 		df_coint.to_csv(api.pairs_path, index=False)
 	return df_coint
 
-@ray.remote
 def check_pairs(sym_1, sym_2):
 	if sym_2 != sym_1:
 		sorted_characters = sorted(sym_1.symbol + sym_2.symbol)
