@@ -336,7 +336,7 @@ def gui():
 	window = sg.Window('Cointegrated Pairs', layout, grab_anywhere=False)
 	while True:
 		event, values = window.read(timeout=1000)
-		#graph.Erase()
+		graph.Erase()
 		for point in range(len(series1)):
 			if point > 0:
 				graph.DrawLine((point-1, series1[point-1]),
@@ -363,5 +363,7 @@ def gui():
 			#get_yf_info(position_1)
 			#get_yf_info(position_2)
 			series1, series2 = match_series_lengths(position_1,position_2)
+			series1 = series1[-100:]
+			series2 = series2[-100:]
             
 	window.close()
