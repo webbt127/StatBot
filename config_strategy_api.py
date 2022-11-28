@@ -54,6 +54,7 @@ class config:
 		self.sell = True
 		self.use_trade_history = False
 		self.min_vol = 2000000
+		self.max_spread = 30
 
 global api
 api = config()
