@@ -295,7 +295,7 @@ def gui():
 	positions_header_list = []
 	series1 = []
 	series2 = []
-	spread_list = []
+	spread_np = []
 	position_1 = position()
 	position_2 = position()
 	GRAPH_SIZE = (550, 500)
