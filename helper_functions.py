@@ -336,9 +336,9 @@ def gui():
 	while True:
 		event, values = window.read(timeout=1000)
 		graph.Erase()
-		for point in range(len(spread_list)):
+		for point in range(len(spread_np)):
 			if point > api.bollinger_length:
-				graph.DrawLine((point-1, spread_list[point-1]),
+				graph.DrawLine((point-1, spread_np[point-1]),
 					       (point, spread_list[point]), color='blue', width=1)
 		#for point in range(len(spread_list)):
 		#	if point > api.bollinger_length:
