@@ -12,8 +12,6 @@ from telegram_notifications import *
 from alive_progress import alive_bar
 import logging as lg
 from joblib import Parallel, delayed, parallel_backend
-#from pbar_parallel import PBarParallel, delayed
-from yahoo_fin import stock_info
 from alpaca_trade_api.rest import TimeFrame
 import datetime
 import PySimpleGUI as sg
