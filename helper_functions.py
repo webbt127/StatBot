@@ -300,7 +300,7 @@ def gui():
 	position_1 = position()
 	position_2 = position()
 	GRAPH_SIZE = (550, 500)
-	DATA_SIZE = (1000, 200)
+	DATA_SIZE = (100, 200)
 	graph = sg.Graph(GRAPH_SIZE, (0, -30), DATA_SIZE, background_color='white', )
 
 	if pairs_filename is not None:
