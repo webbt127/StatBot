@@ -296,6 +296,8 @@ def gui():
 	series1 = []
 	series2 = []
 	spread_np = []
+	bollinger_up = []
+	bollinger_down = []
 	position_1 = position()
 	position_2 = position()
 	GRAPH_SIZE = (550, 500)
@@ -340,14 +342,14 @@ def gui():
 			if point > api.bollinger_length:
 				graph.DrawLine((point-1, spread_np[point-1]),
 					       (point, spread_np[point]), color='blue', width=1)
-		#for point in range(len(spread_list)):
-		#	if point > api.bollinger_length:
-		#		graph.DrawLine((point-1, bollinger_up[point-1]),
-		#			       (point, bollinger_up[point]), color='blue', width=1)
-		#for point in range(len(spread_list)):
-		#	if point > api.bollinger_length:
-		#		graph.DrawLine((point-1, bollinger_down[point-1]),
-		#			       (point, bollinger_down[point]), color='blue', width=1)
+		for point in range(len(spread_list)):
+			if point > api.bollinger_length:
+				graph.DrawLine((point-1, bollinger_up[point-1]),
+					       (point, bollinger_up[point]), color='blue', width=1)
+		for point in range(len(spread_list)):
+			if point > api.bollinger_length:
+				graph.DrawLine((point-1, bollinger_down[point-1]),
+					       (point, bollinger_down[point]), color='blue', width=1)
 		for point in range(len(spread_np)):
 			if point > api.bollinger_length:
 				graph.DrawLine((point-1, 0),
