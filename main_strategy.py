@@ -57,7 +57,7 @@ def gui_loop():
 	gui()
 		
 def buy_loop():
-	#wait_for_market_open()
+	wait_for_market_open()
 	while api.buy:
 		Parallel(n_jobs=6, verbose=10, prefer="threads")(delayed(buy_loop_threaded)(i) for i in coint_pairs.index)
 							
@@ -106,7 +106,7 @@ def buy_loop_threaded(i):
 				
 def sell_loop():
 	while api.sell:
-		#wait_for_market_open()
+		wait_for_market_open()
 		open_position_list.lock.acquire()
 		open_position_list_working = open_position_list
 		open_position_list.lock.release()
