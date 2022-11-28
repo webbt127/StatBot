@@ -16,6 +16,7 @@ from joblib import Parallel, delayed, parallel_backend
 from yahoo_fin import stock_info
 from alpaca_trade_api.rest import TimeFrame
 import datetime
+import PySimpleGUI as sg
 
 def exit_handler():
 	message = 'Exception Occurred'
@@ -280,3 +281,85 @@ def close_positions(position_1, position_2, open_position_list, trade):
 	send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 	remove_asset(open_position_list, trade)
 	return position_1, position_2, open_position_list
+
+def gui():
+
+	sg.set_options(auto_size_buttons=True)
+	#pairs_filename = api.pairs_path
+	pairs_filename = "~/cointegrated_pairs.csv"
+	#positions_filename = api.trade_path
+	positions_filename = "~/trade_history.csv"
+    # --- populate table with file contents --- #
+
+	pairs_data = []
+	pairs_header_list = []
+	positions_data = []
+	positions_header_list = []
+	series1 = []
+	series2 = []
+	GRAPH_SIZE = (550, 500)
+	DATA_SIZE = (1000, 200)
+	graph = sg.Graph(GRAPH_SIZE, (0, -30), DATA_SIZE, background_color='white', )
+
+	if pairs_filename is not None:
+		try:
+            # Header=None means you directly pass the columns names to the dataframe
+			pairs_df = pd.read_csv(pairs_filename, sep=',', engine='python')
+			pairs_data = pairs_df.values.tolist()               # read everything else into a list of rows
+			pairs_header_list = ['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings']
+		except:
+			sg.popup_error('Error reading file')
+			return
+
+	if positions_filename is not None:
+		try:
+            # Header=None means you directly pass the columns names to the dataframe
+			positions_df = pd.read_csv(positions_filename, sep=',', engine='python')
+			positions_data = positions_df.values.tolist()               # read everything else into a list of rows
+			positions_header_list = ['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings']
+		except:
+			sg.popup_error('Error reading file')
+			return
+
+	layout = [
+		[sg.Text(text='PAIR GRAPH:                                                                                                                                                                                                                                   '),
+ 		sg.Text(text='AVAILABLE PAIRS:', justification='right')],
+		[graph,
+		sg.Table(values=pairs_data, headings=pairs_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(25, len(pairs_data)), key='-PAIRDATA-', enable_click_events=True)],
+		[sg.Text(text='OPEN POSITIONS:')],
+		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(25, len(positions_data)), key='-POSITIONDATA-', enable_click_events=True)],
+		[sg.Button('Update Positions'), sg.Button('Exit')]
+			]
+
+	window = sg.Window('Cointegrated Pairs', layout, grab_anywhere=False)
+	while True:
+		event, values = window.read(timeout=1000)
+		graph.Erase()
+		for point in range(len(series1)):
+			if point > 0:
+				graph.DrawLine((point-1, series1[point-1]),
+					       (point, series1[point]), color='blue', width=1)
+		for point in range(len(series2)):
+			if point > 0:
+				graph.DrawLine((point-1, series2[point-1]),
+					       (point, series2[point]), color='red', width=1)
+		positions_df = pd.read_csv(positions_filename, sep=',', engine='python')
+		positions_data = positions_df.values.tolist()  # read everything else into a list of rows
+		if event == '__TIMEOUT__':
+			window['-POSITIONDATA-'].update(values=positions_data, num_rows=len(positions_df.index))
+		if event == sg.WIN_CLOSED or event == 'Exit':
+			break
+		if event[0] == '-PAIRDATA-' or event[0] == '-POSITIONDATA-':
+			selected_row = event[2][0]
+			hedge_ratio = pairs_df['hedge_ratio'][selected_row]
+			position_1.symbol = pairs_df['sym_1'][selected_row]
+			position_2.symbol = pairs_df['sym_2'][selected_row]
+			get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
+			get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
+			position_1.close_series = extract_close_prices(position_1)
+			position_2.close_series = extract_close_prices(position_2)
+			#get_yf_info(position_1)
+			#get_yf_info(position_2)
+			series1, series2 = match_series_lengths(position_1,position_2)
+            
+	window.close()
