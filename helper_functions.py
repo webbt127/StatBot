@@ -359,7 +359,7 @@ def gui():
 			get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
 			get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
 			position_1.close_series = extract_close_prices(position_1)
-			position_2.close_series = extract_close_prices(position_2)
+			position_2.close_series = extract_close_prices(position_2) * hedge_ratio
 			#get_yf_info(position_1)
 			#get_yf_info(position_2)
 			series1, series2 = match_series_lengths(position_1,position_2)
