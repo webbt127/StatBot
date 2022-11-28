@@ -371,6 +371,7 @@ def gui():
 			#get_yf_info(position_2)
 			position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1,position_2)
 			spread_df, spread_np = calculate_spread(position_1.close_series_matched, position_2.close_series_matched, hedge_ratio)
+			print(spread_np)
 			spread_list = spread_df.astype(float).values
 			#sma = spread_df.rolling(api.bollinger_length).mean()
 			#std = spread_df.rolling(api.bollinger_length).std()
