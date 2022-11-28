@@ -344,12 +344,12 @@ def gui():
 					       (point, spread_np[point]), color='blue', width=1)
 		for point in range(len(spread_np)):
 			if point > api.bollinger_length:
-				graph.DrawLine((point-1, bollinger_up[point-1]),
-					       (point, bollinger_up[point]), color='blue', width=1)
+				graph.DrawLine((point-1, bollinger_up['spread'].iloc[point-1]),
+					       (point, bollinger_up['spread'].iloc[point]), color='blue', width=1)
 		for point in range(len(spread_np)):
 			if point > api.bollinger_length:
-				graph.DrawLine((point-1, bollinger_down[point-1]),
-					       (point, bollinger_down[point]), color='blue', width=1)
+				graph.DrawLine((point-1, bollinger_down['spread'].iloc[point-1]),
+					       (point, bollinger_down['spread'].iloc[point]), color='blue', width=1)
 		for point in range(len(spread_np)):
 			if point > api.bollinger_length:
 				graph.DrawLine((point-1, 0),
