@@ -342,11 +342,11 @@ def gui():
 			if point > api.bollinger_length:
 				graph.DrawLine((point-1, spread_np[point-1]),
 					       (point, spread_np[point]), color='blue', width=1)
-		for point in range(len(spread_list)):
+		for point in range(len(spread_np)):
 			if point > api.bollinger_length:
 				graph.DrawLine((point-1, bollinger_up[point-1]),
 					       (point, bollinger_up[point]), color='blue', width=1)
-		for point in range(len(spread_list)):
+		for point in range(len(spread_np)):
 			if point > api.bollinger_length:
 				graph.DrawLine((point-1, bollinger_down[point-1]),
 					       (point, bollinger_down[point]), color='blue', width=1)
@@ -375,9 +375,9 @@ def gui():
 			spread_df, spread_np = calculate_spread(position_1.close_series_matched, position_2.close_series_matched, hedge_ratio)
 			print(spread_np)
 			#spread_list = spread_df.astype(float).values
-			#sma = spread_df.rolling(api.bollinger_length).mean()
-			#std = spread_df.rolling(api.bollinger_length).std()
-			#bollinger_up = sma + std * 2 # Calculate top band
-			#bollinger_down = sma - std * 2 # Calculate bottom band
+			sma = spread_df.rolling(api.bollinger_length).mean()
+			std = spread_df.rolling(api.bollinger_length).std()
+			bollinger_up = sma + std * 2 # Calculate top band
+			bollinger_down = sma - std * 2 # Calculate bottom band
             
 	window.close()
