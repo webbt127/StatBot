@@ -43,6 +43,7 @@ def begin_threading():
 		lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
 		message = 'Exception Occurred: ' + e
 		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
+	gui()
 		
 def buy_loop():
 	wait_for_market_open()
