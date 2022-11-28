@@ -297,6 +297,8 @@ def gui():
 	positions_header_list = []
 	series1 = []
 	series2 = []
+	position_1 = position()
+	position_2 = position()
 	GRAPH_SIZE = (550, 500)
 	DATA_SIZE = (1000, 200)
 	graph = sg.Graph(GRAPH_SIZE, (0, -30), DATA_SIZE, background_color='white', )
