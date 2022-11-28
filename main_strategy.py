@@ -13,7 +13,6 @@ from func_cointegration import *
 from telegram_notifications import *
 import urllib3
 import atexit
-import ray
 
 initialize_logger()
 
