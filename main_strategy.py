@@ -57,7 +57,7 @@ def gui_loop():
 	gui()
 		
 def buy_loop():
-	wait_for_market_open()
+	#wait_for_market_open()
 	while api.buy:
 		Parallel(n_jobs=6, verbose=10, prefer="threads")(delayed(buy_loop_threaded)(i) for i in coint_pairs.index)
 							
@@ -106,7 +106,7 @@ def buy_loop_threaded(i):
 				
 def sell_loop():
 	while api.sell:
-		wait_for_market_open()
+		#wait_for_market_open()
 		open_position_list.lock.acquire()
 		open_position_list_working = open_position_list
 		open_position_list.lock.release()
@@ -138,14 +138,14 @@ def sell_loop():
 				position_2.qty = abs(position_2.qty)
 				position_1.side = 'sell'
 				position_2.side = 'buy'
-				if spread > 0 or spread > bollinger_up['spread'].iloc[-1]:
+				if (spread > 0 or spread > bollinger_up['spread'].iloc[-1]) and abs(sma['spread'].iloc[-1]) < api.max_spread:
 					no_operation()
 					close_positions(position_1, position_2, open_position_list, trade)
 			if position_1.qty < 0 and position_2.qty > 0:
 				position_1.qty = abs(position_1.qty)
 				position_2.side = 'sell'
 				position_1.side = 'buy'
-				if spread < 0 or spread < bollinger_down['spread'].iloc[-1]:
+				if (spread < 0 or spread < bollinger_down['spread'].iloc[-1]) and abs(sma['spread'].iloc[-1]) < api.max_spread:
 					no_operation()
 					close_positions(position_1, position_2, open_position_list, trade)
 			#lg.info("Position List:")
