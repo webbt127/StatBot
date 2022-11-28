@@ -340,14 +340,14 @@ def gui():
 			if point > api.bollinger_length:
 				graph.DrawLine((point-1, spread_list[point-1]),
 					       (point, spread_list[point]), color='blue', width=1)
-		for point in range(len(spread_list)):
-			if point > api.bollinger_length:
-				graph.DrawLine((point-1, bollinger_up[point-1]),
-					       (point, bollinger_up[point]), color='blue', width=1)
-		for point in range(len(spread_list)):
-			if point > api.bollinger_length:
-				graph.DrawLine((point-1, bollinger_down[point-1]),
-					       (point, bollinger_down[point]), color='blue', width=1)
+		#for point in range(len(spread_list)):
+		#	if point > api.bollinger_length:
+		#		graph.DrawLine((point-1, bollinger_up[point-1]),
+		#			       (point, bollinger_up[point]), color='blue', width=1)
+		#for point in range(len(spread_list)):
+		#	if point > api.bollinger_length:
+		#		graph.DrawLine((point-1, bollinger_down[point-1]),
+		#			       (point, bollinger_down[point]), color='blue', width=1)
 		for point in range(len(spread_list)):
 			if point > api.bollinger_length:
 				graph.DrawLine((point-1, 0),
