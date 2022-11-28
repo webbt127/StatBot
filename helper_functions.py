@@ -337,14 +337,22 @@ def gui():
 	while True:
 		event, values = window.read(timeout=1000)
 		graph.Erase()
-		for point in range(len(series1)):
+		for point in range(len(spread_list)):
 			if point > 0:
-				graph.DrawLine((point-1, series1[point-1]),
-					       (point, series1[point]), color='blue', width=1)
-		for point in range(len(series2)):
+				graph.DrawLine((point-1, spread_list[point-1]),
+					       (point, spread_list[point]), color='blue', width=1)
+		for point in range(len(spread_list)):
 			if point > 0:
-				graph.DrawLine((point-1, series2[point-1]),
-					       (point, series2[point]), color='red', width=1)
+				graph.DrawLine((point-1, bollinger_up[point-1]),
+					       (point, bollinger_up[point]), color='blue', width=1)
+		for point in range(len(spread_list)):
+			if point > 0:
+				graph.DrawLine((point-1, bollinger_down[point-1]),
+					       (point, bollinger_down[point]), color='blue', width=1)
+		for point in range(len(spread_list)):
+			if point > 0:
+				graph.DrawLine((point-1, 0),
+					       (point, 0), color='red', width=1)
 		positions_df = pd.read_csv(positions_filename, sep=',', engine='python')
 		positions_data = positions_df.values.tolist()  # read everything else into a list of rows
 		if event == '__TIMEOUT__':
@@ -362,8 +370,13 @@ def gui():
 			position_2.close_series = extract_close_prices(position_2)
 			#get_yf_info(position_1)
 			#get_yf_info(position_2)
-			series1, series2 = match_series_lengths(position_1,position_2)
-			series1 = series1[-100:]
-			series2 = series2[-100:]
+			position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1,position_2)
+			spread_df, spread_np = calculate_spread(position_1.close_series_matched, position_2.close_series_matched, hedge_ratio)
+			spread_list = spread_df.astype(float).values
+			spread = spread_list[-1]
+			sma = spread_df.rolling(api.bollinger_length).mean()
+			std = spread_df.rolling(api.bollinger_length).std()
+			bollinger_up = sma + std * 2 # Calculate top band
+			bollinger_down = sma - std * 2 # Calculate bottom band
             
 	window.close()
