@@ -372,10 +372,9 @@ def gui():
 			position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1,position_2)
 			spread_df, spread_np = calculate_spread(position_1.close_series_matched, position_2.close_series_matched, hedge_ratio)
 			spread_list = spread_df.astype(float).values
-			spread = spread_list[-1]
-			sma = spread_df.rolling(api.bollinger_length).mean()
-			std = spread_df.rolling(api.bollinger_length).std()
-			bollinger_up = sma + std * 2 # Calculate top band
-			bollinger_down = sma - std * 2 # Calculate bottom band
+			#sma = spread_df.rolling(api.bollinger_length).mean()
+			#std = spread_df.rolling(api.bollinger_length).std()
+			#bollinger_up = sma + std * 2 # Calculate top band
+			#bollinger_down = sma - std * 2 # Calculate bottom band
             
 	window.close()
