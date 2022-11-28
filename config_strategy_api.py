@@ -38,7 +38,7 @@ class config:
 
 		self.stop_loss_fail_safe = 0.30 # stop loss at market order in case of drastic event	
 		self.timeframe = 60
-		self.kline_limit = 2500
+		self.kline_limit = 10000
 		self.max_positions = 10
 		self.capital_per_trade = 1000
 		self.test_set = 6000
