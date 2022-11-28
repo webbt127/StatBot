@@ -26,9 +26,12 @@ urllib3.disable_warnings()
 def begin_threading():
 	thread1 = Thread(target=buy_loop)
 	thread2 = Thread(target=sell_loop)
+	thread3 = Thread(target=gui_loop)
 	thread1.start()
 	time.sleep(5)
 	thread2.start()
+	time.sleep(5)
+	thread3.start()
 	time.sleep(5)
 	try:
 		thread1.join()
@@ -43,6 +46,15 @@ def begin_threading():
 		lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
 		message = 'Exception Occurred: ' + e
 		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
+	time.sleep(5)
+	try:
+		thread3.join()
+	except Exception as e:
+		lg.info("Exception Handled in Main, Details of the Exception: %s" % e)
+		message = 'Exception Occurred: ' + e
+		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
+
+def gui_loop():
 	gui()
 		
 def buy_loop():
