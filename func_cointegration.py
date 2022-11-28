@@ -31,7 +31,7 @@ def calculate_cointegration(sym_1, sym_2, matched_series_1, matched_series_2):
 	model = sm.OLS(matched_series_1, matched_series_2).fit()
 	hedge_ratio = model.params[0]
 	spread, spreadnp = calculate_spread(matched_series_1, matched_series_2, hedge_ratio)
-	zero_crossings = len(np.where(np.diff(np.sign(spreadnp)))[0])
+	zero_crossings = len(np.where(np.diff(np.signbit(spreadnp)))[0])
 	if p_value < 0.05 and coint_t < critical_value:
 		coint_flag = 1
 	return (coint_flag, round(p_value, 3), round(coint_t, 3), round(critical_value, 3), round(hedge_ratio, 2), zero_crossings)
