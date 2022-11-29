@@ -339,8 +339,9 @@ def gui():
 	while True:
 		event, values = window.read(timeout=1000)
 		graph.Erase()
-		max_bb = max(spread_np)
-		DATA_SIZE = (len(spread_np), max_bb)
+		if spread_np is not empty:
+			max_bb = max(spread_np)
+			DATA_SIZE = (len(spread_np), max_bb)
 		for point in range(len(spread_np)):
 			if point > api.bollinger_length:
 				graph.DrawLine((point-1, spread_np[point-1]),
