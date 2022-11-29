@@ -339,7 +339,7 @@ def gui():
 	while True:
 		event, values = window.read(timeout=1000)
 		graph.Erase()
-		if spread_np is not empty:
+		if spread_np != []:
 			max_bb = max(spread_np)
 			DATA_SIZE = (len(spread_np), max_bb)
 		for point in range(len(spread_np)):
