@@ -57,9 +57,10 @@ def gui_loop():
 	gui()
 		
 def buy_loop():
-	wait_for_market_open()
+	#wait_for_market_open()
+	search_size = slice(0, api.max_search, 1)
 	while api.buy:
-		Parallel(n_jobs=6, verbose=10, prefer="threads")(delayed(buy_loop_threaded)(i) for i in coint_pairs.index)
+		Parallel(n_jobs=6, verbose=10, prefer="threads")(delayed(buy_loop_threaded)(i) for i in coint_pairs.index[search_size])
 							
 def buy_loop_threaded(i):
 	position_1 = position()
@@ -88,8 +89,8 @@ def buy_loop_threaded(i):
 				spread = spread_list[-1]
 				sma = spread_df.rolling(api.bollinger_length).mean()
 				std = spread_df.rolling(api.bollinger_length).std()
-				bollinger_up = sma + std * 2 # Calculate top band
-				bollinger_down = sma - std * 2 # Calculate bottom band
+				bollinger_up = sma + std * api.std # Calculate top band
+				bollinger_down = sma - std * api.std # Calculate bottom band
 				print_open(position_1, position_2, bollinger_up, bollinger_down, spread)
 				set_order_sides(spread, bollinger_up, bollinger_down, position_1, position_2)
 				#add_asset(coint_pairs, open_position_list, i, position_1)
@@ -130,22 +131,22 @@ def sell_loop():
 			spread = spread_list[-1]
 			sma = spread_df.rolling(api.bollinger_length).mean()
 			std = spread_df.rolling(api.bollinger_length).std()
-			bollinger_up = sma + std * 2 # Calculate top band
-			bollinger_down = sma - std * 2 # Calculate bottom band
+			bollinger_up = sma + std * api.std # Calculate top band
+			bollinger_down = sma - std * api.std # Calculate bottom band
 			print_close(position_1, position_2, bollinger_up, bollinger_down, spread)
 			#close_positions(position_1, position_2, open_position_list, trade)
 			if position_1.qty > 0 and position_2.qty < 0:
 				position_2.qty = abs(position_2.qty)
 				position_1.side = 'sell'
 				position_2.side = 'buy'
-				if (spread > 0 or spread > bollinger_up['spread'].iloc[-1]) and abs(sma['spread'].iloc[-1]) < api.max_spread:
+				if (spread > sma['spread'].iloc[-1]):
 					no_operation()
 					close_positions(position_1, position_2, open_position_list, trade)
 			if position_1.qty < 0 and position_2.qty > 0:
 				position_1.qty = abs(position_1.qty)
 				position_2.side = 'sell'
 				position_1.side = 'buy'
-				if (spread < 0 or spread < bollinger_down['spread'].iloc[-1]) and abs(sma['spread'].iloc[-1]) < api.max_spread:
+				if (spread < sma['spread'].iloc[-1]):
 					no_operation()
 					close_positions(position_1, position_2, open_position_list, trade)
 			#lg.info("Position List:")
