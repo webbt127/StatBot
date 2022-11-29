@@ -55,7 +55,7 @@ class config:
 		self.use_trade_history = False
 		self.min_vol = 2000000
 		self.max_spread = 30
-		self.max_search = 10
+		self.max_search = 100
 
 global api
 api = config()
