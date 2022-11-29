@@ -42,7 +42,7 @@ class config:
 		self.max_positions = 10
 		self.capital_per_trade = 1000
 		self.test_set = 6000
-		self.bollinger_length = 50
+		self.bollinger_length = 200
 		self.min_zero_crosses = 50
 		self.pairs_path = Path("~/cointegrated_pairs.csv")
 		self.trade_path = Path("~/trade_history.csv")
