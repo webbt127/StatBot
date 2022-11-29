@@ -3,6 +3,7 @@ from statsmodels.tsa.stattools import coint
 import statsmodels.api as sm
 import pandas as pd
 import math
+import numpy as np
 import threading
 import yfinance as yf
 from threading import Thread, Lock
@@ -338,7 +339,7 @@ def gui():
 	while True:
 		event, values = window.read(timeout=1000)
 		graph.Erase()
-		DATA_SIZE = (len(spread_np), spread_np.max)
+		DATA_SIZE = (len(spread_np), np.max(spread_np))
 		for point in range(len(spread_np)):
 			if point > api.bollinger_length:
 				graph.DrawLine((point-1, spread_np[point-1]),
