@@ -367,7 +367,7 @@ def gui():
 		except Exception as e:
 			lg.info(e)
 			
-		if event == '__TIMEOUT__':
+		if event == '__TIMEOUT__' and len(positions_df) > 0:
 			window['-POSITIONDATA-'].update(values=positions_data, num_rows=len(positions_df.index))
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
