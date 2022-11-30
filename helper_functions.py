@@ -376,7 +376,8 @@ def gui():
 		if event == '__TIMEOUT__' and not positions_df.empty:
 			window['-POSITIONDATA-'].update(values=positions_data, num_rows=len(positions_df.index))
 			result = StringIO()
-			window['-LOG-'].update(value=result)
+			sys.stdout = result
+			window['-LOG-'].update(value=sys.stdout)
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event == 'Flag':
