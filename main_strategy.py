@@ -57,9 +57,9 @@ def gui_loop():
 	gui()
 		
 def buy_loop():
-	wait_for_market_open()
-	search_size = slice(0, api.max_search, 1)
 	while api.buy:
+		wait_for_market_open()
+		search_size = slice(0, api.max_search, 1)
 		Parallel(n_jobs=6, verbose=10, prefer="threads")(delayed(buy_loop_threaded)(i) for i in coint_pairs.index[search_size])
 							
 def buy_loop_threaded(i):
