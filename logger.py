@@ -10,7 +10,7 @@ class Handler(lg.StreamHandler):
         lg.StreamHandler.__init__(self)
 
     def emit(self, record):
-        global buffer
+        buffer = ''
         buffer = f'{buffer}\n{str(record)}'.strip()
         window['log'].update(value=buffer)
 
