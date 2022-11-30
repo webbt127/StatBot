@@ -11,7 +11,7 @@ def initialize_logger():
     try:
         os.mkdir(logs_path)
     except OSError:
-        print("Creation of the directory %s failed – it does not have to be bad" % logs_path)
+        print("Creation of the directory %s failed" % logs_path)
     else:
         print("Successfully created log directory")
 
