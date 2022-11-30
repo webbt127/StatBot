@@ -322,7 +322,8 @@ def gui():
 			positions_data = positions_df.values.tolist()               # read everything else into a list of rows
 			positions_header_list = ['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings']
 		except:
-			sg.popup_error('Error reading file')
+			#sg.popup_error('Error reading file')
+			lg.info("Error reading positions file")
 			return
 
 	layout = [
