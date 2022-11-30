@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 import logging as lg
-lg.basicConfig(level = lg.INFO)
+lg.setLevel(lg.DEBUG)
 import os
 from datetime import datetime
 
