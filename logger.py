@@ -32,8 +32,8 @@ def initialize_logger():
 
     # log parameters
     lg.basicConfig(filename=currentLog_path, format='%(asctime)s - %(levelname)s: %(message)s', level=lg.INFO)
-    #lg.getLogger().addHandler(lg.StreamHandler(stream=sys.stdout))
-    lg.getLogger().addHandler(Handler())
+    lg.getLogger().addHandler(lg.StreamHandler(stream=sys.stdout))
+    #lg.getLogger().addHandler(Handler())
 
     # init message
     lg.info('Log initialized')
