@@ -345,7 +345,7 @@ def gui():
 
 	window = sg.Window("Todd's Statistical Arbitrage Bot", layout, grab_anywhere=False)
 	while True:
-		event, values = window.read(timeout=1000)
+		event, values = window.read(timeout=100)
 		graph.Erase()
 		if len(spread_np) > 0:
 			max_bb = max(spread_np)
@@ -375,7 +375,8 @@ def gui():
 			
 		if event == '__TIMEOUT__' and not positions_df.empty:
 			window['-POSITIONDATA-'].update(values=positions_data, num_rows=len(positions_df.index))
-			window['-LOG-'].update(value=sys.stdout)
+			result = StringIO()
+			window['-LOG-'].update(value=result)
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event == 'Flag':
