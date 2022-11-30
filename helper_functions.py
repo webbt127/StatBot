@@ -376,6 +376,7 @@ def gui():
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event[0] == '-PAIRDATA-' or event[0] == '-POSITIONDATA-':
+			print("This is an event")
 			selected_row = event[2][0]
 			hedge_ratio = pairs_df['hedge_ratio'][selected_row]
 			position_1.symbol = pairs_df['sym_1'][selected_row]
