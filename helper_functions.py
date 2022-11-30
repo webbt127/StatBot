@@ -301,6 +301,7 @@ def gui():
 	bollinger_down = []
 	position_1 = position()
 	position_2 = position()
+	positions_df = pd.DataFrame
 	GRAPH_SIZE = (550, 500)
 	DATA_SIZE = (api.kline_limit/2, 30)
 	graph = sg.Graph(GRAPH_SIZE, (0, -30), DATA_SIZE, background_color='white', )
