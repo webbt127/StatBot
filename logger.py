@@ -4,6 +4,16 @@ import logging as lg
 import os, sys
 from datetime import datetime
 
+class Handler(lg.StreamHandler):
+
+    def __init__(self):
+        logging.StreamHandler.__init__(self)
+
+    def emit(self, record):
+        global buffer
+        buffer = f'{buffer}\n{str(record)}'.strip()
+        window['log'].update(value=buffer)
+
 def initialize_logger():
 
     # creating a folder for the logs
@@ -22,7 +32,8 @@ def initialize_logger():
 
     # log parameters
     lg.basicConfig(filename=currentLog_path, format='%(asctime)s - %(levelname)s: %(message)s', level=lg.INFO)
-    lg.getLogger().addHandler(lg.StreamHandler(stream=sys.stdout))
+    #lg.getLogger().addHandler(lg.StreamHandler(stream=sys.stdout))
+    lg.getLogger().addHandler(Handler())
 
     # init message
     lg.info('Log initialized')
