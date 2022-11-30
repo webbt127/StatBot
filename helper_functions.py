@@ -373,7 +373,7 @@ def gui():
 			
 		if event == '__TIMEOUT__' and not positions_df.empty:
 			window['-POSITIONDATA-'].update(values=positions_data, num_rows=len(positions_df.index))
-			window['-LOG-'].update(value=buffer)
+			window['-LOG-'].update()
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event[0] == '-PAIRDATA-' or event[0] == '-POSITIONDATA-':
