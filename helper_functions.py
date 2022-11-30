@@ -16,6 +16,8 @@ from joblib import Parallel, delayed, parallel_backend
 from alpaca_trade_api.rest import TimeFrame
 import datetime
 import PySimpleGUI as sg
+from io import StringIO
+import sys
 
 def exit_handler():
 	message = 'Exception Occurred'
@@ -373,7 +375,7 @@ def gui():
 			
 		if event == '__TIMEOUT__' and not positions_df.empty:
 			window['-POSITIONDATA-'].update(values=positions_data, num_rows=len(positions_df.index))
-			window['-LOG-'].update()
+			window['-LOG-'].update(value=sys.stdout)
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event == 'Flag':
