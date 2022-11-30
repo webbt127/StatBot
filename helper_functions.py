@@ -338,7 +338,7 @@ def gui():
 		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(25, len(positions_data)), key='-POSITIONDATA-', enable_click_events=True),
 		sg.Multiline(key='-LOG-', size=(60,15), font='Courier 8', expand_x=True, expand_y=True, write_only=True,
                                     reroute_stdout=True, reroute_stderr=True, echo_stdout_stderr=True, autoscroll=True, auto_refresh=True)],
-		[sg.Button('Update Positions'), sg.Button('Exit')]
+		[sg.Button('Flag'), sg.Button('Exit')]
 			]
 
 	window = sg.Window("Todd's Statistical Arbitrage Bot", layout, grab_anywhere=False)
@@ -376,6 +376,8 @@ def gui():
 			window['-LOG-'].update()
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
+		if event == 'Flag':
+			lg.info("Flag")
 		if event[0] == '-PAIRDATA-' or event[0] == '-POSITIONDATA-':
 			#print("This is an event")
 			selected_row = event[2][0]
