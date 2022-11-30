@@ -324,7 +324,7 @@ def gui():
 		except:
 			#sg.popup_error('Error reading file')
 			lg.info("Error reading positions file")
-			return
+			#return
 
 	layout = [
 		[sg.Text(text='PAIR GRAPH:                                                                                                                                                                                                                                   '),
