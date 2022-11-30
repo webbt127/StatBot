@@ -7,7 +7,7 @@ from datetime import datetime
 class Handler(lg.StreamHandler):
 
     def __init__(self):
-        logging.StreamHandler.__init__(self)
+        lg.StreamHandler.__init__(self)
 
     def emit(self, record):
         global buffer
