@@ -362,7 +362,11 @@ def gui():
 		try:
 			positions_df = pd.read_csv(positions_filename, sep=',', engine='python')
 			positions_data = positions_df.values.tolist()  # read everything else into a list of rows
-			if event == '__TIMEOUT__':
+			
+		except Exception as e:
+			lg.info(e)
+			
+		if event == '__TIMEOUT__':
 				window['-POSITIONDATA-'].update(values=positions_data, num_rows=len(positions_df.index))
 			if event == sg.WIN_CLOSED or event == 'Exit':
 				break
@@ -386,7 +390,5 @@ def gui():
 					bollinger_down = sma - std * 2 # Calculate bottom band
 				else:
 					lg.info("Unable to compare pair!")
-		except Exception as e:
-			lg.info(e)
             
 	window.close()
