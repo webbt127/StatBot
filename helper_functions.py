@@ -330,16 +330,18 @@ def gui():
 			#return
 
 	layout = [
-		[sg.Text(text='PAIR GRAPH:                                                                                                                                                                                                                                   '),
+		[sg.Text(text='PAIR GRAPH:                                                                                                                                '),
  		sg.Text(text='AVAILABLE PAIRS:', justification='right')],
 		[graph,
 		sg.Table(values=pairs_data, headings=pairs_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(25, len(pairs_data)), key='-PAIRDATA-', enable_click_events=True)],
 		[sg.Text(text='OPEN POSITIONS:')],
-		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(25, len(positions_data)), key='-POSITIONDATA-', enable_click_events=True)],
+		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(25, len(positions_data)), key='-POSITIONDATA-', enable_click_events=True),
+		sg.Multiline(size=(60,15), font='Courier 8', expand_x=True, expand_y=True, write_only=True,
+                                    reroute_stdout=True, reroute_stderr=True, echo_stdout_stderr=True, autoscroll=True, auto_refresh=True)],
 		[sg.Button('Update Positions'), sg.Button('Exit')]
 			]
 
-	window = sg.Window('Cointegrated Pairs', layout, grab_anywhere=False)
+	window = sg.Window("Todd's Statistical Arbitrage Bot", layout, grab_anywhere=False)
 	while True:
 		event, values = window.read(timeout=1000)
 		graph.Erase()
