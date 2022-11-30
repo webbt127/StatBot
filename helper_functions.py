@@ -358,30 +358,34 @@ def gui():
 			if point > api.bollinger_length:
 				graph.DrawLine((point-1, 0),
 					       (point, 0), color='red', width=1)
-		positions_df = pd.read_csv(positions_filename, sep=',', engine='python')
-		positions_data = positions_df.values.tolist()  # read everything else into a list of rows
-		if event == '__TIMEOUT__':
-			window['-POSITIONDATA-'].update(values=positions_data, num_rows=len(positions_df.index))
-		if event == sg.WIN_CLOSED or event == 'Exit':
-			break
-		if event[0] == '-PAIRDATA-' or event[0] == '-POSITIONDATA-':
-			selected_row = event[2][0]
-			hedge_ratio = pairs_df['hedge_ratio'][selected_row]
-			position_1.symbol = pairs_df['sym_1'][selected_row]
-			position_2.symbol = pairs_df['sym_2'][selected_row]
-			get_price_klines(position_1, TimeFrame.Hour, api.kline_limit)
-			get_price_klines(position_2, TimeFrame.Hour, api.kline_limit)
-			position_1.close_series = extract_close_prices(position_1) * int(hedge_ratio)
-			position_2.close_series = extract_close_prices(position_2)
-			#get_yf_info(position_1)
-			#get_yf_info(position_2)
-			position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1,position_2)
-			spread_df, spread_np = calculate_spread(position_1.close_series_matched, position_2.close_series_matched, hedge_ratio)
-			print(spread_np)
-			#spread_list = spread_df.astype(float).values
-			sma = spread_df.rolling(api.bollinger_length).mean()
-			std = spread_df.rolling(api.bollinger_length).std()
-			bollinger_up = sma + std * 2 # Calculate top band
-			bollinger_down = sma - std * 2 # Calculate bottom band
+		try:
+			positions_df = pd.read_csv(positions_filename, sep=',', engine='python')
+			positions_data = positions_df.values.tolist()  # read everything else into a list of rows
+			if event == '__TIMEOUT__':
+				window['-POSITIONDATA-'].update(values=positions_data, num_rows=len(positions_df.index))
+			if event == sg.WIN_CLOSED or event == 'Exit':
+				break
+			if event[0] == '-PAIRDATA-' or event[0] == '-POSITIONDATA-':
+				selected_row = event[2][0]
+				hedge_ratio = pairs_df['hedge_ratio'][selected_row]
+				position_1.symbol = pairs_df['sym_1'][selected_row]
+				position_2.symbol = pairs_df['sym_2'][selected_row]
+				price_history_execution(position_1)
+				price_history_execution(position_2)
+				position_1.close_series = extract_close_prices(position_1)
+				position_2.close_series = extract_close_prices(position_2)
+				#get_yf_info(position_1)
+				#get_yf_info(position_2)
+				position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1,position_2)
+				spread_df, spread_np = calculate_spread(position_1.close_series_matched, position_2.close_series_matched, hedge_ratio)
+				if len(spread_np) > 0:
+					sma = spread_df.rolling(api.bollinger_length).mean()
+					std = spread_df.rolling(api.bollinger_length).std()
+					bollinger_up = sma + std * 2 # Calculate top band
+					bollinger_down = sma - std * 2 # Calculate bottom band
+				else:
+					lg.info("Unable to compare pair!")
+		except Exception as e:
+			lg.info(e)
             
 	window.close()
