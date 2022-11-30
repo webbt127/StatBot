@@ -310,6 +310,8 @@ def gui():
 		try:
             # Header=None means you directly pass the columns names to the dataframe
 			pairs_df = pd.read_csv(pairs_filename, sep=',', engine='python')
+			search_size = slice(0, api.max_search, 1)
+			pairs_df = pairs_df[search_size]
 			pairs_data = pairs_df.values.tolist()               # read everything else into a list of rows
 			pairs_header_list = ['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings']
 		except:
