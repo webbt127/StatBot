@@ -284,7 +284,7 @@ def close_positions(position_1, position_2, open_position_list, trade):
 	remove_asset(open_position_list, trade)
 	return position_1, position_2, open_position_list
 
-class QueueHandler(logging.Handler):
+class QueueHandler(lg.Handler):
 	def __init__(self, log_queue):
 		super().__init__()
 		self.log_queue = log_queue
