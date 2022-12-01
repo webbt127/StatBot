@@ -386,7 +386,7 @@ def gui():
 			window['-POSITIONDATA-'].update(values=positions_data, num_rows=len(positions_df.index))
 			log_queue = queue.Queue()
 			queue_handler = QueueHandler(log_queue)
-			        try:
+				try:
 					record = log_queue.get(block=False)
 				except queue.Empty:
 					pass
