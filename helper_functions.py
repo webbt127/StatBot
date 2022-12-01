@@ -384,9 +384,11 @@ def gui():
 			if event[0] == '-PAIRDATA-':
 				position_1.symbol = pairs_df['sym_1'][selected_row]
 				position_2.symbol = pairs_df['sym_2'][selected_row]
+				hedge_ratio = pairs_df['hedge_ratio'][selected_row]
 			else:
 				position_1.symbol = positions_df['sym_1'][selected_row]
 				position_2.symbol = positions_df['sym_2'][selected_row]
+				hedge_ratio = positions_df['hedge_ratio'][selected_row]
 			price_history_execution(position_1)
 			price_history_execution(position_2)
 			position_1.close_series = extract_close_prices(position_1)
