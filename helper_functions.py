@@ -16,9 +16,6 @@ from joblib import Parallel, delayed, parallel_backend
 from alpaca_trade_api.rest import TimeFrame
 import datetime
 import PySimpleGUI as sg
-from io import StringIO
-import sys
-import queue
 
 def exit_handler():
 	message = 'Exception Occurred'
@@ -284,14 +281,6 @@ def close_positions(position_1, position_2, open_position_list, trade):
 	remove_asset(open_position_list, trade)
 	return position_1, position_2, open_position_list
 
-class QueueHandler(lg.Handler):
-	def __init__(self, log_queue):
-		super().__init__()
-		self.log_queue = log_queue
-
-	def emit(self, record):
-		self.log_queue.put(record)
-
 def gui():
 
 	sg.set_options(auto_size_buttons=True)
@@ -384,11 +373,6 @@ def gui():
 			
 		if event == '__TIMEOUT__' and not positions_df.empty:
 			window['-POSITIONDATA-'].update(values=positions_data, num_rows=len(positions_df.index))
-			log_queue = queue.Queue()
-			queue_handler = QueueHandler(log_queue)
-			record = log_queue.get(block=False)
-			msg = queue_handler.format(record)
-			window['-LOG-'].update(msg+'\n', append=True)
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event == 'Flag':
