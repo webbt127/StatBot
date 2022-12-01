@@ -52,7 +52,7 @@ class config:
 		self.std = 2
 		self.buy = True
 		self.sell = True
-		self.use_trade_history = False
+		self.use_trade_history = True
 		self.min_vol = 2000000
 		self.max_spread = 30
 		self.max_search = 100
