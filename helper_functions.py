@@ -386,12 +386,12 @@ def gui():
 			window['-POSITIONDATA-'].update(values=positions_data, num_rows=len(positions_df.index))
 			log_queue = queue.Queue()
 			queue_handler = QueueHandler(log_queue)
-				try:
-					record = log_queue.get(block=False)
-				except queue.Empty:
-					pass
-				msg = queue_handler.format(record)
-				window['-LOG-'].update(msg+'\n', append=True)
+			try:
+				record = log_queue.get(block=False)
+			except queue.Empty:
+				pass
+			msg = queue_handler.format(record)
+			window['-LOG-'].update(msg+'\n', append=True)
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event == 'Flag':
