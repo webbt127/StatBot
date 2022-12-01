@@ -388,10 +388,10 @@ def gui():
 			queue_handler = QueueHandler(log_queue)
 			try:
 				record = log_queue.get(block=False)
+				msg = queue_handler.format(record)
+				window['-LOG-'].update(msg+'\n', append=True)
 			except queue.Empty:
 				pass
-			msg = queue_handler.format(record)
-			window['-LOG-'].update(msg+'\n', append=True)
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event == 'Flag':
