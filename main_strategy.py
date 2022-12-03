@@ -94,7 +94,7 @@ def buy_loop_threaded(i):
 				print_open(position_1, position_2, bollinger_up, bollinger_down, spread)
 				set_order_sides(spread, bollinger_up, bollinger_down, position_1, position_2)
 				#add_asset(coint_pairs, open_position_list, i, position_1)
-				if spread > bollinger_up['spread'].iloc[-1] or spread < bollinger_down['spread'].iloc[-1]:
+				if (spread > bollinger_up['spread'].iloc[-1] or spread < bollinger_down['spread'].iloc[-1]) and bollinger_up['spread'].iloc[-1] > 0 and bollinger_down['spread'].iloc[-1] < 0:
 					open_position_list.lock.acquire()
 					if i not in open_position_list.positions.index:
 						initialize_order_execution(position_1)
