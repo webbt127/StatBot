@@ -338,7 +338,8 @@ def gui():
 		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(25, len(positions_data)), key='-POSITIONDATA-', enable_click_events=True)],
 		[sg.Button('Flag'), sg.Button('Exit')]
 			]
-	layout = [[sg.TabGroup([[sg.Tab('Main', main_layout)]])]]
+	settings_layout = [[]]
+	layout = [[sg.TabGroup([[sg.Tab('Main', main_layout), sg.Tab('Settings', settings_layout)]])]]
 
 	window = sg.Window("Todd's Statistical Arbitrage Bot", layout, grab_anywhere=False)
 	while True:
