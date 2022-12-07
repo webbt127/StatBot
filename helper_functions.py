@@ -330,12 +330,10 @@ def gui():
 			#return
 
 	main_layout = [
-		[sg.Text(text='PAIR GRAPH:                                                                                                                                '),
- 		sg.Text(text='AVAILABLE PAIRS:', justification='right')],
 		[graph,
-		sg.Table(values=pairs_data, headings=pairs_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(25, len(pairs_data)), key='-PAIRDATA-', enable_click_events=True)],
-		[sg.Text(text='OPEN POSITIONS:')],
-		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(25, len(positions_data)), key='-POSITIONDATA-', enable_click_events=True)],
+		sg.Table(values=pairs_data, headings=pairs_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(5, len(pairs_data)), key='-PAIRDATA-', enable_click_events=True)],
+		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(5, len(positions_data)), key='-POSITIONDATA-', enable_click_events=True), sg.Multiline(key='-LOG-', size=(60,15), font='Courier 8', expand_x=True, expand_y=True, write_only=True,
+                                    reroute_stdout=True, reroute_stderr=True, echo_stdout_stderr=True, autoscroll=True, auto_refresh=True)],
 		[sg.Button('Flag'), sg.Button('Exit')]
 			]
 	settings_layout = [[sg.Radio('Bollinger', "RadioDemo", default=True, size=(10,1), k='-R1-'), sg.Radio('RSI', "RadioDemo", default=True, size=(10,1), k='-R2-'), sg.Radio('MACD', "RadioDemo", default=True, size=(10,1), k='-R3-')]]
