@@ -338,7 +338,7 @@ def gui():
 		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(25, len(positions_data)), key='-POSITIONDATA-', enable_click_events=True)],
 		[sg.Button('Flag'), sg.Button('Exit')]
 			]
-	settings_layout = [[]]
+	settings_layout = [[sg.Radio('Bollinger', "RadioDemo", default=True, size=(10,1), k='-R1-'), sg.Radio('RSI', "RadioDemo", default=True, size=(10,1), k='-R2-'), sg.Radio('MACD', "RadioDemo", default=True, size=(10,1), k='-R3-')]]
 	layout = [[sg.TabGroup([[sg.Tab('Main', main_layout), sg.Tab('Settings', settings_layout)]])]]
 
 	window = sg.Window("Todd's Statistical Arbitrage Bot", layout, grab_anywhere=False)
