@@ -328,19 +328,17 @@ def gui():
 			#sg.popup_error('Error reading file')
 			lg.info("Error reading positions file")
 			#return
-			
-	bollinger_layout = [[]]
-	rsi_layout = [[]]
-	macd_layout = [[]]
-	settings_layout = [[]]
+
 	layout = [
 		[sg.Text(text='PAIR GRAPH:                                                                                                                                '),
  		sg.Text(text='AVAILABLE PAIRS:', justification='right')],
 		[graph,
 		sg.Table(values=pairs_data, headings=pairs_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(25, len(pairs_data)), key='-PAIRDATA-', enable_click_events=True)],
 		[sg.Text(text='OPEN POSITIONS:')],
-		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(5, len(positions_data)), key='-POSITIONDATA-', enable_click_events=True), sg.TabGroup([[sg.Tab('Bollinger Bands', bollinger_layout), sg.Tab('RSI', rsi_layout), sg.Tab('MACD', macd_layout), sg.Tab('Settings', settings_layout)]])],
-		[sg.Button('Flag'), sg.Button('Exit')]]
+		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(25, len(positions_data)), key='-POSITIONDATA-', enable_click_events=True),
+		sg.TabGroup([[sg.Tab('Main', main_layout)]]],
+		[sg.Button('Flag'), sg.Button('Exit')]
+			]
 
 	window = sg.Window("Todd's Statistical Arbitrage Bot", layout, grab_anywhere=False)
 	while True:
