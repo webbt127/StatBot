@@ -329,6 +329,7 @@ def gui():
 			lg.info("Error reading positions file")
 			#return
 
+	main_layout = [[]]
 	layout = [
 		[sg.Text(text='PAIR GRAPH:                                                                                                                                '),
  		sg.Text(text='AVAILABLE PAIRS:', justification='right')],
