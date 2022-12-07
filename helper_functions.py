@@ -332,7 +332,7 @@ def gui():
 	main_layout = [
 		[graph,
 		sg.Table(values=pairs_data, headings=pairs_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(5, len(pairs_data)), key='-PAIRDATA-', enable_click_events=True)],
-		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(5, len(positions_data)), key='-POSITIONDATA-', enable_click_events=True), sg.Multiline(key='-LOG-', size=(60,15), font='Courier 8', expand_x=False, expand_y=False, write_only=True,
+		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(5, len(positions_data)), key='-POSITIONDATA-', enable_click_events=True), sg.Multiline(key='-LOG-', size=(60,15), font='Courier 8', expand_x=True, expand_y=True, write_only=True,
                                     reroute_stdout=True, reroute_stderr=True, echo_stdout_stderr=True, autoscroll=True, auto_refresh=True)],
 		[sg.Button('Flag'), sg.Button('Exit')]
 			]
