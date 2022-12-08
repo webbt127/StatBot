@@ -281,7 +281,7 @@ def close_positions(position_1, position_2, open_position_list, trade):
 	remove_asset(open_position_list, trade)
 	return position_1, position_2, open_position_list
 
-def gui():
+def gui(coint_pairs):
 
 	sg.set_options(auto_size_buttons=True)
 	#pairs_filename = api.pairs_path
@@ -374,7 +374,7 @@ def gui():
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event == 'Backtest':
-			run_backtester()
+			run_backtester(coint_pairs)
 		if event[0] == '-PAIRDATA-' or event[0] == '-POSITIONDATA-':
 			#print("This is an event")
 			selected_row = event[2][0]
@@ -405,10 +405,10 @@ def gui():
             
 	window.close()
 
-def run_backtester():
+def run_backtester(coint_pairs):
 	profit_percent = 0
 	search_size = slice(0, api.max_search, 1)
-	for pair in coint_pair_list.index[search_size]:
+	for pair in coint_pairs.index[search_size]:
 		buy_price1 = None
 		buy_price2 = None
 		position_1.symbol = pair['sym_1']
