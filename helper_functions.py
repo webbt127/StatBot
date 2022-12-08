@@ -413,6 +413,7 @@ def run_backtester(coint_pairs):
 	for pair in coint_pairs.index[search_size]:
 		buy_price1 = None
 		buy_price2 = None
+		win_counter = 0
 		position_1.symbol = coint_pairs['sym_1'][pair]
 		position_2.symbol = coint_pairs['sym_2'][pair]
 		hedge_ratio = coint_pairs['hedge_ratio'][pair]
@@ -441,14 +442,22 @@ def run_backtester(coint_pairs):
 				buy_price1 = position_1.close_series[timeslice]
 				buy_price2 = position_2.close_series[timeslice]
 			if position_1.side == 'sell' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0:
-				profit_percent = profit_percent + ((position_2.close_series[timeslice] / buy_price2) - 1)
-				profit_percent = profit_percent + ((buy_price1 / position_1.close_series[timeslice]) - 1)
+				pair_profit = ((position_2.close_series[timeslice] / buy_price2) - 1) + ((buy_price1 / position_1.close_series[timeslice]) - 1)
+				profit_percent = profit_percent + pair_profit
 				buy_price1 = None
 				buy_price2 = None
+				if profit_percent > 0:
+					win_counter = win_counter + 1
 			if position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0:
-				profit_percent = profit_percent + ((position_1.close_series[timeslice] / buy_price1) - 1)
-				profit_percent = profit_percent + ((buy_price2 / position_2.close_series[timeslice]) - 1)
+				pair_profit = ((position_1.close_series[timeslice] / buy_price1) - 1) + ((buy_price2 / position_2.close_series[timeslice]) - 1)
+				profit_percent = profit_percent + pair_profit
 				buy_price1 = None
 				buy_price2 = None
-		print(profit_percent)
-	print(profit_percent)
+				if profit_percent > 0:
+					win_counter = win_counter + 1
+		print('Profit percent for ' + position_1 + '/' + position_2 + ': ' + pair_profit)
+		print('Total profit percent: ' + profit_percent)
+	print('-----RESULTS-----')
+	print('Total profit percent: ' + profit_percent)
+	win_percent = win_counter / len(spread_df.index)
+	print('Win percentage: ' + win_percent)
