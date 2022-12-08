@@ -412,9 +412,9 @@ def run_backtester(coint_pairs):
 		print(pair)
 		buy_price1 = None
 		buy_price2 = None
-		position_1.symbol = pair['sym_1']
-		position_2.symbol = pair['sym_2']
-		hedge_ratio = pair['hedge_ratio']
+		position_1.symbol = coint_pairs['sym_1'][pair]
+		position_2.symbol = coint_pairs['sym_2'][pair]
+		hedge_ratio = coint_pairs['hedge_ratio'][pair]
 		price_history_execution(position_1)
 		price_history_execution(position_2)
 		position_1.close_series = extract_close_prices(position_1)
