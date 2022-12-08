@@ -440,12 +440,12 @@ def run_backtester(coint_pairs):
 				position_2.side = 'sell'
 				buy_price1 = position_1.close_series[timeslice]
 				buy_price2 = position_2.close_series[timeslice]
-			if position_1.side == 'sell' and buy_price1 is not None and spread < 0:
+			if position_1.side == 'sell' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0:
 				profit_percent = profit_percent + ((position_2.close_series[timeslice] / buy_price2) - 1)
 				profit_percent = profit_percent + ((buy_price1 / position_1.close_series[timeslice]) - 1)
 				buy_price1 = None
 				buy_price2 = None
-			if position_1.side == 'buy' and buy_price1 is not None and spread < 0:
+			if position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0:
 				profit_percent = profit_percent + ((position_1.close_series[timeslice] / buy_price1) - 1)
 				profit_percent = profit_percent + ((buy_price2 / position_2.close_series[timeslice]) - 1)
 				buy_price1 = None
