@@ -62,6 +62,7 @@ api = config()
 api.session = REST(api_key, api_secret, api_url)
 
 global asset_list
+global coint_pairs
 asset_list = assets()
 
 global coint_pair_list
