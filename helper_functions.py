@@ -446,16 +446,15 @@ def run_backtester(coint_pairs):
 				profit_percent = profit_percent + pair_profit
 				buy_price1 = None
 				buy_price2 = None
-				if profit_percent > 0:
-					win_counter = win_counter + 1
 			if position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0:
 				pair_profit = ((position_1.close_series[timeslice] / buy_price1) - 1) + ((buy_price2 / position_2.close_series[timeslice]) - 1)
 				profit_percent = profit_percent + pair_profit
 				buy_price1 = None
 				buy_price2 = None
-				if profit_percent > 0:
-					win_counter = win_counter + 1
 		print('Profit percent for ' + position_1.symbol + '/' + position_2.symbol + ': ' + str(pair_profit))
+		if pair_profit > 0:
+			win_counter = win_counter + 1
+		pair_profit = 0
 		print('Total profit percent: ' + str(profit_percent))
 	print('-----RESULTS-----')
 	print('Total profit percent: ' + str(profit_percent))
