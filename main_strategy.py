@@ -18,7 +18,6 @@ initialize_logger()
 
 atexit.register(exit_handler)
 global open_position_list
-global coint_pairs
 open_position_list = position_list()
 
 urllib3.disable_warnings()
