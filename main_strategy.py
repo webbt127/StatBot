@@ -27,7 +27,7 @@ def begin_threading():
 	thread2 = Thread(target=sell_loop)
 	thread3 = Thread(target=gui_loop)
 	start_trading = input('Begin Live Trading? (y/n)')
-	if start_trading == 'y'
+	if start_trading == 'y':
 		thread1.start()
 		time.sleep(5)
 		thread2.start()
