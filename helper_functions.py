@@ -404,3 +404,23 @@ def gui():
 				lg.info("Unable to compare pair!")
             
 	window.close()
+
+def run_backtester():
+	profit_percent = 0
+	for pair in coint_pairs.index[search_size]:
+		position_1.symbol = pair['sym_1']
+		position_2.symbol = pair['sym_2']
+		hedge_ratio = pair['hedge_ratio']
+		price_history_execution(position_1)
+		price_history_execution(position_2)
+		position_1.close_series = extract_close_prices(position_1)
+		position_2.close_series = extract_close_prices(position_2)
+		position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1,position_2)
+		spread_df, spread_np = calculate_spread(position_1.close_series_matched, position_2.close_series_matched, hedge_ratio)
+		if len(spread_np) > 0:
+			sma = spread_df.rolling(api.bollinger_length).mean()
+			std = spread_df.rolling(api.bollinger_length).std()
+			bollinger_up = sma + std * 2 # Calculate top band
+			bollinger_down = sma - std * 2 # Calculate bottom band
+		else:
+			lg.info("Unable to compare pair!")
