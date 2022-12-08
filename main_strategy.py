@@ -54,7 +54,7 @@ def begin_threading():
 		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 
 def gui_loop():
-	gui()
+	gui(coint_pairs)
 		
 def buy_loop():
 	while api.buy:
