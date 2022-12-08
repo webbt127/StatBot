@@ -455,7 +455,7 @@ def run_backtester(coint_pairs):
 				buy_price2 = None
 				if profit_percent > 0:
 					win_counter = win_counter + 1
-		print('Profit percent for ' + position_1.symbol + '/' + position_2.symbol + ': ' + str(pair_profit)
+		print('Profit percent for ' + position_1.symbol + '/' + position_2.symbol + ': ' + str(pair_profit))
 		print('Total profit percent: ' + str(profit_percent))
 	print('-----RESULTS-----')
 	print('Total profit percent: ' + str(profit_percent))
