@@ -430,6 +430,7 @@ def run_backtester(coint_pairs):
 			bollinger_down = sma - std * 2 # Calculate bottom band
 		else:
 			lg.info("Unable to compare pair!")
+		pair_profit = 0
 		for timeslice in spread_df.index:
 			if spread_df['spread'].iloc[timeslice] > bollinger_up['spread'].iloc[timeslice] and bollinger_up['spread'].iloc[timeslice] > 0 and bollinger_down['spread'].iloc[timeslice] < 0 and buy_price1 == None:
 				position_1.side = 'sell'
@@ -442,15 +443,14 @@ def run_backtester(coint_pairs):
 				buy_price1 = position_1.close_series[timeslice]
 				buy_price2 = position_2.close_series[timeslice]
 			if position_1.side == 'sell' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0:
-				pair_profit = ((position_2.close_series[timeslice] / buy_price2) - 1) + ((buy_price1 / position_1.close_series[timeslice]) - 1)
-				profit_percent = profit_percent + pair_profit
+				pair_profit = pair_profit + ((position_2.close_series[timeslice] / buy_price2) - 1) + ((buy_price1 / position_1.close_series[timeslice]) - 1)
 				buy_price1 = None
 				buy_price2 = None
-			if position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0:
-				pair_profit = ((position_1.close_series[timeslice] / buy_price1) - 1) + ((buy_price2 / position_2.close_series[timeslice]) - 1)
-				profit_percent = profit_percent + pair_profit
+			if position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] > 0:
+				pair_profit = pair_profit + ((position_1.close_series[timeslice] / buy_price1) - 1) + ((buy_price2 / position_2.close_series[timeslice]) - 1)
 				buy_price1 = None
 				buy_price2 = None
+		profit_percent = profit_percent + pair_profit
 		print('Profit percent for ' + position_1.symbol + '/' + position_2.symbol + ': ' + str(pair_profit))
 		if pair_profit > 0:
 			win_counter = win_counter + 1
