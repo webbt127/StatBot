@@ -458,5 +458,5 @@ def run_backtester(coint_pairs):
 		print('Total profit percent: ' + str(profit_percent))
 	print('-----RESULTS-----')
 	print('Total profit percent: ' + str(profit_percent))
-	win_percent = win_counter / len(spread_df.index)
+	win_percent = win_counter / len(spread_df)
 	print('Win percentage: ' + str(win_percent))
