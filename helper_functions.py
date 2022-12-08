@@ -407,9 +407,10 @@ def gui(coint_pairs):
 
 def run_backtester(coint_pairs):
 	profit_percent = 0
+	position_1 = position()
+	position_2 = position()
 	search_size = slice(0, api.max_search, 1)
 	for pair in coint_pairs.index[search_size]:
-		print(pair)
 		buy_price1 = None
 		buy_price2 = None
 		position_1.symbol = coint_pairs['sym_1'][pair]
