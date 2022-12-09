@@ -336,7 +336,7 @@ def gui(coint_pairs):
                                     reroute_stdout=True, reroute_stderr=True, echo_stdout_stderr=True, autoscroll=True, auto_refresh=True)],
 		[sg.Button('Backtest'), sg.Button('Exit')]
 			]
-	settings_layout = [[sg.Radio('Bollinger', "RadioDemo", default=True, size=(10,1), k='-R1-'), sg.Radio('RSI', "RadioDemo", default=True, size=(10,1), k='-R2-'), sg.Radio('MACD', "RadioDemo", default=True, size=(10,1), k='-R3-')], [sg.Text('Period Length: '), sg.Input(key='-PERIODINPUT-')]]
+	settings_layout = [[sg.Radio('Bollinger', "RadioDemo", default=True, size=(10,1), k='-R1-'), sg.Radio('RSI', "RadioDemo", default=True, size=(10,1), k='-R2-'), sg.Radio('MACD', "RadioDemo", default=True, size=(10,1), k='-R3-')], [sg.Text('Period Length: '), sg.Input(key='-PERIODINPUT-'), sg.Button('Update')]]
 	layout = [[sg.TabGroup([[sg.Tab('Main', main_layout), sg.Tab('Settings', settings_layout)]])]]
 
 	window = sg.Window("Todd's Statistical Arbitrage Bot", layout, grab_anywhere=False)
@@ -371,8 +371,8 @@ def gui(coint_pairs):
 			
 		if event == '__TIMEOUT__' and not positions_df.empty:
 			window['-POSITIONDATA-'].update(values=positions_data)#, num_rows=len(positions_df.index))
+		if event == 'Update':
 			api.bollinger_length = values['-PERIODINPUT-']
-			print(api.bollinger_length)
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event == 'Backtest':
