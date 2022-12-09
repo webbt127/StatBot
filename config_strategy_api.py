@@ -56,6 +56,7 @@ class config:
 		self.min_vol = 2000000
 		self.max_spread = 30
 		self.max_search = 100
+		self.hide_simulated_trades = True
 
 global api
 api = config()
