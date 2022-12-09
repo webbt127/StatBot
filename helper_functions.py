@@ -439,8 +439,8 @@ def run_backtester(coint_pairs):
 			if spread_df['spread'].iloc[timeslice] > bollinger_up['spread'].iloc[timeslice] and bollinger_up['spread'].iloc[timeslice] > 0 and bollinger_down['spread'].iloc[timeslice] < 0 and buy_price1 == None and abs(spread_df['spread'].iloc[timeslice]) > api.min_spread:
 				position_1.side = 'buy'
 				position_2.side = 'sell'
-				buy_price1 = position_1.close_series[timeslice]
-				buy_price2 = position_2.close_series[timeslice]
+				buy_price1 = position_1.close_series[timeslice+1]
+				buy_price2 = position_2.close_series[timeslice+1]
 				if not api.hide_simulated_trades:
 					print('-----SIMULATION OPEN POSITION-----')
 					print('Buying ' + position_1.symbol + ' @' + str(buy_price1))
@@ -453,8 +453,8 @@ def run_backtester(coint_pairs):
 			if spread_df['spread'].iloc[timeslice] < bollinger_down['spread'].iloc[timeslice] and bollinger_up['spread'].iloc[timeslice] > 0 and bollinger_down['spread'].iloc[timeslice] < 0 and buy_price1 == None and abs(spread_df['spread'].iloc[timeslice]) > api.min_spread:
 				position_1.side = 'sell'
 				position_2.side = 'buy'
-				buy_price1 = position_1.close_series[timeslice]
-				buy_price2 = position_2.close_series[timeslice]
+				buy_price1 = position_1.close_series[timeslice+1]
+				buy_price2 = position_2.close_series[timeslice+1]
 				if not api.hide_simulated_trades:
 					print('-----SIMULATION OPEN POSITION-----')
 					print('Buying ' + position_2.symbol + ' @' + str(buy_price2))
@@ -465,8 +465,8 @@ def run_backtester(coint_pairs):
 					print('----------------------------------')
 				trade_counter = trade_counter + 1
 			if (position_1.side == 'sell' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] > 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
-				profit1 = ((float(buy_price1) / float(position_1.close_series[timeslice])) - 1.0)
-				profit2 = ((float(position_2.close_series[timeslice]) / float(buy_price2)) - 1.0)
+				profit1 = ((float(buy_price1) / float(position_1.close_series[timeslice+1])) - 1.0)
+				profit2 = ((float(position_2.close_series[timeslice+1]) / float(buy_price2)) - 1.0)
 				pair_profit = pair_profit + profit1 + profit2
 				if not api.hide_simulated_trades:
 					print('-----SIMULATION CLOSE POSITION-----')
@@ -479,8 +479,8 @@ def run_backtester(coint_pairs):
 				buy_price1 = None
 				buy_price2 = None
 			if (position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
-				profit2 = ((float(buy_price2) / float(position_2.close_series[timeslice])) - 1.0)
-				profit1 = ((float(position_1.close_series[timeslice]) / float(buy_price1)) - 1.0)
+				profit2 = ((float(buy_price2) / float(position_2.close_series[timeslice+1])) - 1.0)
+				profit1 = ((float(position_1.close_series[timeslice+1]) / float(buy_price1)) - 1.0)
 				pair_profit = pair_profit + profit1 + profit2
 				if not api.hide_simulated_trades:
 					print('-----SIMULATION CLOSE POSITION-----')
@@ -499,7 +499,7 @@ def run_backtester(coint_pairs):
 		pair_profit = 0
 		print('Total profit percent: ' + str(profit_percent))
 	print('-----RESULTS-----')
-	print('Total profit percent: ' + str(profit_percent))
+	print('Total profit percent: ' + str(profit_percent * 100))
 	win_percent = win_counter / trade_counter
 	print('Win percentage: ' + str(win_percent))
 	print('-----------------')
