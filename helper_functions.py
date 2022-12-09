@@ -431,8 +431,8 @@ def run_backtester(coint_pairs):
 		if len(spread_np) > 0:
 			sma = spread_df.rolling(api.bollinger_length).mean()
 			std = spread_df.rolling(api.bollinger_length).std()
-			bollinger_up = sma + std * 2 # Calculate top band
-			bollinger_down = sma - std * 2 # Calculate bottom band
+			bollinger_up = sma + std * api.std # Calculate top band
+			bollinger_down = sma - std * api.std # Calculate bottom band
 		else:
 			lg.info("Unable to compare pair!")
 		pair_profit = 0
