@@ -435,7 +435,7 @@ def run_backtester(coint_pairs):
 		else:
 			lg.info("Unable to compare pair!")
 		pair_profit = 0
-		for timeslice in spread_df.index:
+		for timeslice in spread_df.index-1:
 			if spread_df['spread'].iloc[timeslice] > bollinger_up['spread'].iloc[timeslice] and bollinger_up['spread'].iloc[timeslice] > 0 and bollinger_down['spread'].iloc[timeslice] < 0 and buy_price1 == None and abs(spread_df['spread'].iloc[timeslice]) > api.min_spread:
 				position_1.side = 'buy'
 				position_2.side = 'sell'
