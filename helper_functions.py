@@ -336,7 +336,7 @@ def gui(coint_pairs):
                                     reroute_stdout=True, reroute_stderr=True, echo_stdout_stderr=True, autoscroll=True, auto_refresh=True)],
 		[sg.Button('Backtest'), sg.Button('Exit')]
 			]
-	settings_layout = [[sg.Radio('Bollinger', "RadioDemo", default=True, size=(10,1), k='-R1-'), sg.Radio('RSI', "RadioDemo", default=True, size=(10,1), k='-R2-'), sg.Radio('MACD', "RadioDemo", default=True, size=(10,1), k='-R3-')], [sg.Text('Period Length: '), sg.Input(key='-PERIODINPUT-')]]
+	settings_layout = [[sg.Radio('Bollinger', "RadioDemo", default=True, size=(10,1), k='-R1-'), sg.Radio('RSI', "RadioDemo", default=True, size=(10,1), k='-R2-'), sg.Radio('MACD', "RadioDemo", default=True, size=(10,1), k='-R3-')], [sg.Text('Period Length: '), sg.Input(key='-PERIODINPUT-', default=200)]]
 	layout = [[sg.TabGroup([[sg.Tab('Main', main_layout), sg.Tab('Settings', settings_layout)]])]]
 
 	window = sg.Window("Todd's Statistical Arbitrage Bot", layout, grab_anywhere=False)
