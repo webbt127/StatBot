@@ -372,7 +372,8 @@ def gui(coint_pairs):
 		if event == '__TIMEOUT__' and not positions_df.empty:
 			window['-POSITIONDATA-'].update(values=positions_data)#, num_rows=len(positions_df.index))
 		if event == 'Update':
-			api.bollinger_length = values['-PERIODINPUT-']
+			api.bollinger_length = values['-PERIODINPUT-'][-1]
+			print(api.bollinger_length)
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event == 'Backtest':
@@ -412,10 +413,10 @@ def run_backtester(coint_pairs):
 	position_1 = position()
 	position_2 = position()
 	search_size = slice(0, api.max_search, 1)
+	win_counter = 0
 	for pair in coint_pairs.index[search_size]:
 		buy_price1 = None
 		buy_price2 = None
-		win_counter = 0
 		position_1.symbol = coint_pairs['sym_1'][pair]
 		position_2.symbol = coint_pairs['sym_2'][pair]
 		hedge_ratio = coint_pairs['hedge_ratio'][pair]
