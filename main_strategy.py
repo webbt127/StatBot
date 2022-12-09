@@ -143,14 +143,14 @@ def sell_loop():
 				position_2.qty = abs(position_2.qty)
 				position_1.side = 'sell'
 				position_2.side = 'buy'
-				if (spread > 0):
+				if (spread < 0):
 					no_operation()
 					close_positions(position_1, position_2, open_position_list, trade)
 			if position_1.qty < 0 and position_2.qty > 0:
 				position_1.qty = abs(position_1.qty)
 				position_2.side = 'sell'
 				position_1.side = 'buy'
-				if (spread < 0):
+				if (spread > 0):
 					no_operation()
 					close_positions(position_1, position_2, open_position_list, trade)
 			#lg.info("Position List:")
