@@ -25,7 +25,7 @@ def exit_handler():
 class position_list:
 	def __init__(self):
 		self.lock = Lock()
-		self.positions = pd.DataFrame(columns=['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings'])
+		self.positions = pd.DataFrame(columns=['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings', 'sim_profit'])
 		
 def cancel_orders():
 	try:
@@ -313,7 +313,7 @@ def gui(coint_pairs):
 			search_size = slice(0, api.max_search, 1)
 			pairs_df = pairs_df[search_size]
 			pairs_data = pairs_df.values.tolist()               # read everything else into a list of rows
-			pairs_header_list = ['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings']
+			pairs_header_list = ['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings', 'sim_profit']
 		except:
 			sg.popup_error('Error reading file')
 			return
@@ -323,7 +323,7 @@ def gui(coint_pairs):
             # Header=None means you directly pass the columns names to the dataframe
 			positions_df = pd.read_csv(positions_filename, sep=',', engine='python')
 			positions_data = positions_df.values.tolist()               # read everything else into a list of rows
-			positions_header_list = ['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings']
+			positions_header_list = ['sym_1', 'sym_2', 'p_value', 't_value', 'c_value', 'hedge_ratio', 'zero_crossings', 'sim_profit']
 		except:
 			#sg.popup_error('Error reading file')
 			lg.info("Error reading positions file")
