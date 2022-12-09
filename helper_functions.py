@@ -433,8 +433,8 @@ def run_backtester(coint_pairs):
 		pair_profit = 0
 		for timeslice in spread_df.index:
 			if spread_df['spread'].iloc[timeslice] > bollinger_up['spread'].iloc[timeslice] and bollinger_up['spread'].iloc[timeslice] > 0 and bollinger_down['spread'].iloc[timeslice] < 0 and buy_price1 == None:
-				position_1.side = 'sell'
-				position_2.side = 'buy'
+				position_1.side = 'buy'
+				position_2.side = 'sell'
 				buy_price1 = position_1.close_series[timeslice]
 				buy_price2 = position_2.close_series[timeslice]
 				print('-----SIMULATION OPEN POSITION-----')
@@ -445,8 +445,8 @@ def run_backtester(coint_pairs):
 				print('Bollinger Down: ' + str(bollinger_down['spread'].iloc[timeslice]))
 				print('----------------------------------')
 			if spread_df['spread'].iloc[timeslice] < bollinger_down['spread'].iloc[timeslice] and bollinger_up['spread'].iloc[timeslice] > 0 and bollinger_down['spread'].iloc[timeslice] < 0 and buy_price1 == None:
-				position_1.side = 'buy'
-				position_2.side = 'sell'
+				position_1.side = 'sell'
+				position_2.side = 'buy'
 				buy_price1 = position_1.close_series[timeslice]
 				buy_price2 = position_2.close_series[timeslice]
 				print('-----SIMULATION OPEN POSITION-----')
