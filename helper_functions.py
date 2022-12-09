@@ -413,6 +413,7 @@ def run_backtester(coint_pairs):
 	position_1 = position()
 	position_2 = position()
 	search_size = slice(0, api.max_search, 1)
+	trade_counter = 0
 	win_counter = 0
 	for pair in coint_pairs.index[search_size]:
 		buy_price1 = None
@@ -448,6 +449,7 @@ def run_backtester(coint_pairs):
 					print('Spread: ' + str(spread_df['spread'].iloc[timeslice]))
 					print('Bollinger Down: ' + str(bollinger_down['spread'].iloc[timeslice]))
 					print('----------------------------------')
+				trade_counter = trade_counter + 1
 			if spread_df['spread'].iloc[timeslice] < bollinger_down['spread'].iloc[timeslice] and bollinger_up['spread'].iloc[timeslice] > 0 and bollinger_down['spread'].iloc[timeslice] < 0 and buy_price1 == None and abs(spread_df['spread'].iloc[timeslice]) > api.min_spread:
 				position_1.side = 'sell'
 				position_2.side = 'buy'
@@ -461,6 +463,7 @@ def run_backtester(coint_pairs):
 					print('Spread: ' + str(spread_df['spread'].iloc[timeslice]))
 					print('Bollinger Down: ' + str(bollinger_down['spread'].iloc[timeslice]))
 					print('----------------------------------')
+				trade_counter = trade_counter + 1
 			if (position_1.side == 'sell' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] > 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
 				profit1 = ((float(buy_price1) / float(position_1.close_series[timeslice])) - 1.0)
 				profit2 = ((float(position_2.close_series[timeslice]) / float(buy_price2)) - 1.0)
@@ -471,6 +474,8 @@ def run_backtester(coint_pairs):
 					print('Selling ' + position_2.symbol + ' @' + str(position_2.close_series[timeslice]) + ' (Profit: ' + str(profit2) + ')')
 					print('Spread: ' + str(spread_df['spread'].iloc[timeslice])) 
 					print('-----------------------------------')
+				if (profit1 + profit2) > 0.0:
+					win_counter = win_counter + 1
 				buy_price1 = None
 				buy_price2 = None
 			if (position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
@@ -483,19 +488,19 @@ def run_backtester(coint_pairs):
 					print('Selling ' + position_1.symbol + ' @' + str(position_1.close_series[timeslice]) + ' (Profit: ' + str(profit1) + ')')
 					print('Spread: ' + str(spread_df['spread'].iloc[timeslice]))
 					print('-----------------------------------')
+				if (profit1 + profit2) > 0.0:
+					win_counter = win_counter + 1
 				buy_price1 = None
 				buy_price2 = None
 		profit_percent = profit_percent + pair_profit
 		print('Profit percent for ' + position_1.symbol + '/' + position_2.symbol + ': ' + str(pair_profit))
-		if pair_profit > 0.0:
-			win_counter = win_counter + 1
 		if pair_profit < 0.0 and api.sim_break_at_loss:
 			break
 		pair_profit = 0
 		print('Total profit percent: ' + str(profit_percent))
 	print('-----RESULTS-----')
 	print('Total profit percent: ' + str(profit_percent))
-	win_percent = win_counter / api.max_search
+	win_percent = win_counter / trade_counter
 	print('Win percentage: ' + str(win_percent))
 	print('-----------------')
 
