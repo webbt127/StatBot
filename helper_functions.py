@@ -456,7 +456,7 @@ def run_backtester(coint_pairs):
 				print('Spread: ' + str(spread_df['spread'].iloc[timeslice]))
 				print('Bollinger Down: ' + str(bollinger_down['spread'].iloc[timeslice]))
 				print('----------------------------------')
-			if (position_1.side == 'sell' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
+			if (position_1.side == 'sell' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0):# or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
 				profit1 = ((buy_price1 / position_1.close_series[timeslice]) - 1)
 				profit2 = ((position_2.close_series[timeslice] / buy_price2) - 1)
 				pair_profit = pair_profit + profit1 + profit2
@@ -467,7 +467,7 @@ def run_backtester(coint_pairs):
 				print('-----------------------------------')
 				buy_price1 = None
 				buy_price2 = None
-			if (position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] > 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
+			if (position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] > 0):# or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
 				profit2 = ((buy_price2 / position_2.close_series[timeslice]) - 1)
 				profit1 = ((position_1.close_series[timeslice] / buy_price1) - 1)
 				pair_profit = pair_profit + profit1 + profit2
