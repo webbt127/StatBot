@@ -302,7 +302,7 @@ def gui(coint_pairs):
 	position_1 = position()
 	position_2 = position()
 	positions_df = pd.DataFrame
-	GRAPH_SIZE = (550, 500)
+	GRAPH_SIZE = (400, 400)
 	DATA_SIZE = (api.kline_limit/2, 30)
 	graph = sg.Graph(GRAPH_SIZE, (0, -30), DATA_SIZE, background_color='white', )
 
@@ -331,8 +331,8 @@ def gui(coint_pairs):
 
 	main_layout = [
 		[graph,
-		sg.Table(values=pairs_data, headings=pairs_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(5, len(pairs_data)), key='-PAIRDATA-', enable_click_events=True)],
-		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=min(5, len(positions_data)), key='-POSITIONDATA-', enable_click_events=True), sg.Multiline(key='-LOG-', size=(60,15), font='Courier 8', expand_x=True, expand_y=True, write_only=True,
+		sg.Table(values=pairs_data, headings=pairs_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=10, key='-PAIRDATA-', enable_click_events=True)],
+		[sg.Table(values=positions_data, headings=positions_header_list, display_row_numbers=True, auto_size_columns=False, num_rows=10, key='-POSITIONDATA-', enable_click_events=True), sg.Multiline(key='-LOG-', size=(60,15), font='Courier 8', expand_x=True, expand_y=True, write_only=True,
                                     reroute_stdout=True, reroute_stderr=True, echo_stdout_stderr=True, autoscroll=True, auto_refresh=True)],
 		[sg.Button('Backtest'), sg.Button('Exit')]
 			]
@@ -457,8 +457,8 @@ def run_backtester(coint_pairs):
 				print('Bollinger Down: ' + str(bollinger_down['spread'].iloc[timeslice]))
 				print('----------------------------------')
 			if (position_1.side == 'sell' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
-				profit1 = ((float(buy_price1) / float(position_1.close_series[timeslice])) - 1.0)
-				profit2 = ((float(position_2.close_series[timeslice]) / float(buy_price2)) - 1.0)
+				profit1 = ((float(buy_price1) / float(position_1.close_series[timeslice])))# - 1.0)
+				profit2 = ((float(position_2.close_series[timeslice]) / float(buy_price2)))# - 1.0)
 				print(profit1)
 				print(profit2)
 				pair_profit = pair_profit + profit1 + profit2
@@ -470,8 +470,8 @@ def run_backtester(coint_pairs):
 				buy_price1 = None
 				buy_price2 = None
 			if (position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] > 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
-				profit2 = ((float(buy_price2) / float(position_2.close_series[timeslice])) - 1.0)
-				profit1 = ((float(position_1.close_series[timeslice]) / float(buy_price1)) - 1.0)
+				profit2 = ((float(buy_price2) / float(position_2.close_series[timeslice])))# - 1.0)
+				profit1 = ((float(position_1.close_series[timeslice]) / float(buy_price1)))# - 1.0)
 				print(profit1)
 				print(profit2)
 				pair_profit = pair_profit + profit1 + profit2
