@@ -370,7 +370,7 @@ def gui(coint_pairs):
 			lg.info(e)
 			
 		if event == '__TIMEOUT__' and not positions_df.empty:
-			window['-POSITIONDATA-'].update(values=positions_data, num_rows=len(positions_df.index))
+			window['-POSITIONDATA-'].update(values=positions_data)#, num_rows=len(positions_df.index))
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event == 'Backtest':
@@ -456,9 +456,9 @@ def run_backtester(coint_pairs):
 				print('Spread: ' + str(spread_df['spread'].iloc[timeslice]))
 				print('Bollinger Down: ' + str(bollinger_down['spread'].iloc[timeslice]))
 				print('----------------------------------')
-			if (position_1.side == 'sell' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
-				profit1 = ((float(buy_price1) / float(position_1.close_series[timeslice])))# - 1.0)
-				profit2 = ((float(position_2.close_series[timeslice]) / float(buy_price2)))# - 1.0)
+			if (position_1.side == 'sell' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] > 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
+				profit1 = ((float(buy_price1) / float(position_1.close_series[timeslice])) - 1.0)
+				profit2 = ((float(position_2.close_series[timeslice]) / float(buy_price2)) - 1.0)
 				print(profit1)
 				print(profit2)
 				pair_profit = pair_profit + profit1 + profit2
@@ -469,9 +469,9 @@ def run_backtester(coint_pairs):
 				print('-----------------------------------')
 				buy_price1 = None
 				buy_price2 = None
-			if (position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] > 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
-				profit2 = ((float(buy_price2) / float(position_2.close_series[timeslice])))# - 1.0)
-				profit1 = ((float(position_1.close_series[timeslice]) / float(buy_price1)))# - 1.0)
+			if (position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
+				profit2 = ((float(buy_price2) / float(position_2.close_series[timeslice])) - 1.0)
+				profit1 = ((float(position_1.close_series[timeslice]) / float(buy_price1)) - 1.0)
 				print(profit1)
 				print(profit2)
 				pair_profit = pair_profit + profit1 + profit2
