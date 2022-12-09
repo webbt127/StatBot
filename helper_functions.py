@@ -373,7 +373,7 @@ def gui(coint_pairs):
 			window['-POSITIONDATA-'].update(values=positions_data)#, num_rows=len(positions_df.index))
 		if event == 'Update':
 			api.bollinger_length = int(values['-PERIODINPUT-'])
-			api.min_spread = int(values['-MINSPREAD-'])
+			api.min_spread = float(values['-MINSPREAD-'])
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event == 'Backtest':
@@ -435,7 +435,7 @@ def run_backtester(coint_pairs):
 			lg.info("Unable to compare pair!")
 		pair_profit = 0
 		for timeslice in spread_df.index:
-			if spread_df['spread'].iloc[timeslice] > bollinger_up['spread'].iloc[timeslice] and bollinger_up['spread'].iloc[timeslice] > 0 and bollinger_down['spread'].iloc[timeslice] < 0 and buy_price1 == None:
+			if spread_df['spread'].iloc[timeslice] > bollinger_up['spread'].iloc[timeslice] and bollinger_up['spread'].iloc[timeslice] > 0 and bollinger_down['spread'].iloc[timeslice] < 0 and buy_price1 == None and abs(spread_df['spread'].iloc[timeslice]) > api.min_spread:
 				position_1.side = 'buy'
 				position_2.side = 'sell'
 				buy_price1 = position_1.close_series[timeslice]
@@ -448,7 +448,7 @@ def run_backtester(coint_pairs):
 					print('Spread: ' + str(spread_df['spread'].iloc[timeslice]))
 					print('Bollinger Down: ' + str(bollinger_down['spread'].iloc[timeslice]))
 					print('----------------------------------')
-			if spread_df['spread'].iloc[timeslice] < bollinger_down['spread'].iloc[timeslice] and bollinger_up['spread'].iloc[timeslice] > 0 and bollinger_down['spread'].iloc[timeslice] < 0 and buy_price1 == None:
+			if spread_df['spread'].iloc[timeslice] < bollinger_down['spread'].iloc[timeslice] and bollinger_up['spread'].iloc[timeslice] > 0 and bollinger_down['spread'].iloc[timeslice] < 0 and buy_price1 == None and abs(spread_df['spread'].iloc[timeslice]) > api.min_spread:
 				position_1.side = 'sell'
 				position_2.side = 'buy'
 				buy_price1 = position_1.close_series[timeslice]
