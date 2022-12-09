@@ -456,7 +456,7 @@ def run_backtester(coint_pairs):
 				print('Spread: ' + str(spread_df['spread'].iloc[timeslice]))
 				print('Bollinger Down: ' + str(bollinger_down['spread'].iloc[timeslice]))
 				print('----------------------------------')
-			if position_1.side == 'sell' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0:
+			if (position_1.side == 'sell' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] < 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
 				pair_profit = pair_profit + ((position_2.close_series[timeslice] / buy_price2) - 1) + ((buy_price1 / position_1.close_series[timeslice]) - 1)
 				print('-----SIMULATION CLOSE POSITION-----')
 				print('Buying ' + position_1.symbol + ' @' + str(position_1.close_series[timeslice]) + ' (Profit: ' + str(((buy_price1 / position_1.close_series[timeslice]) - 1)) + ')')
@@ -465,7 +465,7 @@ def run_backtester(coint_pairs):
 				print('-----------------------------------')
 				buy_price1 = None
 				buy_price2 = None
-			if position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] > 0:
+			if (position_1.side == 'buy' and buy_price1 is not None and spread_df['spread'].iloc[timeslice] > 0) or (buy_price1 is not None and timeslice == (len(spread_df.index) - 1)):
 				pair_profit = pair_profit + ((position_1.close_series[timeslice] / buy_price1) - 1) + ((buy_price2 / position_2.close_series[timeslice]) - 1)
 				print('-----SIMULATION CLOSE POSITION-----')
 				print('Buying ' + position_2.symbol + ' @' + str(position_2.close_series[timeslice]) + ' (Profit: ' + str(((buy_price2 / position_2.close_series[timeslice]) - 1)) + ')')
@@ -478,8 +478,8 @@ def run_backtester(coint_pairs):
 		print('Profit percent for ' + position_1.symbol + '/' + position_2.symbol + ': ' + str(pair_profit))
 		if pair_profit > 0.0:
 			win_counter = win_counter + 1
-		if pair_profit < 0.0:
-			break
+		#if pair_profit < 0.0:
+			#break
 		pair_profit = 0
 		print('Total profit percent: ' + str(profit_percent))
 	print('-----RESULTS-----')
