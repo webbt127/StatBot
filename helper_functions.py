@@ -254,11 +254,11 @@ def print_open(position_1, position_2, bollinger_up, bollinger_down, spread):
 def set_order_sides(spread, bollinger_up, bollinger_down, position_1, position_2):
 	if spread > bollinger_up['spread'].iloc[-1] or spread < bollinger_down['spread'].iloc[-1]:
 		if spread > bollinger_up['spread'].iloc[-1]:
-			position_1.side = "sell"
-			position_2.side = "buy"
-		else:
-			position_1.side = "buy"
 			position_2.side = "sell"
+			position_1.side = "buy"
+		else:
+			position_2.side = "buy"
+			position_1.side = "sell"
 	return position_1, position_2
 
 def get_yf_info(position):
