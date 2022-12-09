@@ -371,7 +371,7 @@ def gui(coint_pairs):
 			
 		if event == '__TIMEOUT__' and not positions_df.empty:
 			window['-POSITIONDATA-'].update(values=positions_data)#, num_rows=len(positions_df.index))
-			api.bollinger_length = window['-PERIOD INPUT-']
+			api.bollinger_length = values['-PERIOD INPUT-'][-1]
 			print(api.bollinger_length)
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
