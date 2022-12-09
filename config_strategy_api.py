@@ -59,6 +59,7 @@ class config:
 		self.hide_simulated_trades = True
 		self.sim_break_at_loss = False
 		self.bollinger_default_length = 200
+		self.min_spread = 0.1
 
 global api
 api = config()
