@@ -413,7 +413,7 @@ def run_backtester(coint_pairs):
 	profit_percent = 0
 	position_1 = position()
 	position_2 = position()
-	coint_pairs['sim_profit']
+	coint_pairs['sim_profit'] = []
 	search_size = slice(0, api.max_search, 1)
 	trade_counter = 0
 	win_counter = 0
