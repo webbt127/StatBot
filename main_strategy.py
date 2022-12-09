@@ -62,7 +62,7 @@ def gui_loop():
 		
 def buy_loop():
 	while api.buy:
-		wait_for_market_open()
+		#wait_for_market_open()
 		search_size = slice(0, api.max_search, 1)
 		Parallel(n_jobs=6, verbose=10, prefer="threads")(delayed(buy_loop_threaded)(i) for i in coint_pairs.index[search_size])
 							
@@ -98,7 +98,7 @@ def buy_loop_threaded(i):
 				print_open(position_1, position_2, bollinger_up, bollinger_down, spread)
 				set_order_sides(spread, bollinger_up, bollinger_down, position_1, position_2)
 				#add_asset(coint_pairs, open_position_list, i, position_1)
-				if (spread > bollinger_up['spread'].iloc[-1] or spread < bollinger_down['spread'].iloc[-1]) and bollinger_up['spread'].iloc[-1] > 0 and bollinger_down['spread'].iloc[-1] < 0:
+				if (spread > bollinger_up['spread'].iloc[-1] or spread < bollinger_down['spread'].iloc[-1]) and bollinger_up['spread'].iloc[-1] > 0 and bollinger_down['spread'].iloc[-1] < 0 and coint_pairs['sim_profit'][i] > 0:
 					open_position_list.lock.acquire()
 					if i not in open_position_list.positions.index:
 						initialize_order_execution(position_1)
