@@ -495,7 +495,7 @@ def run_backtester(coint_pairs):
 				buy_price1 = None
 				buy_price2 = None
 		profit_percent = profit_percent + pair_profit
-		coint_pairs['sim_profit'][pair] = pair_profit
+		coint_pairs['sim_profit'].iloc[pair] = pair_profit
 		print('Profit percent for ' + position_1.symbol + '/' + position_2.symbol + ': ' + str(pair_profit))
 		if pair_profit < 0.0 and api.sim_break_at_loss:
 			break
