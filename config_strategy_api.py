@@ -58,6 +58,7 @@ class config:
 		self.max_search = 100
 		self.hide_simulated_trades = True
 		self.sim_break_at_loss = False
+		self.bollinger_default_length = 200
 
 global api
 api = config()
