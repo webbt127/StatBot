@@ -60,6 +60,7 @@ class config:
 		self.sim_break_at_loss = False
 		self.bollinger_default_length = 200
 		self.min_spread = 0.1
+		self.backtest_length = 2000
 
 global api
 api = config()
