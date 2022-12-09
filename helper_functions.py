@@ -460,7 +460,7 @@ def run_backtester(coint_pairs):
 				pair_profit = pair_profit + ((position_2.close_series[timeslice] / buy_price2) - 1) + ((buy_price1 / position_1.close_series[timeslice]) - 1)
 				print('-----SIMULATION CLOSE POSITION-----')
 				print('Buying ' + position_1.symbol + ' @' + str(position_1.close_series[timeslice]) + ' (Profit: ' + str(((buy_price1 / position_1.close_series[timeslice]) - 1)) + ')')
-				print('Selling ' + position_2.symbol + ' @' + str(position_2.close_series[timeslice]) + ' (Profit: ' + str(((position_2.close_series[timeslice] / buy_price1) - 1)) + ')')
+				print('Selling ' + position_2.symbol + ' @' + str(position_2.close_series[timeslice]) + ' (Profit: ' + str(((position_2.close_series[timeslice] / buy_price2) - 1)) + ')')
 				print('Spread: ' + str(spread_df['spread'].iloc[timeslice])) 
 				print('-----------------------------------')
 				buy_price1 = None
