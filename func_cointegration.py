@@ -18,6 +18,7 @@ def calculate_spread(series_1, series_2, hedge_ratio):
 	spread = pd.Series(series_1) - (pd.Series(series_2) * hedge_ratio)
 	df = pd.DataFrame()
 	df['spread'] = spread
+	print(spread)
 	return df, spread
 
 
