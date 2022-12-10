@@ -62,7 +62,7 @@ class config:
 		self.min_spread = 0.1
 		self.backtest_length = 2000
 		self.timeframe = 60
-		self.backtest_bars = 1000
+		self.backtest_bars = 10000
 
 global api
 api = config()
