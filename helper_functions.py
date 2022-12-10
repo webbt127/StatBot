@@ -62,10 +62,13 @@ def get_price_history():
     # Return output
 	return asset_list
 
-def price_history_execution(asset):
+def price_history_execution(asset, minutes=60, klines=api.kline_limit, timemult=1):
 	asset.klines = None
-	timeframe = TimeFrame.Hour
-	get_price_klines(asset, timeframe, api.kline_limit)
+	if minutes == 60:
+		timeframe = TimeFrame(timemult, TimeFrameUnit.Hour)
+	else:
+		timeframe = TimeFrame(timemult, TimeFrameUnit.Minute)
+	get_price_klines(asset, timeframe, klines)
 	#if asset.klines is not None:
 		#lg.info("Successfully Stored Data For %s!" % asset.symbol)
 	if asset.klines is None:
@@ -302,8 +305,8 @@ def gui(coint_pairs):
 	position_1 = position()
 	position_2 = position()
 	positions_df = pd.DataFrame
-	GRAPH_SIZE = (400, 400)
-	DATA_SIZE = (api.kline_limit/2, 30)
+	GRAPH_SIZE = (500, 500)
+	DATA_SIZE = (api.backtest_bars, 30)
 	graph = sg.Graph(GRAPH_SIZE, (0, -30), DATA_SIZE, background_color='white', )
 
 	if pairs_filename is not None:
@@ -336,7 +339,7 @@ def gui(coint_pairs):
                                     reroute_stdout=True, reroute_stderr=True, echo_stdout_stderr=True, autoscroll=True, auto_refresh=True)],
 		[sg.Button('Backtest'), sg.Button('Exit')]
 			]
-	settings_layout = [[sg.Radio('Bollinger', "RadioDemo", default=True, size=(10,1), k='-R1-'), sg.Radio('RSI', "RadioDemo", default=True, size=(10,1), k='-R2-'), sg.Radio('MACD', "RadioDemo", default=True, size=(10,1), k='-R3-')], [sg.Text('Period Length: '), sg.Input(key='-PERIODINPUT-'), sg.Text('Min Spread: '), sg.Input(key='-MINSPREAD-'), sg.Button('Update')], [sg.Text('STDs'), sg.Input(key='-STD-')]]
+	settings_layout = [[sg.Radio('Minute', "TimeSelect", default=True, size=(10,1), k='-R1-'), sg.Radio('Hour', "TimeSelect", default=True, size=(10,1), k='-R2-'), sg.Text('Time Multiplier'), sg.Input(key='-TIMEMULT-')], [sg.Text('Period Length: '), sg.Input(key='-PERIODINPUT-'), sg.Text('Min Spread: '), sg.Input(key='-MINSPREAD-'), sg.Button('Update')], [sg.Text('STDs'), sg.Input(key='-STD-')], [sg.Text('Backtest Length'), sg.Input(key='-BARS-')]]
 	layout = [[sg.TabGroup([[sg.Tab('Main', main_layout), sg.Tab('Settings', settings_layout)]])]]
 
 	window = sg.Window("Todd's Statistical Arbitrage Bot", layout, grab_anywhere=False)
@@ -375,6 +378,12 @@ def gui(coint_pairs):
 			api.bollinger_length = int(values['-PERIODINPUT-'])
 			api.min_spread = float(values['-MINSPREAD-'])
 			api.std = float(values['-STD-'])
+			api.timemult = float(values['-TIMEMULT-'])
+			if values['-R1-']:
+				api.backtest_minutes = 1
+			if values['-R2-']:
+				api.backtest_minutes = 60
+			api.backtest_bars = float(values['-BARS-'])
 		if event == sg.WIN_CLOSED or event == 'Exit':
 			break
 		if event == 'Backtest':
@@ -391,8 +400,8 @@ def gui(coint_pairs):
 				position_1.symbol = positions_df['sym_1'][selected_row]
 				position_2.symbol = positions_df['sym_2'][selected_row]
 				hedge_ratio = positions_df['hedge_ratio'][selected_row]
-			price_history_execution(position_1)
-			price_history_execution(position_2)
+			price_history_execution(position_1, api.backtest_minutes, api.backtest_bars, api.timemult)
+			price_history_execution(position_2, api.backtest_minutes, api.backtest_bars, api.timemult)
 			position_1.close_series = extract_close_prices(position_1)
 			position_2.close_series = extract_close_prices(position_2)
 			#get_yf_info(position_1)
@@ -423,8 +432,8 @@ def run_backtester(coint_pairs):
 		position_1.symbol = coint_pairs['sym_1'][pair]
 		position_2.symbol = coint_pairs['sym_2'][pair]
 		hedge_ratio = coint_pairs['hedge_ratio'][pair]
-		price_history_execution(position_1)
-		price_history_execution(position_2)
+		price_history_execution(position_1, api.backtest_minutes, api.backtest_bars)
+		price_history_execution(position_2, api.backtest_minutes, api.backtest_bars)
 		position_1.close_series = extract_close_prices(position_1)
 		position_2.close_series = extract_close_prices(position_2)
 		position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1,position_2)
