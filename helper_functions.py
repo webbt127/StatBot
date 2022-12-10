@@ -62,7 +62,7 @@ def get_price_history():
     # Return output
 	return asset_list
 
-def price_history_execution(asset, minutes=60, klines=api.kline_limit, timemult=1):
+def price_history_execution(asset, minutes=60, klines=api.kline_limit, timemult=1, use_removal=True):
 	asset.klines = None
 	if minutes == 60:
 		timeframe = TimeFrame(timemult, TimeFrameUnit.Hour)
@@ -71,7 +71,7 @@ def price_history_execution(asset, minutes=60, klines=api.kline_limit, timemult=
 	get_price_klines(asset, timeframe, klines)
 	#if asset.klines is not None:
 		#lg.info("Successfully Stored Data For %s!" % asset.symbol)
-	if asset.klines is None and hasattr(asset, 'klines'):
+	if asset.klines is None and use_removal:
 		asset_list.symbols.remove(asset)
 		lg.info("Unable To Store Data For %s! Removed From Asset List" % asset.symbol)
 	return asset, asset_list
@@ -400,8 +400,8 @@ def gui(coint_pairs):
 				position_1.symbol = positions_df['sym_1'][selected_row]
 				position_2.symbol = positions_df['sym_2'][selected_row]
 				hedge_ratio = positions_df['hedge_ratio'][selected_row]
-			price_history_execution(position_1, api.backtest_minutes, api.backtest_bars, api.timemult)
-			price_history_execution(position_2, api.backtest_minutes, api.backtest_bars, api.timemult)
+			price_history_execution(position_1, api.backtest_minutes, api.backtest_bars, api.timemult, False)
+			price_history_execution(position_2, api.backtest_minutes, api.backtest_bars, api.timemult, False)
 			position_1.close_series = extract_close_prices(position_1)
 			position_2.close_series = extract_close_prices(position_2)
 			#get_yf_info(position_1)
@@ -432,8 +432,8 @@ def run_backtester(coint_pairs):
 		position_1.symbol = coint_pairs['sym_1'][pair]
 		position_2.symbol = coint_pairs['sym_2'][pair]
 		hedge_ratio = coint_pairs['hedge_ratio'][pair]
-		price_history_execution(position_1, api.backtest_minutes, api.backtest_bars, api.timemult)
-		price_history_execution(position_2, api.backtest_minutes, api.backtest_bars, api.timemult)
+		price_history_execution(position_1, api.backtest_minutes, api.backtest_bars, api.timemult, False)
+		price_history_execution(position_2, api.backtest_minutes, api.backtest_bars, api.timemult, False)
 		position_1.close_series = extract_close_prices(position_1)
 		position_2.close_series = extract_close_prices(position_2)
 		position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1,position_2)
