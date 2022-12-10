@@ -97,7 +97,7 @@ def get_price_klines(asset, timeframe, klines):
 			limit = klines,
 			start = start_time
 		).df
-		print asset.klines
+		print(asset.klines)
 	except Exception as e:
 		print("Could Not Get Prices")
 		asset.klines = None
