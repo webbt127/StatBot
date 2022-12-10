@@ -62,13 +62,13 @@ def get_price_history():
     # Return output
 	return asset_list
 
-def price_history_execution(asset, minutes=60, klines=api.backtest_bars, use_removal=True):
+def price_history_execution(asset, minutes=60, klines=api.backtest_bars, use_removal=True, timedelay=True):
 	asset.klines = None
 	if minutes < 60:
 		timeframe = TimeFrame(minutes, TimeFrameUnit.Minute)
 	else:
 		timeframe = TimeFrame(round(minutes/60), TimeFrameUnit.Hour)
-	get_price_klines(asset, timeframe, klines)
+	get_price_klines(asset, timeframe, klines, timedelay)
 	#if asset.klines is not None:
 		#lg.info("Successfully Stored Data For %s!" % asset.symbol)
 	if asset.klines is None and use_removal:
@@ -430,8 +430,8 @@ def run_backtester(coint_pairs):
 		position_1.symbol = coint_pairs['sym_1'][pair]
 		position_2.symbol = coint_pairs['sym_2'][pair]
 		hedge_ratio = coint_pairs['hedge_ratio'][pair]
-		price_history_execution(position_1, api.timeframe, api.backtest_bars, False)
-		price_history_execution(position_2, api.timeframe, api.backtest_bars, False)
+		price_history_execution(position_1, api.timeframe, api.backtest_bars, False, False)
+		price_history_execution(position_2, api.timeframe, api.backtest_bars, False, False)
 		position_1.close_series = extract_close_prices(position_1)
 		position_2.close_series = extract_close_prices(position_2)
 		position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1,position_2)
