@@ -81,7 +81,7 @@ def get_start_time(api):
 	if api.timeframe == 60:
 		time_start_date = datetime.datetime.now() - datetime.timedelta(hours=api.backtest_bars)
 	if api.timeframe < 60:
-		time_start_date = datetime.datetime.now() - datetime.timedelta(minutes=(api.backtest_bars * api.timeframe)
+		time_start_date = datetime.datetime.now() - datetime.timedelta(minutes=(api.backtest_bars * api.timeframe))
 	time_start = time_start_date.isoformat("T") + "Z"
 	return time_start
 
