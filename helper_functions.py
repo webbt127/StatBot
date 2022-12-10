@@ -361,7 +361,7 @@ def gui(coint_pairs):
 			if point > api.bollinger_length:
 				graph.DrawLine((point-1, bollinger_down['spread'].iloc[point-1]),
 					       (point, bollinger_down['spread'].iloc[point]), color='green', width=1)
-		for point in range(len(api.backtest_bars)):
+		for point in range(api.backtest_bars):
 			if point > api.bollinger_length:
 				graph.DrawLine((point-1, 0),
 					       (point, 0), color='red', width=1)
