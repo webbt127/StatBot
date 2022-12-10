@@ -432,8 +432,8 @@ def run_backtester(coint_pairs):
 		position_1.symbol = coint_pairs['sym_1'][pair]
 		position_2.symbol = coint_pairs['sym_2'][pair]
 		hedge_ratio = coint_pairs['hedge_ratio'][pair]
-		price_history_execution(position_1, api.backtest_minutes, api.backtest_bars)
-		price_history_execution(position_2, api.backtest_minutes, api.backtest_bars)
+		price_history_execution(position_1, api.backtest_minutes, api.backtest_bars, api.timemult)
+		price_history_execution(position_2, api.backtest_minutes, api.backtest_bars, api.timemult)
 		position_1.close_series = extract_close_prices(position_1)
 		position_2.close_series = extract_close_prices(position_2)
 		position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1,position_2)
