@@ -79,9 +79,9 @@ def price_history_execution(asset, minutes=60, klines=api.kline_limit, use_remov
 def get_start_time(api):
 	time_start_date = 0
 	if api.timeframe == 60:
-		time_start_date = datetime.datetime.now() - datetime.timedelta(hours=api.kline_limit)
-	if api.timeframe == "D":
-		time_start_date = datetime.datetime.now() - datetime.timedelta(days=kline_limit)
+		time_start_date = datetime.datetime.now() - datetime.timedelta(hours=api.backtest_bars)
+	if api.timeframe < 60:
+		time_start_date = datetime.datetime.now() - datetime.timedelta(minutes=(api.backtest_bars * api.timeframe)
 	time_start = time_start_date.isoformat("T") + "Z"
 	return time_start
 
