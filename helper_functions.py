@@ -62,7 +62,7 @@ def get_price_history():
     # Return output
 	return asset_list
 
-def price_history_execution(asset, minutes=60, klines=api.kline_limit, use_removal=True):
+def price_history_execution(asset, minutes=60, klines=api.backtest_bars, use_removal=True):
 	asset.klines = None
 	if minutes < 60:
 		timeframe = TimeFrame(minutes, TimeFrameUnit.Minute)
