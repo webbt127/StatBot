@@ -61,9 +61,8 @@ class config:
 		self.bollinger_default_length = 200
 		self.min_spread = 0.1
 		self.backtest_length = 2000
-		self.backtest_minutes = 60
+		self.timeframe = 60
 		self.backtest_bars = 1000
-		self.timemult = 1
 
 global api
 api = config()
