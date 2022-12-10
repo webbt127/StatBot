@@ -13,7 +13,7 @@ from telegram_notifications import *
 from alive_progress import alive_bar
 import logging as lg
 from joblib import Parallel, delayed, parallel_backend
-from alpaca_trade_api.rest import TimeFrame
+from alpaca_trade_api.rest import TimeFrame, TimeFrameUnit
 import datetime
 import PySimpleGUI as sg
 
