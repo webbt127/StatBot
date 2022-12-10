@@ -64,10 +64,10 @@ def get_price_history():
 
 def price_history_execution(asset, minutes=60, klines=api.kline_limit, timemult=1, use_removal=True):
 	asset.klines = None
-	if minutes == 60:
-		timeframe = TimeFrame(timemult, TimeFrameUnit.Hour)
-	else:
-		timeframe = TimeFrame(timemult, TimeFrameUnit.Minute)
+	#if minutes == 60:
+	timeframe = TimeFrame(timemult, TimeFrameUnit.Minute)
+	#else:
+	#	timeframe = TimeFrame(timemult, TimeFrameUnit.Minute)
 	get_price_klines(asset, timeframe, klines)
 	#if asset.klines is not None:
 		#lg.info("Successfully Stored Data For %s!" % asset.symbol)
