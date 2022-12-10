@@ -86,7 +86,7 @@ def get_start_time(api):
 	return time_start
 
 # Get historical prices (klines)
-def get_price_klines(asset, timeframe, klines):
+def get_price_klines(asset, timeframe, klines, timedelay=True):
 
 	asset.klines = None
 	start_time = get_start_time(api)
@@ -103,7 +103,8 @@ def get_price_klines(asset, timeframe, klines):
 		asset.klines = None
 
     # Manage API calls
-	time.sleep(2.1)
+	if timedelay:
+		time.sleep(2.1)
 
     # Return output
 	return asset, asset.klines
