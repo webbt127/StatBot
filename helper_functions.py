@@ -71,7 +71,7 @@ def price_history_execution(asset, minutes=60, klines=api.kline_limit, timemult=
 	get_price_klines(asset, timeframe, klines)
 	#if asset.klines is not None:
 		#lg.info("Successfully Stored Data For %s!" % asset.symbol)
-	if asset.klines is None:
+	if asset.klines is None and hasattr(asset, 'klines'):
 		asset_list.symbols.remove(asset)
 		lg.info("Unable To Store Data For %s! Removed From Asset List" % asset.symbol)
 	return asset, asset_list
