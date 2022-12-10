@@ -396,8 +396,8 @@ def gui(coint_pairs):
 				position_1.symbol = positions_df['sym_1'][selected_row]
 				position_2.symbol = positions_df['sym_2'][selected_row]
 				hedge_ratio = positions_df['hedge_ratio'][selected_row]
-			price_history_execution(position_1, api.backtest_minutes, api.backtest_bars, False)
-			price_history_execution(position_2, api.backtest_minutes, api.backtest_bars, False)
+			price_history_execution(position_1, api.timeframe, api.backtest_bars, False)
+			price_history_execution(position_2, api.timeframe, api.backtest_bars, False)
 			position_1.close_series = extract_close_prices(position_1)
 			position_2.close_series = extract_close_prices(position_2)
 			#get_yf_info(position_1)
@@ -428,8 +428,8 @@ def run_backtester(coint_pairs):
 		position_1.symbol = coint_pairs['sym_1'][pair]
 		position_2.symbol = coint_pairs['sym_2'][pair]
 		hedge_ratio = coint_pairs['hedge_ratio'][pair]
-		price_history_execution(position_1, api.backtest_minutes, api.backtest_bars, False)
-		price_history_execution(position_2, api.backtest_minutes, api.backtest_bars, False)
+		price_history_execution(position_1, api.timeframe, api.backtest_bars, False)
+		price_history_execution(position_2, api.timeframe, api.backtest_bars, False)
 		position_1.close_series = extract_close_prices(position_1)
 		position_2.close_series = extract_close_prices(position_2)
 		position_1.close_series_matched, position_2.close_series_matched = match_series_lengths(position_1,position_2)
