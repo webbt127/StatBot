@@ -43,4 +43,4 @@ if __name__ == "__main__":
 		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 		if api.use_trade_history:
 			open_position_list.positions = pd.read_csv(api.trade_path)
-		gui_loop()
+		gui_loop(coint_pairs)
