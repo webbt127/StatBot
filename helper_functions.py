@@ -78,10 +78,12 @@ def price_history_execution(asset, minutes=60, klines=api.backtest_bars, use_rem
 
 def get_start_time(api):
 	time_start_date = 0
+	if api.timeframe > 60:
+		time_start_date = datetime.datetime.now() - datetime.timedelta(hours=(round(api.timeframe / (api.backtest_bars * (24/7.5))))
 	if api.timeframe == 60:
-		time_start_date = datetime.datetime.now() - datetime.timedelta(hours=(api.backtest_bars * 3))
+		time_start_date = datetime.datetime.now() - datetime.timedelta(hours=(api.backtest_bars * (24/7.5)))
 	if api.timeframe < 60:
-		time_start_date = datetime.datetime.now() - datetime.timedelta(minutes=(api.backtest_bars * api.timeframe * 3))
+		time_start_date = datetime.datetime.now() - datetime.timedelta(minutes=(api.backtest_bars * api.timeframe * (24/7.5)))
 	time_start = time_start_date.isoformat("T") + "Z"
 	return time_start
 
