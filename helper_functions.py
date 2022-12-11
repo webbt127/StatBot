@@ -547,7 +547,7 @@ def begin_threading():
 		message = 'Exception Occurred: ' + e
 		send_telegram_message(message, api.telegram_chat_id, api.telegram_api_key)
 
-def gui_loop():
+def gui_loop(coint_pairs):
 	gui(coint_pairs)
 		
 def buy_loop():
