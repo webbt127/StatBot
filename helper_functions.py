@@ -94,7 +94,7 @@ def get_price_klines(asset, timeframe, klines, timedelay=True):
 		asset.klines = api.session.get_bars(
 			symbol = asset.symbol,
 			timeframe = timeframe,
-			limit = klines,
+			limit = api.kline_limit,
 			start = start_time
 		).df
 		#print(asset.klines)
