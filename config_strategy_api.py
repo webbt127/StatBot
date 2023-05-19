@@ -46,8 +46,8 @@ class config:
 		self.min_zero_crosses = 50
 		self.pairs_path = Path("~/cointegrated_pairs.csv")
 		self.trade_path = Path("~/trade_history.csv")
-		self.telegram_chat_id = '1993028760'
-		self.telegram_api_key = '5558182464:AAE-d-6mNR8zNr2gxW-QxicXIbRCmB6vi6E'
+		self.telegram_chat_id = 
+		self.telegram_api_key = 
 		self.threaded = True
 		self.std = 2.0
 		self.buy = True
